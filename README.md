@@ -1,27 +1,78 @@
-# SkillsHUBFront
+# SkillHub
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+SkillHub is a modern Angular-based web application designed to facilitate learning, skill development, and course management. Built with Angular, NgRx for state management, and Angular Material for UI components, SkillHub provides a seamless and scalable learning experience.
 
-## Development server
+## 🚀 Features
+- User Authentication (Login, Signup, Logout)
+- Role-based Access Control (Admin, Instructor, Student)
+- Course Management (Create, Edit, Delete Courses)
+- Dashboard & User Profiles
+- State Management with NgRx
+- Responsive UI with Angular Material
+- API Integration for Dynamic Data
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## 📂 Project Structure
+```bash
+src/app/
+├── core/                   # Core Module (Singleton services, interceptors, guards)
+├── shared/                 # Shared Module (Components, Pipes, Directives, Enums, Models)
+├── features/
+│   ├── auth/               # Authentication Module
+│   │   ├── components/     # Login, Signup
+│   │   ├── models/          # Auth models
+│   │   ├── services/       # Auth Services
+│   │   ├── store/          # NgRx Store for Auth
+│   │   ├── auth.module.ts  # Auth Module
+│   │ 
+│   ├── skills/             # Skills Module
+│   ├── dashboard/          # Dashboard Module
+│   ├── wallets/            # Wallet Module
+│   ├── events/             # Event Module
+│
+├── layout/                 # Application Layout Components
+├── store/                  # Global State Management with NgRx
+├── app.module.ts           # Root Module
+├── app-routing.module.ts   # Routing Module
+```
 
-## Code scaffolding
+## 🛠️ Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Steps to Run the Project
+1. **Clone the Repository:**
+   ```sh
+   git clone https://github.com/your-username/skillhub.git
+   cd skillhub
+   ```
+2. **Install Dependencies:**
+   ```sh
+   npm install
+   ```
+3. **Run the Development Server:**
+   ```sh
+   ng serve
+   ```
+   Open [http://localhost:4200](http://localhost:4200) in your browser.
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## 📡 API Integration
+SkillHub integrates with a backend API. Ensure the API is running and update `environment.ts` with the correct API URL:
+```typescript
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:3000/api'
+};
+```
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## 🤝 Contributing
+We welcome contributions! To contribute:
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature-name`)
+3. Commit changes (`git commit -m "Add feature"`)
+4. Push to the branch (`git push origin feature-name`)
+5. Open a Pull Request
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
+---
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
