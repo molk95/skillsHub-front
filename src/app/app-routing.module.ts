@@ -4,12 +4,17 @@ import { DashboardPageComponent } from './features/dashboard/dashboard-page/dash
 import { WalletsListComponent } from './features/wallets/components/wallets-list/wallets-list.component';
 import { AddWalletComponent } from './features/wallets/components/add-wallet/add-wallet.component';
 import { WalletDetailsComponent } from './features/wallets/components/wallet-details/wallet-details.component';
+import { LandingPageComponent } from './features/landing-page/landing-page.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'landing',
     pathMatch: 'full'
+  },
+  {
+    path: 'landing',
+    component: LandingPageComponent
   },
   {
     path: 'dashboard',
