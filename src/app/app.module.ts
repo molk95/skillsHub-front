@@ -9,13 +9,15 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { DashboardPageComponent } from './features/dashboard/dashboard-page/dashboard-page.component';
 import { NavbarComponent } from './features/layout/navbar/navbar.component';
 import { SidebarComponent } from './features/layout/sidebar/sidebar.component';
+import { LandingPageComponent } from './features/landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardPageComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,15 @@
+:host {
+display: block;
+}
+
+a {
+transition: all 0.3s ease-in-out;
+}
+
+a:hover {
+opacity: 0.85;
+}
+
+nav a {
+font-weight: 500;
+}
