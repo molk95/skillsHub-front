@@ -1,1 +1,28 @@
-<p>wallets-list works!</p>
+<div *ngIf="isLoading$ | async" class="spinner-overlay">
+<div class="spinner"></div>
+</div>
+
+<div class="p-4 bg-white rounded-xl shadow-md" *ngIf="!(isLoading$ | async)">
+<h2 class="text-xl font-bold text-[#6A00F4] mb-4">All Wallets</h2>
+
+<table class="w-full table-auto border border-gray-200">
+    <thead class="bg-[#7F00FF] text-white">
+    <tr>
+        <th class="px-4 py-2">User</th>
+        <th class="px-4 py-2">Balance</th>
+        <th class="px-4 py-2">Currency</th>
+        <th class="px-4 py-2">Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let wallet of wallets$ | async" class="border-b border-gray-100 hover:bg-gray-50">
+        <td class="px-4 py-2">{{ wallet.user?.name || 'N/A' }}</td>
+        <td class="px-4 py-2 text-[#00CFFF]">{{ wallet.imoney?.value || 0 }}</td>
+        <td class="px-4 py-2">{{ wallet.imoney?.currencyType || 'N/A' }}</td>
+        <td class="px-4 py-2">
+        <span class="font-semibold">{{ wallet.isActive ? 'Active' : 'Deactivated' }}</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</div>
