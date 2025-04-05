@@ -10,6 +10,11 @@ import { DashboardPageComponent } from './features/dashboard/dashboard-page/dash
 import { NavbarComponent } from './features/layout/navbar/navbar.component';
 import { SidebarComponent } from './features/layout/sidebar/sidebar.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
+import { WalletsListComponent } from './features/wallets/components/wallets-list/wallets-list.component';
+import { WalletDetailsComponent } from './features/wallets/components/wallet-details/wallet-details.component';
+import { WalletsEffects } from './features/wallets/store/wallets.effects';
+import { reducers } from './core/app.state';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,13 +22,16 @@ import { LandingPageComponent } from './features/landing-page/landing-page.compo
     DashboardPageComponent,
     NavbarComponent,
     SidebarComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    WalletsListComponent,
+    WalletDetailsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([]),
+    HttpClientModule,
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([WalletsEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
   ],
   providers: [],

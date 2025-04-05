@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IWallet } from '../../models/wallets.model';
 
 @Component({
   selector: 'app-wallet-details',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./wallet-details.component.css']
 })
 export class WalletDetailsComponent {
+wallet!: IWallet
+walletId: string = ''
 
+constructor() {}
 }
