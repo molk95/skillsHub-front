@@ -5,11 +5,19 @@ import { IWallet } from "../models/wallets.model";
 export interface WalletsState {
   wallets: IWallet[];
   isLoading: boolean;
+  checkoutUrl: string | null;
+  sessionId: string | null;
+  message: string | null;
+  error: string | null;
 }
 
 export const initialState: WalletsState = {
   wallets: [],
   isLoading: false,
+  checkoutUrl: null,
+  sessionId: null,
+  message: null,
+  error: null,
 };
 
 const featureReducer = createReducer(
@@ -26,6 +34,37 @@ const featureReducer = createReducer(
   on(WalletsActions.fetchAllWalletsFailure, (state) => ({
     ...state,
     isLoading: false,
+  })),
+  on(WalletsActions.initiateCheckoutSuccess, (state, { checkoutUrl, sessionId }) => ({
+    ...state,
+    checkoutUrl,
+    sessionId,
+    isLoading: false,
+    error: null,
+  })),
+  on(WalletsActions.initiateCheckoutFailure, (state, { error }) => ({
+    ...state,
+    checkoutUrl: null,
+    sessionId: null,
+    isLoading: false,
+    error,
+  })),
+  on(WalletsActions.initiateCheckoutSuccess, (state) => ({
+    ...state,
+    isLoading: true,
+    error: null,
+  })),
+  // on(WalletsActions.handleCheckoutSuccessResult, (state, { message }) => ({
+  //   ...state,
+  //   message,
+  //   isLoading: false,
+  //   error: null,
+  // })),
+  on(WalletsActions.handleCheckoutFailure, (state, { error }) => ({
+    ...state,
+    message: null,
+    isLoading: false,
+    error,
   }))
 );
 

@@ -5,6 +5,9 @@ import { WalletsListComponent } from './features/wallets/components/wallets-list
 import { AddWalletComponent } from './features/wallets/components/add-wallet/add-wallet.component';
 import { WalletDetailsComponent } from './features/wallets/components/wallet-details/wallet-details.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
+import { TopUpComponent } from './features/wallets/components/top-up/top-up.component';
+import { SuccessComponent } from './features/wallets/components/success/success.component';
+import { CancelComponent } from './features/wallets/components/cancel/cancel.component';
 
 const routes: Routes = [
   {
@@ -32,6 +35,9 @@ const routes: Routes = [
     path: 'wallets/:id',
     component: WalletDetailsComponent
   },
+  { path: 'wallet/top-up', component: TopUpComponent },
+  { path: 'wallet/top-up/success', component: SuccessComponent },
+  { path: 'wallet/top-up/cancel', component: CancelComponent },
 ];
 
 @NgModule({

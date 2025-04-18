@@ -15,6 +15,8 @@ import { WalletDetailsComponent } from './features/wallets/components/wallet-det
 import { WalletsEffects } from './features/wallets/store/wallets.effects';
 import { reducers } from './core/app.state';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -30,9 +32,11 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    CommonModule,
+    FormsModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([WalletsEffects]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
   providers: [],
   bootstrap: [AppComponent]

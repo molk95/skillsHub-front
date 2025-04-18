@@ -1,0 +1,31 @@
+<div class="top-up-container">
+  <h2>Top Up Wallet</h2>
+  <div class="input-group">
+    <label for="amount">Amount (USD)</label>
+    <select
+      id="amount"
+      [value]="amount || ''"
+      (change)="onAmountChange($event)"
+      class="select"
+    >
+      <option value="" disabled>Select amount</option>
+      <option *ngFor="let amount of amountOptions" [value]="amount">
+        {{ amount }} USD
+      </option>
+    </select>
+  </div>
+
+  <div class="input-group">
+    <label>iMoney Value</label>
+    <span>{{ amount || 'Select an amount' }}</span>
+  </div>
+
+  <button
+    class="btn"
+    (click)="initiateCheckout()"
+  >
+    Checkout
+  </button>
+
+  <!-- <span class="error" *ngIf="error$ | async as error">{{ error }}</span> -->
+</div>
