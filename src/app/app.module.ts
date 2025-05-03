@@ -1,38 +1,27 @@
-import { NgModule, isDevMode } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { DashboardPageComponent } from './features/dashboard/dashboard-page/dashboard-page.component';
-import { NavbarComponent } from './features/layout/navbar/navbar.component';
-import { SidebarComponent } from './features/layout/sidebar/sidebar.component';
-import { LandingPageComponent } from './features/landing-page/landing-page.component';
-import { WalletsEffects } from './features/wallets/store/wallets.effects';
-import { reducers } from './core/app.state';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { WalletsModule } from './features/wallets/wallets.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    DashboardPageComponent,
-    NavbarComponent,
-    SidebarComponent,
-    LandingPageComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    CommonModule,
     FormsModule,
-    StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([WalletsEffects]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    ReactiveFormsModule,
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
+    WalletsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
