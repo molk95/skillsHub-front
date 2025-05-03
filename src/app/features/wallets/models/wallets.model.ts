@@ -1,16 +1,25 @@
 export interface IImoney {
+    _id?: string;
     value: number;
     currencyType: string;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export interface IUser {
-    name: string;
+    _id?: string;
+    fullName: string;
+    email?: string;
+    wallet?: string;
+    // Add other user properties as needed
 }
 
 export interface IWallet {
-    user: IUser;
+    _id: string;
+    user: IUser | null;
     imoney: IImoney;
     isActive: boolean;
+    deactivatedAt: string | null;
     createdAt?: string;
     updatedAt?: string;
 }
