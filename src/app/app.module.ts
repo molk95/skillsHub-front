@@ -11,7 +11,6 @@ import { NavbarComponent } from './features/layout/navbar/navbar.component';
 import { SidebarComponent } from './features/layout/sidebar/sidebar.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
 import { WalletsListComponent } from './features/wallets/components/wallets-list/wallets-list.component';
-import { WalletDetailsComponent } from './features/wallets/components/wallet-details/wallet-details.component';
 import { WalletsEffects } from './features/wallets/store/wallets.effects';
 import { reducers } from './core/app.state';
 import { HttpClientModule } from '@angular/common/http';
@@ -26,7 +25,6 @@ import { CommonModule } from '@angular/common';
     SidebarComponent,
     LandingPageComponent,
     WalletsListComponent,
-    WalletDetailsComponent
   ],
   imports: [
     BrowserModule,

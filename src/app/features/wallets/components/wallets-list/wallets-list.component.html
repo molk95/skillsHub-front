@@ -1,28 +1,42 @@
 <div *ngIf="isLoading$ | async" class="spinner-overlay">
-<div class="spinner"></div>
+  <div class="spinner"></div>
 </div>
 
-<div class="p-4 bg-white rounded-xl shadow-md" *ngIf="!(isLoading$ | async)">
-<h2 class="text-xl font-bold text-[#6A00F4] mb-4">All Wallets</h2>
+<div class="p-6 bg-white rounded-xl shadow-lg" *ngIf="!(isLoading$ | async)">
+  <h2 class="text-2xl font-bold text-[#6A00F4] mb-6">All Wallets</h2>
 
-<table class="w-full table-auto border border-gray-200">
-    <thead class="bg-[#7F00FF] text-white">
-    <tr>
-        <th class="px-4 py-2">User</th>
-        <th class="px-4 py-2">Balance</th>
-        <th class="px-4 py-2">Currency</th>
-        <th class="px-4 py-2">Status</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let wallet of wallets$ | async" class="border-b border-gray-100 hover:bg-gray-50">
-        <td class="px-4 py-2">{{ wallet.user?.name || 'N/A' }}</td>
-        <td class="px-4 py-2 text-[#00CFFF]">{{ wallet.imoney?.value || 0 }}</td>
-        <td class="px-4 py-2">{{ wallet.imoney?.currencyType || 'N/A' }}</td>
-        <td class="px-4 py-2">
-        <span class="font-semibold">{{ wallet.isActive ? 'Active' : 'Deactivated' }}</span>
-        </td>
-    </tr>
-    </tbody>
-</table>
+  <div *ngIf="(wallets$ | async)?.length === 0" class="text-center py-8 text-gray-500">
+    No wallets found. Create a new wallet to get started.
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngFor="let wallet of wallets$ | async" 
+         class="border border-gray-200 rounded-xl hover:shadow-md transition-shadow duration-300 overflow-hidden cursor-pointer"
+         (click)="viewWalletDetails(wallet._id)">
+      <div class="bg-gradient-to-r from-[#7F00FF] to-[#6A00F4] p-4 text-white">
+        <h3 class="font-medium">{{ wallet.user?.fullName || 'User' }}'s Wallet</h3>
+      </div>
+      <div class="p-5">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-gray-600">Balance:</span>
+          <span class="text-xl font-bold text-[#00CFFF]">{{ wallet.imoney?.value || 0 }}</span>
+        </div>
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-gray-600">Currency:</span>
+          <span>{{ wallet.imoney?.currencyType || 'N/A' }}</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-gray-600">Status:</span>
+          <span class="px-3 py-1 rounded-full text-sm font-medium" 
+                [ngClass]="wallet.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
+            {{ wallet.isActive ? 'Active' : 'Deactivated' }}
+          </span>
+        </div>
+        <button class="w-full mt-4 bg-[#7F00FF] hover:bg-[#6A00F4] text-white py-2 px-4 rounded-lg transition"
+                (click)="$event.stopPropagation(); viewWalletDetails(wallet._id)">
+          View Details
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

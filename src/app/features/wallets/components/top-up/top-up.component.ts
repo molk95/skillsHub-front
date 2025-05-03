@@ -24,14 +24,14 @@ export class TopUpComponent implements OnInit {
     this.loading$ = this.store.select(state => state.wallet.loading);
   }
 
- async ngOnInit() {
-   this.stripe = await loadStripe('pk_test_51RFLpqGhFIRJflIh6ssFa5KVDZdOWA2KZyZzO9RlJ2yk5SXiE6gT9y0UZP9pJl8RXDYgQdWRiVpZ00PRkgtkIjOB00d8La2yK4');
-   this.checkoutUrl$.subscribe((url) => {
-     if (url && this.stripe && this.store.select(state => state?.wallet?.checkoutUrl)) {
-       window.location.href = url;
-     }
-   });
- }
+  async ngOnInit() {
+    this.stripe = await loadStripe('pk_test_51RFLpqGhFIRJflIh6ssFa5KVDZdOWA2KZyZzO9RlJ2yk5SXiE6gT9y0UZP9pJl8RXDYgQdWRiVpZ00PRkgtkIjOB00d8La2yK4');
+    this.checkoutUrl$.subscribe((url) => {
+      if (url && this.stripe && this.store.select(state => state?.wallet?.checkoutUrl)) {
+        window.location.href = url;
+      }
+    });
+  }
 
   onAmountChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;

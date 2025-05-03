@@ -14,6 +14,21 @@ export const fetchAllWalletsFailure = createAction(
     '[Wallets] Fetch All Wallets Failure'
 )
 
+export const fetchWalletById = createAction(
+    '[Wallets] Fetch Wallet By Id',
+    props<{ id: string }>()
+);
+
+export const fetchWalletByIdSuccess = createAction(
+    '[Wallets] Fetch Wallet By Id Success',
+    props<{ wallet: IWallet }>()
+);
+
+export const fetchWalletByIdFailure = createAction(
+    '[Wallets] Fetch Wallet By Id Failure',
+    props<{ error: string }>()
+);
+
 // loader actions
 export const SetWalletLoader = createAction(
     '[ Loader ] - ShowLoader',
@@ -40,10 +55,10 @@ export const handleCheckoutSuccess = createAction(
 props<{ sessionId: string }>()
 );
 
-// export const handleCheckoutSuccessResult = createAction(
-// '[Wallet] Handle Checkout Success Result',
-// props<{ message: string }>()
-// );
+export const handleCheckoutSuccessResult = createAction(
+'[Wallet] Handle Checkout Success Result',
+props<{ message: string }>()
+);
 
 export const handleCheckoutFailure = createAction(
 '[Wallet] Handle Checkout Failure',
