@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { AppState } from 'src/app/core/app.state';
+import { IWallet } from '../../models/wallets.model';
+import * as WalletActions from '../../store/wallets.actions';
 
 interface Package {
   id: number;
@@ -42,10 +47,26 @@ export class PackageSelectionComponent implements OnInit {
   ];
 
   selectedPackage: Package | null = null;
+  wallet$: Observable<IWallet | null>;
+  error: string | null = null;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private store: Store<AppState>
+  ) {
+    this.wallet$ = this.store.select(state => state.wallets.selectedWallet);
+  }
 
   ngOnInit(): void {
+    // Check if wallet is active
+    this.wallet$.subscribe(wallet => {
+      if (wallet && !wallet.isActive) {
+        this.error = 'Cannot top up a deactivated wallet. Please activate the wallet first.';
+        setTimeout(() => {
+          this.router.navigate(['/wallets']);
+        }, 3000);
+      }
+    });
   }
 
   selectPackage(pkg: Package): void {

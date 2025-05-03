@@ -33,7 +33,14 @@
     <div *ngIf="!wallet?.imoney" class="text-gray-400 py-4">No balance information available</div>
     
     <div class="mt-6 flex space-x-4">
-      <a routerLink="/wallets/packages" class="bg-pink-600 hover:bg-pink-700 text-white py-2 px-4 rounded-lg transition">
+      <a 
+        [routerLink]="wallet.isActive ? '/wallets/packages' : null" 
+        [class.cursor-not-allowed]="!wallet.isActive"
+        [class.opacity-50]="!wallet.isActive"
+        [class.bg-gray-500]="!wallet.isActive"
+        [class.hover:bg-gray-500]="!wallet.isActive"
+        class="bg-pink-600 hover:bg-pink-700 text-white py-2 px-4 rounded-lg transition"
+        (click)="$event.preventDefault(); handleTopUpClick(wallet)">
         Top Up
       </a>
       <button (click)="goBackToWallets()" class="bg-gray-700 hover:bg-gray-800 text-white py-2 px-4 rounded-lg transition">

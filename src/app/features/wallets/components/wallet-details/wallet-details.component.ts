@@ -113,4 +113,13 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   goBackToWallets(): void {
     this.router.navigate(['/wallets']);
   }
+
+  handleTopUpClick(wallet: IWallet): void {
+    if (!wallet.isActive) {
+      this.statusError = 'Cannot top up a deactivated wallet. Please activate the wallet first.';
+      return;
+    }
+    
+    this.router.navigate(['/wallets/packages']);
+  }
 }

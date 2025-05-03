@@ -20,6 +20,7 @@ import { WalletsEffects } from './store/wallets.effects';
 
 @NgModule({
   declarations: [
+    WalletsListComponent,  // Make sure WalletsListComponent is declared here
     AddWalletComponent,
     WalletDetailsComponent,
     EditWalletComponent,
