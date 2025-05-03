@@ -10,7 +10,6 @@ import { DashboardPageComponent } from './features/dashboard/dashboard-page/dash
 import { NavbarComponent } from './features/layout/navbar/navbar.component';
 import { SidebarComponent } from './features/layout/sidebar/sidebar.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
-import { WalletsListComponent } from './features/wallets/components/wallets-list/wallets-list.component';
 import { WalletsEffects } from './features/wallets/store/wallets.effects';
 import { reducers } from './core/app.state';
 import { HttpClientModule } from '@angular/common/http';
@@ -24,7 +23,6 @@ import { CommonModule } from '@angular/common';
     NavbarComponent,
     SidebarComponent,
     LandingPageComponent,
-    WalletsListComponent,
   ],
   imports: [
     BrowserModule,
