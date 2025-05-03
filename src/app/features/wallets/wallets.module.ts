@@ -9,6 +9,7 @@ import { WalletsListComponent } from './components/wallets-list/wallets-list.com
 import { AddWalletComponent } from './components/add-wallet/add-wallet.component';
 import { WalletDetailsComponent } from './components/wallet-details/wallet-details.component';
 import { EditWalletComponent } from './components/edit-wallet/edit-wallet.component';
+import { PackageSelectionComponent } from './components/package-selection/package-selection.component';
 import { TopUpComponent } from './components/top-up/top-up.component';
 import { CancelComponent } from './components/cancel/cancel.component';
 import { SuccessComponent } from './components/success/success.component';
@@ -22,6 +23,7 @@ import { WalletsEffects } from './store/wallets.effects';
     AddWalletComponent,
     WalletDetailsComponent,
     EditWalletComponent,
+    PackageSelectionComponent,
     TopUpComponent,
     CancelComponent,
     SuccessComponent,
