@@ -18,7 +18,10 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   isToggling = false;
   statusError: string | null = null;
   statusSuccess: string | null = null;
+  canActivate = false;
+  timeUntilActivation: string | null = null;
   private routeSubscription: Subscription | null = null;
+  private walletSubscription: Subscription | null = null;
 
   constructor(
     private store: Store<AppState>,
@@ -41,12 +44,25 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
         this.fetchWalletData(walletId);
       }
     });
+
+    // Subscribe to wallet changes to check activation eligibility
+    this.walletSubscription = this.wallet$.subscribe(wallet => {
+      if (wallet && !wallet.isActive && wallet.deactivatedAt) {
+        this.checkActivationEligibility(wallet);
+      } else {
+        this.canActivate = false;
+        this.timeUntilActivation = null;
+      }
+    });
   }
 
   ngOnDestroy(): void {
     // Clean up subscriptions to prevent memory leaks
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();
+    }
+    if (this.walletSubscription) {
+      this.walletSubscription.unsubscribe();
     }
   }
 
@@ -64,6 +80,38 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
     this.store.dispatch(WalletActions.fetchWalletById({ id: walletId }));
   }
 
+  private checkActivationEligibility(wallet: IWallet): void {
+    if (!wallet.deactivatedAt) {
+      this.canActivate = false;
+      this.timeUntilActivation = null;
+      return;
+    }
+
+    const deactivatedAt = new Date(wallet.deactivatedAt);
+    const currentTime = new Date();
+    const timeDifference = currentTime.getTime() - deactivatedAt.getTime();
+    const hoursDifference = timeDifference / (1000 * 3600);
+    
+    if (hoursDifference >= 48) {
+      this.canActivate = true;
+      this.timeUntilActivation = null;
+    } else {
+      this.canActivate = false;
+      const hoursRemaining = Math.ceil(48 - hoursDifference);
+      this.timeUntilActivation = this.formatTimeRemaining(hoursRemaining);
+    }
+  }
+
+  private formatTimeRemaining(hours: number): string {
+    if (hours >= 24) {
+      const days = Math.floor(hours / 24);
+      const remainingHours = hours % 24;
+      return `${days} day${days > 1 ? 's' : ''} and ${remainingHours} hour${remainingHours !== 1 ? 's' : ''}`;
+    } else {
+      return `${hours} hour${hours !== 1 ? 's' : ''}`;
+    }
+  }
+
   toggleWalletStatus(wallet: IWallet): void {
     if (!wallet) return;
     
@@ -76,6 +124,11 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
     if (wallet.isActive) {
       this.deactivateWallet(walletId);
     } else {
+      if (!this.canActivate) {
+        this.isToggling = false;
+        this.statusError = `You can only activate the wallet after 48 hours of deactivation. ${this.timeUntilActivation ? `Time remaining: ${this.timeUntilActivation}.` : ''}`;
+        return;
+      }
       this.activateWallet(walletId);
     }
   }

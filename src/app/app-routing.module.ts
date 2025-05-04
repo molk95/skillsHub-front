@@ -21,10 +21,6 @@ const routes: Routes = [
     path: 'wallets',
     loadChildren: () => import('./features/wallets/wallets.module').then(m => m.WalletsModule)
   },
-  {
-    path: 'user-wallet',
-    loadChildren: () => import('./features/user-wallet/user-wallet.module').then(m => m.UserWalletModule)
-  },
 ];
 
 @NgModule({

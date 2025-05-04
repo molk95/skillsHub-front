@@ -6,14 +6,16 @@ import { PackageSelectionComponent } from './components/package-selection/packag
 import { TopUpComponent } from './components/top-up/top-up.component';
 import { SuccessComponent } from './components/success/success.component';
 import { CancelComponent } from './components/cancel/cancel.component';
+import { WalletDashboardComponent } from './components/wallet-dashboard/wallet-dashboard.component';
 
 const routes: Routes = [
   { path: '', component: WalletsListComponent },
+  { path: 'wallet-dashboard', component: WalletDashboardComponent },
   { path: 'packages', component: PackageSelectionComponent },
   { path: 'top-up', component: TopUpComponent },
   { path: 'top-up/success', component: SuccessComponent },
   { path: 'top-up/cancel', component: CancelComponent },
-  { path: ':id', component: WalletDetailsComponent }
+  { path: ':id', component: WalletDetailsComponent },
 ];
 
 @NgModule({

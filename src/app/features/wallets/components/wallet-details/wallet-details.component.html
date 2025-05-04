@@ -19,9 +19,14 @@
       
       <div class="flex justify-between items-center">
         <span class="text-gray-300">Status:</span>
-        <span [ngClass]="wallet.isActive ? 'text-green-400' : 'text-red-400'" class="font-medium">
+        <span [class.text-green-400]="wallet.isActive" [class.text-red-400]="!wallet.isActive" class="font-medium">
           {{ wallet.isActive ? 'Active' : 'Deactivated' }}
         </span>
+      </div>
+      
+      <div *ngIf="wallet.deactivatedAt && !wallet.isActive" class="flex justify-between items-center">
+        <span class="text-gray-300">Deactivated:</span>
+        <span class="font-medium">{{ wallet.deactivatedAt | date:'medium' }}</span>
       </div>
       
       <div *ngIf="wallet.user" class="flex justify-between items-center">
@@ -52,10 +57,13 @@
   <div class="mt-4">
     <button 
       (click)="toggleWalletStatus(wallet)"
-      [disabled]="isToggling"
-      [ngClass]="wallet.isActive 
-        ? 'bg-red-600 hover:bg-red-700' 
-        : 'bg-green-600 hover:bg-green-700'"
+      [disabled]="isToggling || (!wallet.isActive && !canActivate)"
+      [class.bg-red-600]="wallet.isActive"
+      [class.hover:bg-red-700]="wallet.isActive"
+      [class.bg-green-600]="!wallet.isActive && canActivate"
+      [class.hover:bg-green-700]="!wallet.isActive && canActivate"
+      [class.bg-gray-500]="!wallet.isActive && !canActivate"
+      [class.hover:bg-gray-500]="!wallet.isActive && !canActivate"
       class="w-full text-white py-2 px-4 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
     >
       <span *ngIf="isToggling" class="inline-block mr-2">
@@ -75,8 +83,26 @@
       {{ statusSuccess }}
     </div>
     
-    <div *ngIf="!wallet.isActive" class="mt-2 text-amber-500 text-sm">
-      Note: You can only activate a wallet after 48 hours of deactivation.
+    <div *ngIf="!wallet.isActive && timeUntilActivation" class="mt-2 text-amber-500 text-sm">
+      Note: You can only activate a wallet after 48 hours of deactivation. Time remaining: {{ timeUntilActivation }}.
+    </div>
+    
+    <div *ngIf="!wallet.isActive && canActivate" class="mt-2 text-green-500 text-sm">
+      Your wallet is now eligible for activation.
+    </div>
+  </div>
+
+  <div class="mt-6">
+    <div class="bg-gradient-to-r from-purple-700 to-indigo-900 text-white p-6 rounded-xl shadow-lg">
+      <h3 class="text-xl font-bold text-pink-400 mb-4">Transaction History</h3>
+      <app-transaction-history [wallet]="wallet"></app-transaction-history>
+    </div>
+  </div>
+
+  <div class="mt-6">
+    <div class="bg-gradient-to-r from-purple-700 to-indigo-900 text-white p-6 rounded-xl shadow-lg">
+      <h3 class="text-xl font-bold text-pink-400 mb-4">Wallet Analytics</h3>
+      <app-wallet-analytics [wallet]="wallet"></app-wallet-analytics>
     </div>
   </div>
   
