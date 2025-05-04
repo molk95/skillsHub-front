@@ -15,6 +15,9 @@ const routes: Routes = [
   { path: 'top-up', component: TopUpComponent },
   { path: 'top-up/success', component: SuccessComponent },
   { path: 'top-up/cancel', component: CancelComponent },
+  // Add the singular version of the path to handle the error
+  { path: 'top-up/success', component: SuccessComponent, pathMatch: 'full' },
+  { path: 'top-up/cancel', component: CancelComponent, pathMatch: 'full' },
   { path: ':id', component: WalletDetailsComponent },
 ];
 
