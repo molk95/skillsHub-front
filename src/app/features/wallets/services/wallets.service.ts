@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment.development';
-import { IWallet } from '../models/wallets.model';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { IWallet } from '../models/wallets.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +31,7 @@ export class WalletsService {
     return this.http.patch(`${environment.BASE_URL_API}wallets/${walletId}/activate`, {});
   }
   
-  createCheckoutSession(userId: string, amount: number, imoneyValue: number): Observable<any> {
+  public createCheckoutSession(userId: string, amount: number, imoneyValue: number): Observable<any> {
     return this.http.post(`${environment.BASE_URL_API}wallets/top-up/create-session`, {
       userId,
       amount,
@@ -39,9 +39,13 @@ export class WalletsService {
     });
   }
 
-  handleCheckoutSuccess(sessionId: string): Observable<any> {
+  public handleCheckoutSuccess(sessionId: string): Observable<any> {
     return this.http.get(`${environment.BASE_URL_API}wallets/top-up/success`, {
       params: { session_id: sessionId },
     });
+  }
+
+  public getWalletByUserId(userId: string): Observable<IWallet> {
+    return this.http.get<IWallet>(`${environment.BASE_URL_API}wallets/user/${userId}`);
   }
 }
