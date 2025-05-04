@@ -38,7 +38,8 @@
     <div *ngIf="!wallet?.imoney" class="text-gray-400 py-4">No balance information available</div>
     
     <div class="mt-6 flex space-x-4">
-      <a 
+      <!-- Only show Top Up button for CLIENT users -->
+      <a *ngIf="isClient()"
         [routerLink]="wallet.isActive ? '/wallets/packages' : null" 
         [class.cursor-not-allowed]="!wallet.isActive"
         [class.opacity-50]="!wallet.isActive"

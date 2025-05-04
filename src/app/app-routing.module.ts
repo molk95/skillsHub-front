@@ -21,6 +21,23 @@ const routes: Routes = [
     path: 'wallets',
     loadChildren: () => import('./features/wallets/wallets.module').then(m => m.WalletsModule)
   },
+  // Add a redirect for the singular "wallet" path
+  {
+    path: 'wallet',
+    redirectTo: 'wallets',
+    pathMatch: 'prefix'
+  },
+  // Catch-all route for the success and cancel pages
+  {
+    path: 'wallet/top-up/success',
+    redirectTo: 'wallets/top-up/success',
+    pathMatch: 'full'
+  },
+  {
+    path: 'wallet/top-up/cancel',
+    redirectTo: 'wallets/top-up/cancel',
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({
