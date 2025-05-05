@@ -23,7 +23,10 @@ interface Package {
   styleUrls: ['./top-up.component.css'],
 })
 export class TopUpComponent implements OnInit {
-  selectedPackage: Package | null = null;
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
+ /* selectedPackage: Package | null = null;
   checkoutUrl$: Observable<string | null>;
   error$: Observable<string | null>;
   loading$: Observable<boolean>;
@@ -109,5 +112,5 @@ export class TopUpComponent implements OnInit {
 
   goBackToPackages() {
     this.router.navigate(['/wallets/packages']);
-  }
+  }*/
 }
