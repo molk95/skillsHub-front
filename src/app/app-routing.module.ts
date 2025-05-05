@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardPageComponent } from './features/dashboard/dashboard-page/dashboard-page.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
+import { ForumsListComponent } from './features/forums/component/list-forum/list-forum.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'landing',
     component: LandingPageComponent
+  },
+  {
+    path: 'ForumsListComponent',
+   component: ForumsListComponent
   },
   {
     path: 'dashboard',
