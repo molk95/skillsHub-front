@@ -13,12 +13,10 @@ import { DashboardPageComponent } from './features/dashboard/dashboard-page/dash
 import { NavbarComponent } from './features/layout/navbar/navbar.component';
 import { SidebarComponent } from './features/layout/sidebar/sidebar.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
-import { WalletsListComponent } from './features/wallets/components/wallets-list/wallets-list.component';
-import { WalletsEffects } from './features/wallets/store/wallets.effects';
-import { reducers } from './core/app.state';
+
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { AddForumComponent } from './features/forums/component/add-forum/add-forum.component';
 import { ForumsListComponent } from './features/forums/component/list-forum/list-forum.component';
 
@@ -30,7 +28,6 @@ import { ForumsListComponent } from './features/forums/component/list-forum/list
     NavbarComponent,
     SidebarComponent,
     LandingPageComponent,
-    WalletsListComponent,
     AddForumComponent,
     ForumsListComponent,
   ],
