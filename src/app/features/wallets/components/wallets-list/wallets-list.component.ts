@@ -12,7 +12,10 @@ import { IWallet } from '../../models/wallets.model';
   styleUrls: ['./wallets-list.component.css']
 })
 export class WalletsListComponent implements OnInit {
-  wallets$: Observable<IWallet[]> = this.store.select((state) => state.wallets.wallets);
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
+ /* wallets$: Observable<IWallet[]> = this.store.select((state) => state.wallets.wallets);
   isLoading$: Observable<boolean> = this.store.select((state) => state.wallets.isLoading);
 
   constructor(
@@ -35,5 +38,5 @@ export class WalletsListComponent implements OnInit {
     } else {
       console.error('Wallet ID is undefined or null');
     }
-  }
+  }*/
 }

@@ -1,0 +1,44 @@
+<div class="container mt-4">
+  <!-- Table des forums -->
+  <table class="table table-bordered table-striped custom-table">
+    <thead class="table-dark text-center">
+      <tr>
+        <th>Titre</th>
+        <th>Auteur</th>
+        <th>Contenu</th>
+        <th>Commentaires</th>
+        <th>Communauté</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let forum of forums; trackBy: trackById" class="text-center align-middle">
+        <td>{{ forum.title }}</td>
+        <td>{{ forum.author }}</td>
+        <td>{{ forum.content | slice: 0:50 }}...</td>
+        <td>{{ forum.comments.length }}</td>
+        <td>{{ forum.community }}</td>
+        <td>
+          {{ forum.averageRating }}
+        </td>
+        <td>
+          <div class="d-flex justify-content-center gap-2">
+            <button class="btn btn-sm btn-outline-primary custom-btn" (click)="onEditForum(forum._id)">
+              Modifier
+            </button>
+            <button class="btn btn-sm btn-outline-danger custom-btn" (click)="onDeleteForum(forum._id)">
+              Supprimer
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Section de bouton Ajouter Forum -->
+  <div class="d-flex justify-content-center mt-4">
+    <button class="btn btn-success custom-btn" (click)="onAddForum()">
+      <i class="bi bi-plus-circle"></i> Ajouter Forum
+    </button>
+  </div>
+</div>

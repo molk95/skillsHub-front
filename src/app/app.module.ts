@@ -16,6 +16,9 @@ import { reducers } from './core/app.state';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AddForumComponent } from './features/forums/component/add-forum/add-forum.component';
+import { ForumsListComponent } from './features/forums/component/list-forum/list-forum.component';
+
 
 @NgModule({
   declarations: [
@@ -25,6 +28,8 @@ import { CommonModule } from '@angular/common';
     SidebarComponent,
     LandingPageComponent,
     WalletsListComponent,
+    AddForumComponent,
+    ForumsListComponent,
   ],
   imports: [
     BrowserModule,

@@ -13,7 +13,13 @@ import { WalletsService } from '../../services/wallets.service';
   styleUrls: ['./wallet-details.component.css']
 })
 export class WalletDetailsComponent implements OnInit, OnDestroy {
-  wallet$: Observable<IWallet | null>;
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
+ /* wallet$: Observable<IWallet | null>;
   isLoading$: Observable<boolean>;
   isToggling = false;
   statusError: string | null = null;
@@ -112,5 +118,5 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
 
   goBackToWallets(): void {
     this.router.navigate(['/wallets']);
-  }
+  }*/
 }
