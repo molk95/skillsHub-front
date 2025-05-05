@@ -13,13 +13,7 @@ import { WalletsService } from '../../services/wallets.service';
   styleUrls: ['./wallet-details.component.css']
 })
 export class WalletDetailsComponent implements OnInit, OnDestroy {
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
-  }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
- /* wallet$: Observable<IWallet | null>;
+  wallet$: Observable<IWallet | null>;
   isLoading$: Observable<boolean>;
   isToggling = false;
   statusError: string | null = null;
@@ -175,6 +169,39 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   }
 
   goBackToWallets(): void {
-    this.router.navigate(['/wallets']);
-  }*/
+    // Navigate based on user role
+    if (this.isAdmin()) {
+      this.router.navigate(['/wallets']);
+    } else {
+      this.router.navigate(['/wallets/wallet-dashboard']);
+    }
+  }
+
+  handleTopUpClick(wallet: IWallet): void {
+    if (!wallet.isActive) {
+      this.statusError = 'Cannot top up a deactivated wallet. Please activate the wallet first.';
+      return;
+    }
+    
+    this.router.navigate(['/wallets/packages']);
+  }
+  
+  // Helper method to check if user is admin
+  isAdmin(): boolean {
+    return localStorage.getItem('role') === 'ADMIN';
+  }
+  
+  // Helper method to check if user is client
+  isClient(): boolean {
+    return localStorage.getItem('role') === 'CLIENT';
+  }
+  
+  // For testing - toggle role between ADMIN and CLIENT
+  toggleRole(): void {
+    const currentRole = localStorage.getItem('role');
+    const newRole = currentRole === 'ADMIN' ? 'CLIENT' : 'ADMIN';
+    localStorage.setItem('role', newRole);
+    // Force refresh to see changes
+    window.location.reload();
+  }
 }
