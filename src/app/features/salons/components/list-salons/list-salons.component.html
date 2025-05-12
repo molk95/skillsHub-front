@@ -1,0 +1,70 @@
+<div class="container mt-5 p-4 rounded shadow-lg" style="max-width: 750px; background: #ffffff; color: #333333;">
+  <!-- Titre pour la liste des salons -->
+  <h2 class="text-center fw-bold mb-4" style="color: #4e54c8;">
+    <i class="fas fa-list-alt me-2" style="color: #4e54c8;"></i> Liste des Salons
+  </h2>
+
+  <!-- Barre de recherche -->
+  <div class="mb-4 d-flex justify-content-between align-items-center">
+    <input 
+      type="text" 
+      class="form-control me-2 border-0 shadow-sm"
+      style="background-color: #f0f4ff; color: #4e54c8; border-radius: 8px;" 
+      placeholder="Rechercher par nom..." 
+      [(ngModel)]="searchTerm" 
+      (input)="rechercherSalons()" 
+      aria-label="Rechercher un salon par nom">
+    <button 
+      class="btn fw-bold d-flex align-items-center"
+      style="background: linear-gradient(90deg, #4e54c8, #8f94fb); color: white; border-radius: 8px; transition: background 0.3s ease;" 
+      (click)="rechercherSalons()" 
+      aria-label="Lancer la recherche">
+      <i class="fas fa-search me-2"></i> Rechercher
+    </button>
+  </div>
+
+  <!-- Liste des salons -->
+  <ul class="list-group mb-4">
+    <li *ngFor="let salon of salons" class="list-group-item d-flex justify-content-between align-items-center" style="background: #f7f8fc; border: none; border-radius: 8px;">
+      <div>
+        <span class="fw-bold" style="color: #4e54c8;"><i class="fas fa-door-open me-2"></i>{{ salon.nom }}</span>
+        <span class="d-block" style="font-size: 0.9rem; color: #555555;">{{ salon.description }}</span>
+      </div>
+      
+      <div class="d-flex">
+        <!-- Bouton pour mettre à jour le salon -->
+        <button 
+          (click)="mettreAJourSalon(salon.nom)" 
+          class="btn btn-sm me-2 fw-bold"
+          style="background: linear-gradient(90deg, #4e54c8, #8f94fb); color: white; border-radius: 8px; transition: background 0.3s ease;"
+          [attr.aria-label]="'Mettre à jour ' + salon.nom">
+          <i class="fas fa-edit me-1"></i> Mettre à jour
+        </button>
+
+        <!-- Bouton pour supprimer un salon -->
+        <button 
+          (click)="supprimerSalon(salon.nom)" 
+          class="btn btn-sm fw-bold"
+          style="background: linear-gradient(90deg, #8f94fb, #ff6b6b); color: white; border-radius: 8px; transition: background 0.3s ease;"
+          [attr.aria-label]="'Supprimer ' + salon.nom">
+          <i class="fas fa-trash-alt me-1"></i> Supprimer
+        </button>
+      </div>
+    </li>
+  </ul>
+
+  <!-- Message d'erreur si aucun salon trouvé -->
+  <div *ngIf="salons.length === 0" class="alert text-center mt-3" style="background: #f7f8fc; color: #4e54c8; border-radius: 8px;">
+    <i class="fas fa-exclamation-circle me-2"></i> Aucun salon trouvé.
+  </div>
+
+  <!-- Liens pour rediriger vers les composants "Mettre à jour" et "Supprimer" -->
+  <div class="text-center mt-4">
+    <a [routerLink]="['/salons/update/:nom']" class="fw-bold" style="color: #4e54c8; text-decoration: none;">
+      <i class="fas fa-edit me-2"></i> Mettre à jour un salon
+    </a>
+    <a [routerLink]="['/salons/delete']" class="fw-bold ms-3" style="color: #ff6b6b; text-decoration: none;">
+      <i class="fas fa-trash-alt me-2"></i> Supprimer un salon
+    </a>
+  </div>
+</div>

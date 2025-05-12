@@ -1,0 +1,57 @@
+<div class="container mt-5 p-4 rounded shadow-lg sessions-container">
+  <h2 class="text-center text-main mb-5 fw-bold display-5">
+    <i class="fas fa-list me-2"></i> Liste des Sessions
+  </h2>
+
+  <!-- Bouton d'actualisation -->
+  <div class="text-end mb-4">
+    <button class="btn btn-sm btn-primary" (click)="refreshList()">
+      <i class="fas fa-sync-alt me-1"></i> Actualiser
+    </button>
+  </div>
+
+  <div class="row">
+    <!-- Affichage de chaque session -->
+    <div class="col-md-6 col-lg-4 mb-4" *ngFor="let session of sessions; let i = index">
+      <div class="card session-card shadow-sm">
+        <div class="card-body">
+          <!-- Nom du Salon -->
+          <h5 class="card-title text-violet fw-bold">
+            {{ session.salonId?.nom || "Nom non défini" }}
+          </h5>
+          <!-- Type de Session -->
+          <p class="card-text"><strong>Type :</strong> {{ session.type || "Non défini" }}</p>
+          <!-- Dates de début et de fin -->
+          <p class="card-text"><strong>Date Début :</strong> {{ session.dateDebut | date:'dd/MM/yyyy HH:mm' }}</p>
+          <p class="card-text"><strong>Date Fin :</strong> {{ session.dateFin | date:'dd/MM/yyyy HH:mm' }}</p>
+          <!-- Nom du Créateur -->
+          <p class="card-text"><strong>Créateur :</strong> {{ session.createurNom || "Nom non défini" }}</p>
+          <!-- ID de la Session -->
+          <p class="card-text"><strong>ID :</strong> {{ session._id }}</p>
+
+          <!-- Sélecteur de l'état -->
+          <label for="etatSelect{{ i }}" class="form-label fw-semibold">État :</label>
+          <select
+            id="etatSelect{{ i }}"
+            class="form-select custom-select"
+            [(ngModel)]="session.etat"
+            (change)="updateState(session._id, session.etat)">
+            <option value="active">Active</option>
+            <option value="en attente">En attente</option>
+            <option value="terminée">Terminée</option>
+          </select>
+        </div>
+
+        <!-- Boutons d'action -->
+        <div class="card-footer d-flex justify-content-between">
+          <button class="btn btn-sm btn-marine text-white fw-semibold" (click)="onDelete(session._id)">
+            <i class="fas fa-trash-alt me-1"></i> Supprimer
+          </button>
+          <button class="btn btn-sm btn-violet text-white fw-semibold" (click)="navigateToUpdate(session._id)">
+            <i class="fas fa-edit me-1"></i> Modifier
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

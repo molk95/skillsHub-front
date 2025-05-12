@@ -1,0 +1,97 @@
+<div class="container mt-5 p-4 rounded shadow-lg" style="max-width: 650px;">
+  <h3 class="mb-4 text-center fw-bold text-primary">Modifier une Session</h3>
+  <form (ngSubmit)="onSubmit()" #updateSessionForm="ngForm">
+    <!-- Nom du Salon -->
+    <div class="mb-4">
+      <label for="salonNom" class="form-label">Nom du Salon</label>
+      <input
+        type="text"
+        id="salonNom"
+        name="salonNom"
+        [ngModel]="sessionData.salonId?.nom"
+        class="form-control"
+        readonly
+      />
+    </div>
+
+    <!-- Type de Session -->
+    <div class="mb-4">
+      <label for="type" class="form-label">Type de Session</label>
+      <select
+        id="type"
+        name="type"
+        [(ngModel)]="sessionData.type"
+        class="form-select"
+        required
+      >
+        <option value="chat">Chat</option>
+        <option value="meet">Meet</option>
+      </select>
+    </div>
+
+    <!-- Date de Début -->
+    <div class="mb-4">
+      <label for="dateDebut" class="form-label">Date de Début</label>
+      <input
+        type="datetime-local"
+        id="dateDebut"
+        name="dateDebut"
+        [(ngModel)]="sessionData.dateDebut"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <!-- Date de Fin -->
+    <div class="mb-4">
+      <label for="dateFin" class="form-label">Date de Fin</label>
+      <input
+        type="datetime-local"
+        id="dateFin"
+        name="dateFin"
+        [(ngModel)]="sessionData.dateFin"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <!-- Nom du Créateur -->
+    <div class="mb-4">
+      <label for="createurNom" class="form-label">Nom du Créateur</label>
+      <input
+        type="text"
+        id="createurNom"
+        name="createurNom"
+        [(ngModel)]="sessionData.createurNom"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <!-- État de la session -->
+    <div class="mb-4">
+      <label for="etat" class="form-label">État de la Session</label>
+      <select
+        id="etat"
+        name="etat"
+        [(ngModel)]="sessionData.etat"
+        class="form-select"
+        required
+      >
+        <option value="active">Active</option>
+        <option value="en attente">En attente</option>
+        <option value="terminée">Terminée</option>
+      </select>
+    </div>
+
+    <!-- Bouton de soumission -->
+    <button
+      type="submit"
+      class="btn btn-primary w-100"
+      [disabled]="isLoading"
+    >
+      {{ isLoading ? "Chargement..." : "Mettre à jour" }}
+    </button>
+  </form>
+</div>
+
