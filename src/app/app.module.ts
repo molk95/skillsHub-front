@@ -1,7 +1,7 @@
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
+import { CommonModule } from '@angular/common'; 
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -14,8 +14,21 @@ import { WalletsListComponent } from './features/wallets/components/wallets-list
 import { WalletDetailsComponent } from './features/wallets/components/wallet-details/wallet-details.component';
 import { WalletsEffects } from './features/wallets/store/wallets.effects';
 import { reducers } from './core/app.state';
+import { FormsModule } from '@angular/forms'; // Importer FormsModule
 import { HttpClientModule } from '@angular/common/http';
-
+import { AddSalonsComponent } from './features/salons/components/add-salons/add-salons.component';
+import { ListSalonsComponent } from './features/salons/components/list-salons/list-salons.component';
+import { UpdateSalonsComponent } from './features/salons/components/update-salons/update-salons.component';
+import { DeleteSalonsComponent } from './features/salons/components/delete-salons/delete-salons.component';
+import { SalonsComponent } from './features/salons/components/salons/salons.component';
+import { SessionsComponent } from './features/sessions/components/sessions/sessions.component';
+import { AddSessionsComponent } from './features/sessions/components/add-sessions/add-sessions.component';
+import { SessionListComponent } from './features/sessions/components/list-sessions/list-sessions.component';
+import { UpdateSessionComponent } from './features/sessions/components/update-sessions/update-sessions.component';
+import { DeleteSessionsComponent } from './features/sessions/components/delete-sessions/delete-sessions.component';
+import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { SalonsSessionsComponent } from './features/salons/components/salons-sessions/salons-sessions.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +37,18 @@ import { HttpClientModule } from '@angular/common/http';
     SidebarComponent,
     LandingPageComponent,
     WalletsListComponent,
-    WalletDetailsComponent
+    WalletDetailsComponent,
+    AddSalonsComponent,
+    ListSalonsComponent,
+    UpdateSalonsComponent,
+    DeleteSalonsComponent,
+    SalonsComponent,
+    SessionsComponent,
+    AddSessionsComponent,
+    SessionListComponent,
+    UpdateSessionComponent,
+    DeleteSessionsComponent,
+    SalonsSessionsComponent
   ],
   imports: [
     BrowserModule,
@@ -32,9 +56,13 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([WalletsEffects]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    FormsModule,
+    CommonModule,  // Ajoute ceci ici aussi
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
