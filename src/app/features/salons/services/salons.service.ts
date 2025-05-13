@@ -8,7 +8,7 @@ import { ISalon } from '../models/salons.model';
   providedIn: 'root',
 })
 export class SalonsService {
-  private baseUrl = `${environment.BASE_URL_API}/salons`;
+  private baseUrl = `${environment.BASE_URL_API}salons`;
 
   constructor(private http: HttpClient) {}
 

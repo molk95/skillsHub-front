@@ -15,8 +15,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddForumComponent } from './features/forums/component/add-forum/add-forum.component';
 import { ForumsListComponent } from './features/forums/component/list-forum/list-forum.component';
-import { WalletsListComponent } from './features/wallets/components/wallets-list/wallets-list.component';
-import { WalletDetailsComponent } from './features/wallets/components/wallet-details/wallet-details.component';
 import { WalletsEffects } from './features/wallets/store/wallets.effects';
 import { reducers } from './core/app.state';
 import { AddSalonsComponent } from './features/salons/components/add-salons/add-salons.component';
@@ -41,8 +39,6 @@ import { SalonsSessionsComponent } from './features/salons/components/salons-ses
     LandingPageComponent,
     AddForumComponent,
     ForumsListComponent,
-    WalletsListComponent,
-    WalletDetailsComponent,
     AddSalonsComponent,
     ListSalonsComponent,
     UpdateSalonsComponent,

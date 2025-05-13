@@ -8,7 +8,7 @@ import { Observable, tap, catchError, throwError } from 'rxjs';
 
 export class SessionService {
   // Utiliser l'URL de l'environnement comme les autres services
-  private baseUrl = 'http://localhost:5000/api/sessions'
+  private baseUrl = 'http://localhost:3000/api/sessions'
 
   constructor(private http: HttpClient) {}
 
