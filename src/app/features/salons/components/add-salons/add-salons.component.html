@@ -1,0 +1,58 @@
+<div class="container mt-5 p-4 rounded shadow-lg" style="max-width: 650px; background: linear-gradient(145deg, #f0f4ff, #ffffff); border: 1px solid #d0d8ff;">
+  <!-- Titre pour l'ajout d'un salon -->
+  <h3 class="mb-4 text-center fw-bold text-primary d-flex justify-content-center align-items-center">
+    <i class="fas fa-plus-circle me-2 text-success"></i> Ajouter un Salon
+  </h3>
+
+  <!-- Formulaire d'ajout -->
+  <form (ngSubmit)="ajouterSalon()" #salonForm="ngForm">
+    <div class="mb-4">
+      <label for="nom" class="form-label text-dark fw-semibold">
+        <i class="fas fa-door-open me-1 text-primary"></i> Nom du salon
+      </label>
+      <input
+        type="text"
+        id="nom"
+        name="nom"
+        [(ngModel)]="newSalon.nom"
+        placeholder="Ex. Salon de discussion"
+        class="form-control border border-primary-subtle shadow-sm"
+        style="background-color: #f9fafe;"
+        required
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="description" class="form-label text-dark fw-semibold">
+        <i class="fas fa-align-left me-1 text-primary"></i> Description
+      </label>
+      <textarea
+        id="description"
+        name="description"
+        [(ngModel)]="newSalon.description"
+        placeholder="Décrivez brièvement ce salon..."
+        class="form-control border border-primary-subtle shadow-sm"
+        rows="4"
+        style="background-color: #f9fafe;"
+        required
+      ></textarea>
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-gradient w-100 fw-bold text-white d-flex justify-content-center align-items-center"
+      [disabled]="isLoading"
+      style="background: linear-gradient(90deg, #4e54c8, #8f94fb); transition: background 0.3s ease;"
+    >
+      <i class="fas fa-paper-plane me-2"></i>
+      {{ isLoading ? 'Chargement...' : 'Ajouter le salon' }}
+    </button>
+  </form>
+
+  <!-- Lien pour accéder à la liste des salons -->
+  <div class="mt-4 text-center">
+    <a [routerLink]="['/salons/list']" class="btn btn-link text-primary fw-bold">
+      <i class="fas fa-list me-2"></i> Accéder à la liste des salons
+    </a>
+  </div>
+</div>

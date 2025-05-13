@@ -1,0 +1,49 @@
+/* Couleurs principales */
+.text-main {
+  color: #3c4f93; /* Bleu marine */
+}
+
+.text-violet {
+  color: #6a0dad; /* Violet foncé */
+}
+
+.btn-violet {
+  background-color: #6a0dad;
+  border: none;
+}
+
+.btn-marine {
+  background-color: #3c4f93;
+  border: none;
+}
+
+.btn-violet:hover,
+.btn-marine:hover {
+  filter: brightness(1.1);
+  cursor: pointer;
+}
+
+.sessions-container {
+  background: linear-gradient(145deg, #eef1fc, #ffffff);
+  border: 1px solid #cfd7f7;
+}
+
+/* Cartes sessions */
+.session-card {
+  background: linear-gradient(120deg, #f0f4ff, #ffffff);
+  border-left: 6px solid #6a0dad;
+  transition: transform 0.2s ease;
+  border-radius: 1rem;
+}
+
+.session-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 10px rgba(106, 13, 173, 0.2);
+}
+
+/* Select personnalisé */
+.custom-select {
+  background-color: #f5f7ff;
+  border: 1px solid #6a0dad;
+  color: #3c4f93;
+}

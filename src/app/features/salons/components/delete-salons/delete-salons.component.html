@@ -1,0 +1,57 @@
+<div class="container mt-5 p-4 rounded shadow-lg" style="max-width: 600px; background: linear-gradient(145deg, #e6e0ff, #ffffff); border: 1px solid #d3ccff;">
+    <!-- Titre pour la suppression d'un salon -->
+    <h3 class="mb-4 text-center fw-bold text-primary d-flex justify-content-center align-items-center" style="color: #6c5ce7;">
+      <i class="fas fa-trash-alt me-2"></i> Supprimer un Salon
+    </h3>
+  
+    <!-- Affichage des messages d'erreur et de succès -->
+    <div *ngIf="errorMessage" class="alert alert-danger text-center">
+      <i class="fas fa-exclamation-circle me-2"></i> {{ errorMessage }}
+    </div>
+    <div *ngIf="successMessage" class="alert alert-success text-center" style="background-color: #e0e7ff; color: #6c5ce7; border-color: #6c5ce7;">
+      <i class="fas fa-check-circle me-2"></i> {{ successMessage }}
+    </div>
+  
+    <!-- Formulaire de suppression -->
+    <form (ngSubmit)="deleteSalon()" #deleteSalonForm="ngForm">
+      <!-- Champ pour le nom du salon -->
+      <div class="mb-4">
+        <label for="salonNom" class="form-label fw-semibold" style="color: #6c5ce7;">
+          <i class="fas fa-door-open me-1"></i> Nom du salon
+        </label>
+        <input 
+          id="salonNom" 
+          type="text" 
+          [(ngModel)]="salonNom" 
+          name="salonNom" 
+          class="form-control border shadow-sm"
+          style="background-color: #f6f4ff; border-color: #d3ccff; color: #6c5ce7;"
+          required
+          placeholder="Entrez le nom du salon"
+          #salonNomInput="ngModel"
+        />
+        <div *ngIf="salonNomInput.invalid && salonNomInput.touched" class="form-text text-danger mt-1">
+          <i class="fas fa-exclamation-triangle me-1"></i> Le nom du salon est requis.
+        </div>
+      </div>
+  
+      <!-- Bouton de soumission -->
+      <div class="text-center">
+        <button 
+          type="submit" 
+          class="btn fw-bold w-100 d-flex justify-content-center align-items-center"
+          [disabled]="deleteSalonForm.invalid"
+          style="background: linear-gradient(90deg, #6c5ce7, #a29bfe); color: white; transition: background 0.3s ease;"
+        >
+          <i class="fas fa-trash-alt me-2"></i> Supprimer le salon
+        </button>
+      </div>
+    </form>
+  
+    <!-- Lien pour retourner à la liste des salons -->
+    <div class="mt-4 text-center">
+      <a [routerLink]="['/salons/list']" class="btn btn-link text-primary fw-bold" style="color: #6c5ce7;">
+        <i class="fas fa-arrow-left me-2"></i> Retourner à la liste des salons
+      </a>
+    </div>
+  </div>

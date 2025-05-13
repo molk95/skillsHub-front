@@ -1,0 +1,72 @@
+<div class="container-fluid mt-5">
+    <!-- Titre de la page -->
+    <h1 class="text-center fw-bold mb-4 text-danger" style="font-size: 2rem;">
+        Supprimer des Sessions
+    </h1>
+
+    <!-- Table des sessions -->
+    <div class="table-responsive">
+        <table
+            class="table table-hover table-bordered align-middle text-center"
+            style="background: #f9fafe; font-size: 0.85rem;"
+        >
+            <thead class="text-light" style="background: linear-gradient(90deg, #c31432, #240b36);">
+                <tr>
+                    <th>#</th>
+                    <th>Nom du Salon</th>
+                    <th>Type</th>
+                    <th>Date Début</th>
+                    <th>Date Fin</th>
+                    <th>ID</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    *ngFor="let session of sessions; let i = index"
+                    [ngClass]="{ 'table-light': i % 2 === 0, 'table-secondary': i % 2 !== 0 }"
+                >
+                    <!-- Rang -->
+                    <td class="fw-bold">{{ i + 1 }}</td>
+
+                    <!-- Nom du Salon -->
+                    <td class="fw-semibold text-primary">
+                        {{ session.salonId?.nom || 'Non défini' }}
+                    </td>
+
+                    <!-- Type -->
+                    <td>
+                        <span
+                            class="badge text-uppercase"
+                            [ngStyle]="{ 'background-color': session.type === 'chat' ? '#007FFF' : '#FF5733', color: '#fff' }"
+                        >
+                            {{ session.type ?? 'Non défini' }}
+                        </span>
+                    </td>
+
+                    <!-- Date Début -->
+                    <td>{{ session.dateDebut ? (session.dateDebut | date: 'short') : 'Non défini' }}</td>
+
+                    <!-- Date Fin -->
+                    <td>{{ session.dateFin ? (session.dateFin | date: 'short') : 'Non défini' }}</td>
+
+                    <!-- ID -->
+                    <td>{{ session.id ?? 'Non défini' }}</td>
+
+                    <!-- Actions -->
+                    <td>
+                        <!-- Bouton Delete -->
+                        <button
+                            class="btn btn-sm btn-danger"
+                            (click)="onDelete(session.id)"
+                            aria-label="Supprimer la session"
+                            title="Supprimer la session"
+                        >
+                            <i class="fas fa-trash"></i> Supprimer
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
