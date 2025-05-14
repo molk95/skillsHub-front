@@ -1,0 +1,62 @@
+.update-skill-form {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.update-skill-form  h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+font-weight: bold;
+}
+.update-skill-form {
+  color: black;
+}
+.update-skill-form  label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.update-skill-form  input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.update-skill-form  small {
+  color: #d9534f;
+  font-size: 12px;
+  display: block;
+  margin-top: -8px;
+  margin-bottom: 8px;
+}
+
+.update-skill-form  button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.update-skill-form  button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.update-skill-form  button:hover:not(:disabled) {
+  background-color: #0056b3;
+}

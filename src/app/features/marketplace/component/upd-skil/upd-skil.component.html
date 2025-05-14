@@ -1,0 +1,50 @@
+<div class="update-skill-form">
+  <h2 style="  font-weight: bold;">Mettre à jour une compétence</h2>
+
+  <form [formGroup]="skillForm" (ngSubmit)="updateSkill()">
+    
+    <div>
+      <label for="name">Nom :</label>
+      <input id="name" formControlName="name" type="text" />
+      <small *ngIf="skillForm.get('name')?.invalid && skillForm.get('name')?.touched">
+        Le nom doit contenir au moins 3 caractères.
+      </small>
+    </div>
+
+    <div>
+      <label for="description">Description :</label>
+      <input id="description" formControlName="description" type="text" />
+      <small *ngIf="skillForm.get('description')?.invalid && skillForm.get('description')?.touched">
+        La description doit contenir au moins 10 caractères.
+      </small>
+    </div>
+
+    <div>
+      <label for="category">Catégorie :</label>
+      <select formControlName="category">
+        <option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</option>
+      </select>
+      <small *ngIf="skillForm.get('category')?.invalid && skillForm.get('category')?.touched">
+        Veuillez sélectionner une catégorie.
+      </small>
+    </div>
+
+    <div>
+      <label for="userId">User ID :</label>
+      <input id="userId" formControlName="userId" type="text" />
+      <small *ngIf="skillForm.get('userId')?.invalid && skillForm.get('userId')?.touched">
+        L'utilisateur est obligatoire.
+      </small>
+    </div>
+
+    <div>
+      <label for="gituser">GitHub Username :</label>
+      <input id="gituser" formControlName="gituser" type="text" />
+      <small *ngIf="skillForm.get('gituser')?.invalid && skillForm.get('gituser')?.touched">
+        Le nom d'utilisateur GitHub est requis.
+      </small>
+    </div>
+
+    <button type="submit" [disabled]="skillForm.invalid">Mettre à jour</button>
+  </form>
+</div>
