@@ -1,0 +1,163 @@
+
+
+
+/* Titre */
+.marketplace-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin: 20px 0;
+  font-weight: bold;
+}
+
+/* Liste des compétences */
+.skill-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Carte compétence */
+.skill-card {
+  width: 260px;
+  background: white;
+  color: #333;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  transition: 0.3s ease;
+}
+.skill-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Boutons */
+.skill-card-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  gap: 8px;
+}
+.skill-card-buttons button {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.skill-card-buttons button:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+.skill-card-buttons button:nth-child(1) { background: #0078ff; }
+.skill-card-buttons button:nth-child(2) { background: #a020f0; }
+.skill-card-buttons button:nth-child(3) { background: #ff3c3c; }
+
+/* Bouton général */
+.skill-card-button {
+  text-align: center;
+  margin-top: 20px;
+}
+.skill-card-button button {
+  background: #1ed6ff;
+  color: black;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.skill-card-button button:hover {
+  background: #00cfff;
+}
+
+.search-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-container {
+  display: flex;
+}
+
+.dropdown-button {
+  padding: 8px 16px;
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem 0 0 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  width: 180px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f3f4f6;
+}
+
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.search-input {
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-left: none;
+  border-radius: 0 0.5rem 0.5rem 0;
+  font-size: 14px;
+}
+
+.search-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  background-color: #1d4ed8;
+  color: white;
+  border: none;
+  border-radius: 0 0.5rem 0.5rem 0;
+  height: 100%;
+  cursor: pointer;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

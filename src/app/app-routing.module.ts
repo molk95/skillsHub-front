@@ -4,6 +4,7 @@ import { DashboardPageComponent } from './features/dashboard/dashboard-page/dash
 import { AddWalletComponent } from './features/wallets/components/add-wallet/add-wallet.component';
 import { WalletDetailsComponent } from './features/wallets/components/wallet-details/wallet-details.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
+<<<<<<< Updated upstream
 import { AddSalonsComponent } from './features/salons/components/add-salons/add-salons.component';
 import { ListSalonsComponent } from './features/salons/components/list-salons/list-salons.component';
 import { UpdateSalonsComponent } from './features/salons/components/update-salons/update-salons.component';
@@ -23,6 +24,19 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   // Page d'accueil
+=======
+import { MarketplaceListComponent } from './features/marketplace/component/marketplace-list/marketplace-list.component';
+import { MarketplaceDetailComponent } from './features/marketplace/component/marketplace-detail/marketplace-detail.component';
+import { AddSkillComponent } from './features/marketplace/component/add-skill/add-skill.component';
+import { UpdSkilComponent } from './features/marketplace/component/upd-skil/upd-skil.component';
+
+const routes: Routes = [
+ /* {
+    path: '',
+    redirectTo: 'landing',
+    pathMatch: 'full'
+  },*/
+>>>>>>> Stashed changes
   {
     path: 'landing',
     component: LandingPageComponent
@@ -32,6 +46,22 @@ const routes: Routes = [
     path: 'ForumsListComponent',
    component: ForumsListComponent
   },
+  {
+    path: 'MarketplaceList',
+    component: MarketplaceListComponent
+  },
+
+  { path: 'upd-skil/:id', 
+    component: UpdSkilComponent 
+  },
+  {
+    path: 'MarketplaceDetail/:id',
+    component: MarketplaceDetailComponent
+  },
+  {
+    path: 'skill/add',
+    component: AddSkillComponent
+  }, 
   {
     path: 'dashboard',
     component: DashboardPageComponent

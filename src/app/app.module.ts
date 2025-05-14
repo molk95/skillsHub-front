@@ -17,6 +17,7 @@ import { AddForumComponent } from './features/forums/component/add-forum/add-for
 import { ForumsListComponent } from './features/forums/component/list-forum/list-forum.component';
 import { WalletsEffects } from './features/wallets/store/wallets.effects';
 import { reducers } from './core/app.state';
+<<<<<<< Updated upstream
 import { AddSalonsComponent } from './features/salons/components/add-salons/add-salons.component';
 import { ListSalonsComponent } from './features/salons/components/list-salons/list-salons.component';
 import { UpdateSalonsComponent } from './features/salons/components/update-salons/update-salons.component';
@@ -30,6 +31,16 @@ import { DeleteSessionsComponent } from './features/sessions/components/delete-s
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SalonsSessionsComponent } from './features/salons/components/salons-sessions/salons-sessions.component';
+=======
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MarketplaceListComponent } from './features/marketplace/component/marketplace-list/marketplace-list.component';
+import { AddSkillComponent } from './features/marketplace/component/add-skill/add-skill.component';
+import { MarketplaceDetailComponent } from './features/marketplace/component/marketplace-detail/marketplace-detail.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UpdSkilComponent } from './features/marketplace/component/upd-skil/upd-skil.component';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+
+>>>>>>> Stashed changes
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +48,7 @@ import { SalonsSessionsComponent } from './features/salons/components/salons-ses
     NavbarComponent,
     SidebarComponent,
     LandingPageComponent,
+<<<<<<< Updated upstream
     AddForumComponent,
     ForumsListComponent,
     AddSalonsComponent,
@@ -50,16 +62,29 @@ import { SalonsSessionsComponent } from './features/salons/components/salons-ses
     UpdateSessionComponent,
     DeleteSessionsComponent,
     SalonsSessionsComponent
+=======
+    WalletsListComponent,
+    WalletDetailsComponent,
+    MarketplaceListComponent,
+    AddSkillComponent,
+    MarketplaceDetailComponent,
+    UpdSkilComponent
+>>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+<<<<<<< Updated upstream
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     WalletsModule,
+=======
+    ReactiveFormsModule,
+    FormsModule,
+>>>>>>> Stashed changes
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([WalletsEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
@@ -69,6 +94,12 @@ import { SalonsSessionsComponent } from './features/salons/components/salons-ses
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
   ],
+<<<<<<< Updated upstream
+=======
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
+>>>>>>> Stashed changes
   bootstrap: [AppComponent]
 })
 export class AppModule { }
