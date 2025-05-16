@@ -23,10 +23,7 @@ interface Package {
   styleUrls: ['./top-up.component.css'],
 })
 export class TopUpComponent implements OnInit {
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
- /* selectedPackage: Package | null = null;
+  selectedPackage: Package | null = null;
   checkoutUrl$: Observable<string | null>;
   error$: Observable<string | null>;
   loading$: Observable<boolean>;
@@ -86,8 +83,7 @@ export class TopUpComponent implements OnInit {
       return;
     }
 
-    // const userId = localStorage.getItem('userId');
-    const userId = '680bc3701cafa75c695bac60';
+    const userId = localStorage.getItem('userId');
     if (!userId) {
       this.store.dispatch(
         WalletActions.initiateCheckoutFailure({ error: 'User ID not found' })
@@ -112,5 +108,5 @@ export class TopUpComponent implements OnInit {
 
   goBackToPackages() {
     this.router.navigate(['/wallets/packages']);
-  }*/
+  }
 }
