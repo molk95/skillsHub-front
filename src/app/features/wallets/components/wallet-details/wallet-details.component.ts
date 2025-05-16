@@ -54,11 +54,6 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
         this.timeUntilActivation = null;
       }
     });
-    
-    // Set default role if not already set
-    if (!localStorage.getItem('role')) {
-      localStorage.setItem('role', 'CLIENT');
-    }
   }
 
   ngOnDestroy(): void {
@@ -169,12 +164,7 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   }
 
   goBackToWallets(): void {
-    // Navigate based on user role
-    if (this.isAdmin()) {
-      this.router.navigate(['/wallets']);
-    } else {
-      this.router.navigate(['/wallets/wallet-dashboard']);
-    }
+    this.router.navigate(['/wallets']);
   }
 
   handleTopUpClick(wallet: IWallet): void {
@@ -184,24 +174,5 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
     }
     
     this.router.navigate(['/wallets/packages']);
-  }
-  
-  // Helper method to check if user is admin
-  isAdmin(): boolean {
-    return localStorage.getItem('role') === 'ADMIN';
-  }
-  
-  // Helper method to check if user is client
-  isClient(): boolean {
-    return localStorage.getItem('role') === 'CLIENT';
-  }
-  
-  // For testing - toggle role between ADMIN and CLIENT
-  toggleRole(): void {
-    const currentRole = localStorage.getItem('role');
-    const newRole = currentRole === 'ADMIN' ? 'CLIENT' : 'ADMIN';
-    localStorage.setItem('role', newRole);
-    // Force refresh to see changes
-    window.location.reload();
   }
 }

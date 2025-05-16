@@ -39,6 +39,12 @@ export class WalletsService {
     });
   }
 
+  public handleCheckoutSuccess(sessionId: string): Observable<any> {
+    return this.http.get(`${environment.BASE_URL_API}wallets/top-up/success`, {
+      params: { session_id: sessionId },
+    });
+  }
+
   public getWalletByUserId(userId: string): Observable<IWallet> {
     return this.http.get<IWallet>(`${environment.BASE_URL_API}wallets/user/${userId}`);
   }

@@ -11,13 +11,11 @@ import { DashboardPageComponent } from './features/dashboard/dashboard-page/dash
 import { NavbarComponent } from './features/layout/navbar/navbar.component';
 import { SidebarComponent } from './features/layout/sidebar/sidebar.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
-import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddForumComponent } from './features/forums/component/add-forum/add-forum.component';
 import { ForumsListComponent } from './features/forums/component/list-forum/list-forum.component';
 import { WalletsEffects } from './features/wallets/store/wallets.effects';
 import { reducers } from './core/app.state';
-<<<<<<< Updated upstream
 import { AddSalonsComponent } from './features/salons/components/add-salons/add-salons.component';
 import { ListSalonsComponent } from './features/salons/components/list-salons/list-salons.component';
 import { UpdateSalonsComponent } from './features/salons/components/update-salons/update-salons.component';
@@ -29,18 +27,14 @@ import { SessionListComponent } from './features/sessions/components/list-sessio
 import { UpdateSessionComponent } from './features/sessions/components/update-sessions/update-sessions.component';
 import { DeleteSessionsComponent } from './features/sessions/components/delete-sessions/delete-sessions.component';
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SalonsSessionsComponent } from './features/salons/components/salons-sessions/salons-sessions.component';
-=======
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MarketplaceListComponent } from './features/marketplace/component/marketplace-list/marketplace-list.component';
 import { AddSkillComponent } from './features/marketplace/component/add-skill/add-skill.component';
 import { MarketplaceDetailComponent } from './features/marketplace/component/marketplace-detail/marketplace-detail.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UpdSkilComponent } from './features/marketplace/component/upd-skil/upd-skil.component';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 
->>>>>>> Stashed changes
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +42,6 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
     NavbarComponent,
     SidebarComponent,
     LandingPageComponent,
-<<<<<<< Updated upstream
     AddForumComponent,
     ForumsListComponent,
     AddSalonsComponent,
@@ -61,30 +54,23 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
     SessionListComponent,
     UpdateSessionComponent,
     DeleteSessionsComponent,
-    SalonsSessionsComponent
-=======
-    WalletsListComponent,
-    WalletDetailsComponent,
+    SalonsSessionsComponent,
     MarketplaceListComponent,
     AddSkillComponent,
     MarketplaceDetailComponent,
     UpdSkilComponent
->>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-<<<<<<< Updated upstream
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     WalletsModule,
-=======
     ReactiveFormsModule,
     FormsModule,
->>>>>>> Stashed changes
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([WalletsEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
@@ -94,12 +80,6 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
   ],
-<<<<<<< Updated upstream
-=======
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
-  ],
->>>>>>> Stashed changes
   bootstrap: [AppComponent]
 })
 export class AppModule { }
