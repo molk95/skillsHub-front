@@ -1,7 +1,7 @@
 import { isDevMode, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { CommonModule } from '@angular/common'; 
+import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -34,6 +34,8 @@ import { AddSkillComponent } from './features/marketplace/component/add-skill/ad
 import { MarketplaceDetailComponent } from './features/marketplace/component/marketplace-detail/marketplace-detail.component';
 import { UpdSkilComponent } from './features/marketplace/component/upd-skil/upd-skil.component';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { SignInComponent } from './features/auth/components/sign-in/sign-in.component';
+import { AuthModule } from './features/auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,7 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
     MarketplaceListComponent,
     AddSkillComponent,
     MarketplaceDetailComponent,
-    UpdSkilComponent
+    UpdSkilComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,11 +77,12 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
     EffectsModule.forRoot([WalletsEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     FormsModule,
-    CommonModule,  // Ajoute ceci ici aussi
+    CommonModule, // Ajoute ceci ici aussi
+    AuthModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
