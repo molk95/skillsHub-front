@@ -40,6 +40,9 @@ export class MarketplaceService {
     console.log(`Recherche par catégorie: ${category}`);
     return this.http.get<Skill[]>(`${this.apiUrl}/marketplace/category/${category}`);
   }
+  getUserById(userId: string): Observable<any> {
+    return this.http.get<any>(`http://localhost:3000/api/users/${userId}`);
+  }
 
   getSkillById(id: string): Observable<Skill> {
     console.log(`Appel API pour récupérer le skill: ${this.apiUrl}/${id}`);
@@ -47,7 +50,9 @@ export class MarketplaceService {
   }
     
   updateSkill(id: string, skill: any): Observable<any> {
+    // L'URL correcte basée sur la structure observée dans les autres méthodes
     const url = `${this.apiUrl}/updateSkill/${id}`;
+    
     console.log(`Tentative de mise à jour avec l'URL: ${url}`);
     console.log('Données envoyées:', skill);
     
@@ -68,13 +73,26 @@ export class MarketplaceService {
   deleteSkill(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  // Nouvelles méthodes pour le matching de compétences
+  findMatchingSkills(userId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/matching/${userId}`).pipe(
+      tap(response => console.log('Réponse du matching de compétences:', response)),
+      catchError(error => {
+        console.error('Erreur lors du matching de compétences:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  suggestSkills(userId: string): Observable<any> {
+    return this.http.get(`http://localhost:3000/api/skills/matching/suggest/${userId}`).pipe(
+      tap(response => console.log('Suggestions de compétences:', response)),
+      catchError(error => {
+        console.error('Erreur lors de la suggestion de compétences:', error);
+        return throwError(() => error);
+      })
+    );
+  }
 }
-
-
-
-
-
-
-
-
 

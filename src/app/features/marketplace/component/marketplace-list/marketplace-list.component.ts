@@ -31,8 +31,8 @@ export class MarketplaceListComponent implements OnInit {
   }
   */
   constructor(
-    private marketplaceService: MarketplaceService, 
-    private router: Router
+    private router: Router,
+    private marketplaceService: MarketplaceService
   ) {}
   
   
@@ -115,24 +115,50 @@ this.router.navigate(['skill/add']);
     }
   }
   getUserInfo(skill: Skill): string {
-    // Vérifier d'abord users (au pluriel)
-    if (skill.users && Array.isArray(skill.users) && skill.users.length > 0) {
-      const firstUser = skill.users[0];
-      if (typeof firstUser === 'object') {
-        return firstUser.name || firstUser._id || 'ID non disponible';
-      }
-      return String(firstUser);
+    console.log('Skill user data:', skill.user); // Ajout de log pour déboguer
+    
+    // Vérifier si user existe
+    if (!skill.user) {
+      return 'Non défini (user manquant)';
     }
     
-    // Fallback sur user (au singulier)
-    if (skill.user) {
-      if (typeof skill.user === 'object') {
-        return skill.user.name || skill.user._id || 'ID non disponible';
-      }
-      return String(skill.user);
+    // Si l'utilisateur est déjà un objet avec un nom
+    if (typeof skill.user === 'object' && skill.user.name) {
+      console.log('User object with name:', skill.user.name);
+      return skill.user.name;
     }
     
-    return 'Non défini';
+    // Si l'utilisateur est juste un ID
+    const userId = typeof skill.user === 'object' ? skill.user._id : skill.user;
+    console.log('Extracted userId:', userId);
+    
+    if (userId) {
+      // Chargez l'utilisateur en arrière-plan
+      this.marketplaceService.getUserById(String(userId)).subscribe({
+        next: (user) => {
+          console.log('API response for user:', user);
+          if (user && user.name) {
+            console.log('User name found:', user.name);
+            // Mettez à jour l'objet skill avec les informations de l'utilisateur
+            if (typeof skill.user === 'object') {
+              skill.user.name = user.name;
+            } else {
+              skill.user = user;
+            }
+          } else {
+            console.log('User found but no name property:', user);
+          }
+        },
+        error: (err) => {
+          console.error('Error fetching user:', err);
+        }
+      });
+      
+      // Retournez un message temporaire pendant le chargement
+      return 'Chargement...';
+    }
+    
+    return 'Non défini (userId manquant)';
   }
 }
 

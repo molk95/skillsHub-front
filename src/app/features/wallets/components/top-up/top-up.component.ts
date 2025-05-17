@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as WalletActions from '../../store/wallets.actions';
 import { environment } from '../../../../../environments/environment';
-//import { loadStripe, Stripe} from '@stripe/stripe-js';
+import { loadStripe, Stripe} from '@stripe/stripe-js';
 import { AppState } from 'src/app/core/app.state';
 import { IWallet } from '../../models/wallets.model';
 

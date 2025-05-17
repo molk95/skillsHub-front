@@ -29,13 +29,10 @@ import { DeleteSessionsComponent } from './features/sessions/components/delete-s
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 import { SalonsSessionsComponent } from './features/salons/components/salons-sessions/salons-sessions.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { MarketplaceListComponent } from './features/marketplace/component/marketplace-list/marketplace-list.component';
-import { AddSkillComponent } from './features/marketplace/component/add-skill/add-skill.component';
-import { MarketplaceDetailComponent } from './features/marketplace/component/marketplace-detail/marketplace-detail.component';
-import { UpdSkilComponent } from './features/marketplace/component/upd-skil/upd-skil.component';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { SignInComponent } from './features/auth/components/sign-in/sign-in.component';
 import { AuthModule } from './features/auth/auth.module';
+import { MarketplaceModule } from './features/marketplace/marketplace.module';
 
 @NgModule({
   declarations: [
@@ -57,10 +54,7 @@ import { AuthModule } from './features/auth/auth.module';
     UpdateSessionComponent,
     DeleteSessionsComponent,
     SalonsSessionsComponent,
-    MarketplaceListComponent,
-    AddSkillComponent,
-    MarketplaceDetailComponent,
-    UpdSkilComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -79,6 +73,7 @@ import { AuthModule } from './features/auth/auth.module';
     FormsModule,
     CommonModule, // Ajoute ceci ici aussi
     AuthModule,
+  MarketplaceModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
