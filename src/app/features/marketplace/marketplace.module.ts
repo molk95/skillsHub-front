@@ -1,29 +1,36 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
-import { AddSkillComponent } from './component/add-skill/add-skill.component';
+// Composants existants
 import { MarketplaceListComponent } from './component/marketplace-list/marketplace-list.component';
 import { MarketplaceDetailComponent } from './component/marketplace-detail/marketplace-detail.component';
+import { AddSkillComponent } from './component/add-skill/add-skill.component';
 import { UpdSkilComponent } from './component/upd-skil/upd-skil.component';
+// Nouveau composant
+import { SkillsMatchingComponent } from './component/skills-matching/skills-matching.component';
 
 @NgModule({
   declarations: [
-    AddSkillComponent,
     MarketplaceListComponent,
     MarketplaceDetailComponent,
-    UpdSkilComponent
+    AddSkillComponent,
+    UpdSkilComponent,
+    SkillsMatchingComponent // Ajout du nouveau composant
   ],
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
-    FormsModule
+    RouterModule
   ],
   exports: [
-    AddSkillComponent,
     MarketplaceListComponent,
     MarketplaceDetailComponent,
-    UpdSkilComponent
+    AddSkillComponent,
+    UpdSkilComponent,
+    SkillsMatchingComponent // Export du nouveau composant
   ]
 })
 export class MarketplaceModule { }

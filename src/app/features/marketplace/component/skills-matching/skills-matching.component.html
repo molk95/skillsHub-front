@@ -1,0 +1,65 @@
+
+<div class="skills-matching-container">
+  <h2>Matching de compétences</h2>
+  
+  <div *ngIf="isLoading" class="loading-spinner">
+    <p>Chargement en cours...</p>
+  </div>
+  
+  <div *ngIf="error" class="error-message">
+    <p>{{ error }}</p>
+    <button (click)="loadMatchingData()">Réessayer</button>
+  </div>
+  
+  <div *ngIf="!isLoading && !error">
+    <!-- Section des utilisateurs avec compétences similaires -->
+    <div class="matching-users-section">
+      <h3>Utilisateurs avec des compétences similaires</h3>
+      
+      <div *ngIf="matchingUsers.length === 0" class="no-data">
+        <p>Aucun utilisateur correspondant trouvé</p>
+      </div>
+      
+      <div *ngIf="matchingUsers.length > 0" class="users-grid">
+        <div *ngFor="let user of matchingUsers" class="user-card">
+          <h4>{{ user.name }}</h4>
+          <p>{{ user.matchPercentage }}% de correspondance</p>
+          
+          <div class="common-skills">
+            <h5>Compétences communes:</h5>
+            <ul>
+              <li *ngFor="let skill of user.commonSkills">{{ skill.name }}</li>
+            </ul>
+          </div>
+          
+          <div class="card-actions">
+            <button>Voir profil</button>
+            <button>Contacter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Section des suggestions de compétences -->
+    <div class="suggested-skills-section">
+      <h3>Compétences suggérées</h3>
+      
+      <div *ngIf="suggestedSkills.length === 0" class="no-data">
+        <p>Aucune suggestion de compétence disponible</p>
+      </div>
+      
+      <div *ngIf="suggestedSkills.length > 0" class="skills-list">
+        <div *ngFor="let skill of suggestedSkills" class="skill-card">
+          <h4>{{ skill.name }}</h4>
+          <p>{{ skill.category }}</p>
+          <p>{{ skill.description }}</p>
+          
+          <div class="card-actions">
+            <button>Ajouter à mon profil</button>
+            <button>En savoir plus</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

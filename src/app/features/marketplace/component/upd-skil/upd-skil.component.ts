@@ -33,8 +33,6 @@ export class UpdSkilComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
       category: ['', Validators.required],
-      userId: ['', Validators.required],
-      gituser: ['', Validators.required],
     });
 
     // Charge les catégories d'abord

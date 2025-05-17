@@ -19,6 +19,7 @@ import { MarketplaceListComponent } from './features/marketplace/component/marke
 import { MarketplaceDetailComponent } from './features/marketplace/component/marketplace-detail/marketplace-detail.component';
 import { AddSkillComponent } from './features/marketplace/component/add-skill/add-skill.component';
 import { UpdSkilComponent } from './features/marketplace/component/upd-skil/upd-skil.component';
+import { SkillsMatchingComponent } from './features/marketplace/component/skills-matching/skills-matching.component';
 
 const routes: Routes = [
   // Route par défaut vers la page d'accueil
@@ -88,6 +89,10 @@ const routes: Routes = [
   {
     path: 'salons-sessions',
     component: SalonsSessionsComponent
+  },
+  {
+    path: 'skills-matching',
+    component: SkillsMatchingComponent
   }
 ];
 
