@@ -20,79 +20,75 @@ import { MarketplaceDetailComponent } from './features/marketplace/component/mar
 import { AddSkillComponent } from './features/marketplace/component/add-skill/add-skill.component';
 import { UpdSkilComponent } from './features/marketplace/component/upd-skil/upd-skil.component';
 
-
-
 const routes: Routes = [
-  /* {
+  // Route par défaut vers la page d'accueil
+  {
     path: '',
     redirectTo: 'landing',
     pathMatch: 'full'
-  },*/
+  },
+  // Page d'accueil
   {
     path: 'landing',
-    component: LandingPageComponent,
+    component: LandingPageComponent
   },
   // Tableau de bord
   {
     path: 'ForumsListComponent',
-    component: ForumsListComponent,
+   component: ForumsListComponent
   },
   {
     path: 'MarketplaceList',
-    component: MarketplaceListComponent,
+    component: MarketplaceListComponent
   },
 
-  { path: 'upd-skil/:id', component: UpdSkilComponent },
+  { path: 'upd-skil/:id', 
+    component: UpdSkilComponent 
+  },
   {
     path: 'MarketplaceDetail/:id',
-    component: MarketplaceDetailComponent,
+    component: MarketplaceDetailComponent
   },
   {
     path: 'skill/add',
-    component: AddSkillComponent,
-  },
+    component: AddSkillComponent
+  }, 
   {
     path: 'dashboard',
-    component: DashboardPageComponent,
+    component: DashboardPageComponent
   },
   // Gestion des wallets
   {
     path: 'wallets',
-    loadChildren: () =>
-      import('./features/wallets/wallets.module').then((m) => m.WalletsModule),
+    loadChildren: () => import('./features/wallets/wallets.module').then(m => m.WalletsModule)
   },
   // Gestion des salons
   {
     path: 'salons/add',
-    component: AddSalonsComponent,
+    component: AddSalonsComponent
   },
   {
     path: 'salons/list',
-    component: ListSalonsComponent,
+    component: ListSalonsComponent
   },
   { path: 'salons/update/:nom', component: UpdateSalonsComponent },
   {
     path: 'salons/delete',
-    component: DeleteSalonsComponent,
+    component: DeleteSalonsComponent
   },
   // Gestion des sessions
   {
     path: 'sessions/add/:salonNom',
-    component: AddSessionsComponent,
+    component: AddSessionsComponent
   },
   { path: 'sessions/list', component: SessionListComponent }, // Route pour afficher les sessions
-  { path: 'sessions/update/:id', component: UpdateSessionComponent }, // Route pour afficher les sessions
+  { path: 'sessions/update/:id', component: UpdateSessionComponent}, // Route pour afficher les sessions
   { path: 'sessions/delete/:id', component: DeleteSessionsComponent },
-  // Nouvelle route pour afficher les salons avec leurs sessions associées
+    // Nouvelle route pour afficher les salons avec leurs sessions associées
   {
     path: 'salons-sessions',
-    component: SalonsSessionsComponent,
-  },
-  {
-    path: '',
-    loadChildren: () =>
-      import('./features/auth/auth.module').then((m) => m.AuthModule),
-  },
+    component: SalonsSessionsComponent
+  }
 ];
 
 @NgModule({
