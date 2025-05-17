@@ -58,7 +58,8 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
     MarketplaceListComponent,
     AddSkillComponent,
     MarketplaceDetailComponent,
-    UpdSkilComponent
+    UpdSkilComponent,
+    
   ],
   imports: [
     BrowserModule,

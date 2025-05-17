@@ -20,14 +20,14 @@ import { MarketplaceDetailComponent } from './features/marketplace/component/mar
 import { AddSkillComponent } from './features/marketplace/component/add-skill/add-skill.component';
 import { UpdSkilComponent } from './features/marketplace/component/upd-skil/upd-skil.component';
 
-
-
 const routes: Routes = [
- /* {
+  // Route par défaut vers la page d'accueil
+  {
     path: '',
     redirectTo: 'landing',
     pathMatch: 'full'
-  },*/
+  },
+  // Page d'accueil
   {
     path: 'landing',
     component: LandingPageComponent
