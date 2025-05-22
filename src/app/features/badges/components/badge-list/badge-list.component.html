@@ -54,7 +54,7 @@
             </div>
 
             <div class="d-grid gap-2 mt-3">
-              <button class="btn btn-primary btn-sm" [routerLink]="['/badges/user', userId]">
+              <button class="btn btn-primary btn-sm" [routerLink]="['/badges/user', currentUser]">
                 🎖 Voir les badges
               </button>
               <button class="btn btn-danger btn-sm" (click)="deleteBadge(badge._id)">

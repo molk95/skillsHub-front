@@ -1,38 +1,55 @@
 import { Component, OnInit } from '@angular/core';
 import { Badge } from '../../models/badge.model';
 import { BadgeService } from '../../service/badge.service';
-import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-badge-list',
   templateUrl: './badge-list.component.html',
   styleUrls: ['./badge-list.component.css']
 })
-export class BadgeListComponent implements OnInit{
+export class BadgeListComponent implements OnInit {
   badges: Badge[] = [];
   errorMessage: string | null = null;
-  userId: string | null = null;
+  user: any;
+  currentUser: any;
   searchType: string = ''; // Valeur par défaut (pas de filtre)
-  
+  role: any;
 
   constructor(
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private badgeService: BadgeService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    // Puisque nous n'utilisons pas l'authentification pour le moment,
-    // nous allons simplement afficher tous les badges
-    this.fetchAllBadges();
+    // Récupération des données utilisateur depuis le localStorage
+    this.user = localStorage.getItem('user');
+
+    if (!this.user) {
+      this.errorMessage = 'Utilisateur non connecté.';
+      return;
+    }
+
+    this.currentUser = JSON.parse(this.user);
+    this.role = this.currentUser.role;
+
+    console.log("role user ", this.role);
+    console.log("id user ", this.currentUser.id);
+
+    // Afficher les badges selon le rôle
+    if (this.role === 'ADMIN') {
+      this.fetchAllBadges();
+    } else if (this.role === 'CLIENT') {
+      this.fetchBadges();
+    }
   }
 
   fetchAllBadges(): void {
     this.badgeService.getAllBadges().subscribe({
       next: (badges) => {
         this.badges = badges;
-        console.log("id badge ",badges)
+        console.log("Badges récupérés :", badges);
         this.errorMessage = null;
       },
       error: (error) => {
@@ -43,7 +60,7 @@ export class BadgeListComponent implements OnInit{
   }
 
   fetchBadges(): void {
-    this.badgeService.getBadgesByUser(this.userId!).subscribe({
+    this.badgeService.getBadgesByUser(this.currentUser.id).subscribe({
       next: (badges) => {
         this.badges = badges;
         this.errorMessage = null; // Réinitialise l'erreur
@@ -67,12 +84,13 @@ export class BadgeListComponent implements OnInit{
   }
 
   navigateToUserBadges(): void {
-    if (this.userId && this.userId !== 'null') {
-      this.router.navigate(['/badges/user', this.userId]);
+    if (this.currentUser.id && this.currentUser.id !== 'null') {
+      this.router.navigate(['/badges/user', this.currentUser.id]);
     } else {
       this.errorMessage = 'Vous devez être connecté pour voir vos badges.';
     }
   }
+
   filteredBadges(): Badge[] {
     if (!this.searchType) {
       return this.badges;
@@ -80,7 +98,3 @@ export class BadgeListComponent implements OnInit{
     return this.badges.filter(badge => badge.type.toLowerCase() === this.searchType.toLowerCase());
   }
 }
-
-
-
-
