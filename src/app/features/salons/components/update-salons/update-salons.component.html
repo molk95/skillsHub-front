@@ -1,0 +1,76 @@
+<div class="container mt-5 p-4 rounded shadow-lg" style="max-width: 650px; background: linear-gradient(145deg, #f0f4ff, #ffffff); border: 1px solid #d0d8ff;">
+  <!-- Titre -->
+  <h2 class="text-center text-primary mb-4 fw-bold">
+    <i class="fas fa-edit me-2 text-warning"></i> Mettre à jour un salon
+  </h2>
+
+  <!-- Formulaire de mise à jour -->
+  <form (ngSubmit)="updateSalon()" class="needs-validation" novalidate>
+    <!-- Champ Nom du Salon -->
+    <div class="mb-4">
+      <label for="salonNom" class="form-label text-dark fw-semibold">
+        <i class="fas fa-door-open me-1 text-primary"></i> Nom du salon :
+      </label>
+      <input
+      id="salonNom"
+      type="text"
+      [(ngModel)]="salonNom"
+      name="salonNom"
+      class="form-control border border-primary-subtle shadow-sm"
+      style="background-color: #e9ecef; color: #6c757d;" 
+      placeholder="Entrez le nom du salon"
+      readonly
+    />
+      <div class="form-text text-muted mt-1">
+        Ce champ est en lecture seule. Vous ne pouvez pas modifier le nom du salon.
+      </div>
+    </div>
+
+    <!-- Champ Nouvelle Description -->
+    <div class="mb-4">
+      <label for="description" class="form-label text-dark fw-semibold">
+        <i class="fas fa-align-left me-1 text-primary"></i> Nouvelle description :
+      </label>
+      <input
+        id="description"
+        type="text"
+        [(ngModel)]="nouvelleDescription"
+        name="description"
+        class="form-control border border-primary-subtle shadow-sm"
+        style="background-color: #f9fafe;"
+        placeholder="Entrez la nouvelle description"
+        required
+      />
+      <div class="form-text text-muted mt-1">
+        Fournissez une description claire et concise du salon.
+      </div>
+    </div>
+
+    <!-- Bouton de soumission -->
+    <div class="text-center">
+      <button type="submit" class="btn btn-gradient w-100 fw-bold text-white d-flex justify-content-center align-items-center"
+        style="background: linear-gradient(90deg, #4e54c8, #8f94fb); transition: background 0.3s ease;">
+        <i class="fas fa-check-circle me-2"></i> Mettre à jour
+      </button>
+    </div>
+  </form>
+
+  <!-- Message de succès -->
+  <div *ngIf="updatedSalon" class="alert alert-success mt-4 text-center">
+    <i class="fas fa-check-circle me-2"></i> Le salon <strong>{{ updatedSalon.nom }}</strong> a été mis à jour avec succès !
+    <br />
+    Nouvelle description : <strong>{{ updatedSalon.description }}</strong>
+  </div>
+
+  <!-- Message d'erreur -->
+  <div *ngIf="errorMessage" class="alert alert-danger mt-4 text-center">
+    <i class="fas fa-exclamation-circle me-2"></i> {{ errorMessage }}
+  </div>
+
+  <!-- Lien pour retourner à la liste des salons -->
+  <div class="mt-4 text-center">
+    <a [routerLink]="['/salons/list']" class="btn btn-link text-primary fw-bold">
+      <i class="fas fa-arrow-left me-2"></i> Retourner à la liste des salons
+    </a>
+  </div>
+</div>

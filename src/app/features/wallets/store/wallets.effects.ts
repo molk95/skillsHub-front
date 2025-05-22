@@ -72,12 +72,20 @@ export class WalletsEffects {
     handleCheckoutSuccess$ = createEffect(() =>
         this.actions$.pipe(
             ofType(WalletsActions.handleCheckoutSuccess),
-            map(({ sessionId }) => {
-                // Instead of calling the backend, we'll directly return a success result
-                return WalletsActions.handleCheckoutSuccessResult({ 
-                    message: 'Payment processed successfully' 
-                });
-            })
+            switchMap(({ sessionId }) =>
+                this.walletsService.handleCheckoutSuccess(sessionId).pipe(
+                    map((response) => 
+                        WalletsActions.handleCheckoutSuccessResult({ 
+                            message: response.message || 'Payment processed successfully' 
+                        })
+                    ),
+                    catchError((error) =>
+                        of(WalletsActions.handleCheckoutFailure({ 
+                            error: error.error || 'Failed to process payment' 
+                        }))
+                    )
+                )
+            )
         )
     );
 

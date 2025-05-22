@@ -83,8 +83,7 @@ export class TopUpComponent implements OnInit {
       return;
     }
 
-    // const userId = localStorage.getItem('userId');
-    const userId = '680bc3701cafa75c695bac60';
+    const userId = localStorage.getItem('userId');
     if (!userId) {
       this.store.dispatch(
         WalletActions.initiateCheckoutFailure({ error: 'User ID not found' })

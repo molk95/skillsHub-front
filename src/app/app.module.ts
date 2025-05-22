@@ -1,12 +1,10 @@
-import { NgModule } from '@angular/core';
+import { isDevMode, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
+import { CommonModule } from '@angular/common';
+import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { WalletsModule } from './features/wallets/wallets.module';
 import {  CreateFeedbackComponent } from './features/feedback/components/create/create.component';
 import {  ListFeedbackComponent } from './features/feedback/components/list/list.component';
@@ -14,6 +12,36 @@ import { UpdateFeedbackComponent } from './features/feedback/components/update/u
 import { DetailsFeedbackComponent } from './features/feedback/components/details/details.component';
 import { DeleteFeedbackComponent } from './features/feedback/components/delete/delete.component';
 import { FeedbackModule } from './features/feedback/feedback.module';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { DashboardPageComponent } from './features/dashboard/dashboard-page/dashboard-page.component';
+import { NavbarComponent } from './features/layout/navbar/navbar.component';
+import { SidebarComponent } from './features/layout/sidebar/sidebar.component';
+import { LandingPageComponent } from './features/landing-page/landing-page.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddForumComponent } from './features/forums/component/add-forum/add-forum.component';
+import { ForumsListComponent } from './features/forums/component/list-forum/list-forum.component';
+import { WalletsEffects } from './features/wallets/store/wallets.effects';
+import { reducers } from './core/app.state';
+import { AddSalonsComponent } from './features/salons/components/add-salons/add-salons.component';
+import { ListSalonsComponent } from './features/salons/components/list-salons/list-salons.component';
+import { UpdateSalonsComponent } from './features/salons/components/update-salons/update-salons.component';
+import { DeleteSalonsComponent } from './features/salons/components/delete-salons/delete-salons.component';
+import { SalonsComponent } from './features/salons/components/salons/salons.component';
+import { SessionsComponent } from './features/sessions/components/sessions/sessions.component';
+import { AddSessionsComponent } from './features/sessions/components/add-sessions/add-sessions.component';
+import { SessionListComponent } from './features/sessions/components/list-sessions/list-sessions.component';
+import { UpdateSessionComponent } from './features/sessions/components/update-sessions/update-sessions.component';
+import { DeleteSessionsComponent } from './features/sessions/components/delete-sessions/delete-sessions.component';
+import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
+import { SalonsSessionsComponent } from './features/salons/components/salons-sessions/salons-sessions.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MarketplaceListComponent } from './features/marketplace/component/marketplace-list/marketplace-list.component';
+import { AddSkillComponent } from './features/marketplace/component/add-skill/add-skill.component';
+import { MarketplaceDetailComponent } from './features/marketplace/component/marketplace-detail/marketplace-detail.component';
+import { UpdSkilComponent } from './features/marketplace/component/upd-skil/upd-skil.component';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { SignInComponent } from './features/auth/components/sign-in/sign-in.component';
+import { AuthModule } from './features/auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +50,28 @@ import { FeedbackModule } from './features/feedback/feedback.module';
     ListFeedbackComponent,
     UpdateFeedbackComponent,
     DetailsFeedbackComponent,
-    DeleteFeedbackComponent
+    DeleteFeedbackComponent,
+    DashboardPageComponent,
+    NavbarComponent,
+    SidebarComponent,
+    LandingPageComponent,
+    AddForumComponent,
+    ForumsListComponent,
+    AddSalonsComponent,
+    ListSalonsComponent,
+    UpdateSalonsComponent,
+    DeleteSalonsComponent,
+    SalonsComponent,
+    SessionsComponent,
+    AddSessionsComponent,
+    SessionListComponent,
+    UpdateSessionComponent,
+    DeleteSessionsComponent,
+    SalonsSessionsComponent,
+    MarketplaceListComponent,
+    AddSkillComponent,
+    MarketplaceDetailComponent,
+    UpdSkilComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,9 +82,19 @@ import { FeedbackModule } from './features/feedback/feedback.module';
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     WalletsModule,
-    FeedbackModule
+    FeedbackModule,
+    ReactiveFormsModule,
+    FormsModule,
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([WalletsEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    FormsModule,
+    CommonModule, // Ajoute ceci ici aussi
+    AuthModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

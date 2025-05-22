@@ -1,0 +1,118 @@
+<div class="container mt-5 p-4 rounded shadow-lg" style="max-width: 650px; background: linear-gradient(145deg, #f0f4ff, #ffffff); border: 1px solid #d0d8ff;">
+  <!-- Titre pour la création d'une session -->
+  <h3 class="mb-4 text-center fw-bold text-primary d-flex justify-content-center align-items-center">
+    <i class="fas fa-plus-circle me-2 text-success"></i> Créer une Session
+  </h3>
+
+  <!-- Formulaire de création -->
+  <form (ngSubmit)="onSubmit()" #sessionForm="ngForm">
+    <!-- Nom du Salon -->
+    <div class="mb-4">
+      <label for="salonNom" class="form-label text-dark fw-semibold">
+        <i class="fas fa-door-open me-1 text-primary"></i> Nom du Salon
+      </label>
+      <input
+        type="text"
+        id="salonNom"
+        name="salonNom"
+        [(ngModel)]="salonNom"
+        placeholder="Ex. Java"
+        class="form-control border border-primary-subtle shadow-sm"
+        style="background-color: #f9fafe;"
+        required
+      />
+    </div>
+
+    <!-- Type de Session -->
+    <div class="mb-4">
+      <label for="type" class="form-label text-dark fw-semibold">
+        <i class="fas fa-comments me-1 text-primary"></i> Type de Session
+      </label>
+      <select
+        id="type"
+        name="type"
+        [(ngModel)]="sessionData.type"
+        class="form-select border border-primary-subtle shadow-sm"
+        style="background-color: #f9fafe;"
+        required
+      >
+        <option value="" disabled selected>Sélectionnez un type</option>
+        <option value="chat">Chat</option>
+        <option value="meet">Meet</option>
+      </select>
+    </div>
+
+    <!-- Date de Début -->
+    <div class="mb-4">
+      <label for="dateDebut" class="form-label text-dark fw-semibold">
+        <i class="fas fa-calendar-alt me-1 text-primary"></i> Date de Début
+      </label>
+      <input
+        type="datetime-local"
+        id="dateDebut"
+        name="dateDebut"
+        [(ngModel)]="sessionData.dateDebut"
+        class="form-control border border-primary-subtle shadow-sm"
+        style="background-color: #f9fafe;"
+        required
+      />
+    </div>
+
+    <!-- Date de Fin -->
+    <div class="mb-4">
+      <label for="dateFin" class="form-label text-dark fw-semibold">
+        <i class="fas fa-calendar-check me-1 text-primary"></i> Date de Fin
+      </label>
+      <input
+        type="datetime-local"
+        id="dateFin"
+        name="dateFin"
+        [(ngModel)]="sessionData.dateFin"
+        class="form-control border border-primary-subtle shadow-sm"
+        style="background-color: #f9fafe;"
+        required
+      />
+    </div>
+
+    <!-- Nom du Créateur -->
+    <div class="mb-4">
+      <label for="createurNom" class="form-label text-dark fw-semibold">
+        <i class="fas fa-user me-1 text-primary"></i> Nom du Créateur
+      </label>
+      <input
+        type="text"
+        id="createurNom"
+        name="createurNom"
+        [(ngModel)]="sessionData.createurNom"
+        placeholder="Ex. John Doe"
+        class="form-control border border-primary-subtle shadow-sm"
+        style="background-color: #f9fafe;"
+        required
+      />
+    </div>
+
+    <!-- Bouton de Soumission -->
+    <button
+      type="submit"
+      class="btn btn-gradient w-100 fw-bold text-white d-flex justify-content-center align-items-center"
+      [disabled]="isLoading"
+      style="background: linear-gradient(90deg, #4e54c8, #8f94fb); transition: background 0.3s ease;"
+    >
+      <i class="fas fa-paper-plane me-2"></i>
+      {{ isLoading ? 'Chargement...' : 'Créer la Session' }}
+    </button>
+  </form>
+
+  <!-- Lien pour accéder à la liste des sessions -->
+  <div class="mt-4 text-center">
+    <a [routerLink]="['/sessions/list']" class="btn btn-link text-primary fw-bold">
+      <i class="fas fa-list me-2"></i> Voir les sessions
+    </a>
+  </div>
+      <!-- Lien pour accéder à la liste des Salons -->
+      <div class="mt-4 text-center">
+          <a [routerLink]="['/salons/list']" class="btn btn-link text-primary fw-bold">
+            <i class="fas fa-list me-2"></i> Voir les Salons 
+          </a>
+        </div>
+</div>
