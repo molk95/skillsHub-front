@@ -1,0 +1,40 @@
+<div class="container my-5 p-4 bg-light rounded shadow">
+    <h1 class="display-4 text-dark mb-4">Challenges</h1>
+    <a 
+      routerLink="/challenges/add" 
+      class="btn btn-primary mb-4"
+    >
+      Add Challenge
+    </a>
+    <ul class="list-unstyled">
+      <li *ngFor="let challenge of challenges" class="mb-4">
+        <div class="p-3 border rounded bg-white shadow-sm">
+          <h2 class="h5 fw-bold text-dark mb-2">{{ challenge.title }}</h2>
+          <p class="text-muted mb-3">{{ challenge.description }}</p>
+          <div class="d-flex align-items-center gap-3">
+            <!-- Details Link -->
+            <a 
+              [routerLink]="['/challenges/details', challenge._id]" 
+              class="text-primary text-decoration-none"
+            >
+              Details
+            </a>
+            <!-- Edit Link -->
+            <a 
+              [routerLink]="['/challenges/edit', challenge._id]" 
+              class="text-success text-decoration-none"
+            >
+              Edit
+            </a>
+            <!-- Delete Button -->
+            <button 
+              (click)="deleteChallenge(challenge._id)" 
+              class="btn btn-link text-danger text-decoration-none p-0"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>

@@ -1,0 +1,50 @@
+/* Container */
+.leaderboard-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Title */
+  .leaderboard-title {
+    color: #8e44ad;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  }
+  
+  /* Card-style table */
+  .leaderboard-card {
+    border-radius: 15px;
+    background: #2c2c54;
+    padding: 20px;
+    color: #ffffff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    transform: perspective(1000px) translateZ(0);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .leaderboard-card:hover {
+    transform: perspective(1000px) translateZ(10px);
+    box-shadow: 0 15px 35px rgba(142, 68, 173, 0.6);
+  }
+  
+  /* Table header */
+  .leaderboard-header {
+    background-color: #8e44ad;
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  /* Table rows */
+  .leaderboard-table td,
+  .leaderboard-table th {
+    vertical-align: middle;
+    text-align: center;
+    background-color: #3b3b6d;
+    color: #f5f5f5;
+  }
+  
+  .leaderboard-table tbody tr:hover {
+    background-color: #4a4a8a;
+    transform: scale(1.01);
+    transition: all 0.3s ease;
+  }
+  

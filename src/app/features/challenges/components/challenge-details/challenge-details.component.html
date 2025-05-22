@@ -1,0 +1,23 @@
+<div *ngIf="challenge">
+    <h1>{{ challenge.title }}</h1>
+    <p>{{ challenge.description }}</p>
+  </div>
+  <p *ngIf="!challenge" class="text-danger">Challenge data is not available.</p>
+    <div class="mb-4">
+      <p class="text-muted mb-2">
+        <strong>Difficulty:</strong>
+        <span class="text-capitalize">{{ challenge.difficulty }}</span>
+      </p>
+      <p class="text-muted">
+        <strong>Start Date:</strong>
+        {{ challenge.startDate | date:'longDate' }}
+      </p>
+    </div>
+    <div>
+      <a 
+        routerLink="/challenges" 
+        class="btn btn-link text-decoration-none text-primary"
+      >
+        ← Back to List
+      </a>
+    </div>
