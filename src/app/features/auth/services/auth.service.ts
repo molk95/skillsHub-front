@@ -20,8 +20,16 @@ export class AuthService {
 
   signIn(payload: SignInPayload) {
     return this.http
-      .post<{ token: string }>(`${this.base}/login`, payload)
-      .pipe(tap((res) => localStorage.setItem('auth_token', res.token)));
+      .post<{ message: string; data: { user: any; token: string } }>(
+        `${this.base}/login`,
+        payload
+      )
+      .pipe(
+        tap((res) => {
+          localStorage.setItem('auth_token', res.data.token);
+          localStorage.setItem('user', JSON.stringify(res.data.user));
+        })
+      );
   }
 
   signUp(payload: SignUpPayload) {
