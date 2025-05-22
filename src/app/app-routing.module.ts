@@ -121,6 +121,20 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/auth/auth.module').then((m) => m.AuthModule),
   },
+
+
+  {
+    path: 'challenges',
+    loadChildren: () => import('./features/challenges/challenges.module').then(m => m.ChallengesModule)
+  },
+  {
+    path: 'badges',
+    loadChildren: () => import('./features/badges/badges.module').then(m => m.BadgesModule),
+  },
+  {
+    path: 'feedbacks',
+    loadChildren: () => import('./features/feedback/feedback.module').then(m => m.FeedbackModule),
+  }
 ];
 
 @NgModule({

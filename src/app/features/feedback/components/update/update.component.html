@@ -1,0 +1,34 @@
+<div class="container mt-5">
+    <h2 class="text-center text-warning mb-4">Mettre à jour le Feedback</h2>
+  
+    <form [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" class="p-4 shadow rounded-4 bg-light">
+      <div class="mb-3">
+        <label for="rating" class="form-label">Note</label>
+        <input
+          id="rating"
+          formControlName="rating"
+          type="number"
+          min="1"
+          max="5"
+          class="form-control"
+          placeholder="Donnez une note de 1 à 5"
+        />
+      </div>
+  
+      <div class="mb-3">
+        <label for="comment" class="form-label">Commentaire</label>
+        <textarea
+          id="comment"
+          formControlName="comment"
+          rows="4"
+          class="form-control"
+          placeholder="Votre commentaire ici..."
+        ></textarea>
+      </div>
+  
+      <button type="submit" class="btn btn-warning w-100" [disabled]="feedbackForm.invalid">
+        <i class="bi bi-pencil-square me-2"></i>Mettre à jour
+      </button>
+    </form>
+  </div>
+  

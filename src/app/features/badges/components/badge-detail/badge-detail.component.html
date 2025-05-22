@@ -1,0 +1,47 @@
+<div class="container mt-4 badge-details-container">
+    <h2 class="text-center badge-details-title mb-4">🎖️ Détails des Badges</h2>
+  
+    <!-- Message d'erreur -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+  
+    <!-- Badge sélectionné -->
+    <div *ngIf="selectedBadge; else noBadgeSelected" class="selected-badge-card shadow-lg">
+      <h3 class="text-center text-white">Badge Sélectionné</h3>
+      <p><strong class="text-light">Nom :</strong> {{ selectedBadge.name }}</p>
+      <p><strong class="text-light">Type :</strong> {{ selectedBadge.type }}</p>
+      <p><strong class="text-light">Pourcentage :</strong> {{ selectedBadge.percentage }}%</p>
+      <p><strong class="text-light">Date d'attribution :</strong> {{ selectedBadge.awardedAt | date: 'short' }}</p>
+      <div class="text-center mt-3">
+        <img *ngIf="selectedBadge.imageUrl" [src]="selectedBadge.imageUrl" alt="Image du badge" class="badge-image shadow" />
+      </div>
+    </div>
+  
+    <!-- Aucun badge sélectionné -->
+    <ng-template #noBadgeSelected>
+      <div class="alert alert-info text-center">
+        Aucun badge sélectionné. Cliquez sur un badge dans la liste ci-dessous pour voir ses détails.
+      </div>
+    </ng-template>
+  
+    <!-- Liste des badges -->
+    <div *ngIf="badges && badges.length > 0; else noBadges">
+      <h3 class="text-white">Liste des Badges</h3>
+      <ul class="list-group badge-list shadow-sm">
+        <li *ngFor="let badge of badges"
+            class="list-group-item badge-list-item"
+            (click)="selectedBadge = badge">
+          🏅 {{ badge.name }} - <em>{{ badge.type }}</em>
+        </li>
+      </ul>
+    </div>
+  
+    <!-- Aucun badge dispo -->
+    <ng-template #noBadges>
+      <div class="alert alert-warning text-center mt-4">
+        Aucun badge disponible pour cet utilisateur.
+      </div>
+    </ng-template>
+  </div>
+  

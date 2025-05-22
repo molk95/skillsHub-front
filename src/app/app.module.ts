@@ -32,6 +32,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthModule } from './features/auth/auth.module';
 import { MarketplaceModule } from './features/marketplace/marketplace.module';
 import { CategoryModule } from './features/marketplace/Category/category.module';
+import {  CreateFeedbackComponent } from './features/feedback/components/create/create.component';
+import {  ListFeedbackComponent } from './features/feedback/components/list/list.component';
+import { UpdateFeedbackComponent } from './features/feedback/components/update/update.component';
+import { DetailsFeedbackComponent } from './features/feedback/components/details/details.component';
+import { DeleteFeedbackComponent } from './features/feedback/components/delete/delete.component';
+import { FeedbackModule } from './features/feedback/feedback.module';
 
 @NgModule({
   declarations: [
@@ -53,6 +59,11 @@ import { CategoryModule } from './features/marketplace/Category/category.module'
     UpdateSessionComponent,
     DeleteSessionsComponent,
     SalonsSessionsComponent,
+    CreateFeedbackComponent,
+    ListFeedbackComponent,
+    UpdateFeedbackComponent,
+    DetailsFeedbackComponent,
+    DeleteFeedbackComponent
   ],
   imports: [
     BrowserModule,
@@ -75,6 +86,7 @@ import { CategoryModule } from './features/marketplace/Category/category.module'
     CategoryModule,
   MarketplaceModule,
 
+    FeedbackModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },

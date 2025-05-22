@@ -1,0 +1,24 @@
+<div class="container">
+    <h2>Utilisateurs les Mieux Notés</h2>
+    <div *ngIf="topUsers.length > 0">
+      <table>
+        <thead>
+          <tr>
+            <th>ID Utilisateur</th>
+            <th>Note Moyenne</th>
+            <th>Nombre de Feedbacks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of topUsers">
+            <td>{{ user._id }}</td>
+            <td>{{ user.averageRating | number: '1.1-2' }}</td>
+            <td>{{ user.count }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="errorMessage" class="error">
+      <p>{{ errorMessage }}</p>
+    </div>
+  </div>
