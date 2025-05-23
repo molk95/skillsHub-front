@@ -7,7 +7,7 @@ const BASE_URL = "http://127.0.0.1:3000";
 export const environment = {
   production: false,
   BASE_URL_API : BASE_URL + '/api/',
-  stripePublishableKey: 'pk_test_51RFLpqGhFIRJflIh6ssFa5KVDZdOWA2KZyZzO9RlJ2yk5SXiE6gT9y0UZP9pJl8RXDYgQdWRiVpZ00PRkgtkIjOB00d8La2yK4',
+  stripePublishableKey: 'pk_test_51RAZhOPTsghyMozm3oMlw5ZEAUVs7qwd1gfsnyPCMnJsB3CXCF3MxpqcvYYeZGKQZiOCHNALMuqh7olFqsydUetB0085g1Udo0',
 };
 
 /*

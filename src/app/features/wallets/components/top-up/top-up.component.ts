@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as WalletActions from '../../store/wallets.actions';
 import { environment } from '../../../../../environments/environment';
-//import { loadStripe, Stripe} from '@stripe/stripe-js';
+import { loadStripe, Stripe} from '@stripe/stripe-js';
 import { AppState } from 'src/app/core/app.state';
 import { IWallet } from '../../models/wallets.model';
 
@@ -86,7 +86,8 @@ export class TopUpComponent implements OnInit {
       return;
     }
 
-    const userId = localStorage.getItem('userId');
+    const userId = "680bc3701cafa75c695bac60"
+    // const userId = localStorage.getItem('userId');
     if (!userId) {
       this.store.dispatch(
         WalletActions.initiateCheckoutFailure({ error: 'User ID not found' })
@@ -113,3 +114,4 @@ export class TopUpComponent implements OnInit {
     this.router.navigate(['/wallets/packages']);
   }
 }
+  
