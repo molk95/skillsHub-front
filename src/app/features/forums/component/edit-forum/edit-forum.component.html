@@ -1,0 +1,26 @@
+<div class="edit-forum-container">
+  <h2>Modifier le Forum</h2>
+
+  <form (ngSubmit)="updateForum()">
+    <div>
+      <label for="title">Titre</label>
+      <input type="text" id="title" [(ngModel)]="forum.title" name="title" required #title="ngModel">
+    </div>
+
+    <div>
+      <label for="author">Auteur</label>
+      <input type="text" id="author" [value]="authorName" name="author" disabled>
+    </div>
+
+    <div>
+      <label for="content">Contenu</label>
+      <textarea id="content" [(ngModel)]="forum.content" name="content" required></textarea>
+    </div>
+
+    <div>
+      <button type="submit">Mettre à jour</button>
+      <button type="button" (click)="router.navigate(['/forums'])">Annuler</button>
+    </div>
+  </form>
+</div>
+

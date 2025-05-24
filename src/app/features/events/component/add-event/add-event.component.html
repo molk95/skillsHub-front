@@ -1,0 +1,193 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">
+      <i class="bi bi-calendar-plus me-2 text-blue-500"></i> Créer un nouvel événement
+    </h1>
+    
+    <!-- Message d'erreur -->
+    <div *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+      {{ errorMessage }}
+    </div>
+    
+    <!-- Formulaire -->
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="bg-white rounded-lg shadow-md p-6">
+      <!-- Titre -->
+      <div class="mb-4">
+        <label for="title" class="block text-gray-700 font-medium mb-2">Titre de l'événement *</label>
+        <input 
+          type="text" 
+          id="title" 
+          formControlName="title"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [ngClass]="{'border-red-500': title?.invalid && title?.touched}">
+        <div *ngIf="title?.invalid && title?.touched" class="text-red-500 text-sm mt-1">
+          <div *ngIf="title?.errors?.['required']">Le titre est requis.</div>
+          <div *ngIf="title?.errors?.['minlength']">Le titre doit contenir au moins 3 caractères.</div>
+          <div *ngIf="title?.errors?.['maxlength']">Le titre ne peut pas dépasser 100 caractères.</div>
+        </div>
+      </div>
+      
+      <!-- Description -->
+      <div class="mb-4">
+        <label for="description" class="block text-gray-700 font-medium mb-2">Description *</label>
+        <textarea 
+          id="description" 
+          formControlName="description"
+          rows="5"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [ngClass]="{'border-red-500': description?.invalid && description?.touched}"></textarea>
+        <div *ngIf="description?.invalid && description?.touched" class="text-red-500 text-sm mt-1">
+          <div *ngIf="description?.errors?.['required']">La description est requise.</div>
+          <div *ngIf="description?.errors?.['minlength']">La description doit contenir au moins 10 caractères.</div>
+        </div>
+      </div>
+      
+      <!-- Type d'événement (en ligne ou en personne) -->
+      <div class="mb-4">
+        <div class="flex items-center">
+          <input 
+            type="checkbox" 
+            id="isOnline" 
+            formControlName="isOnline"
+            class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
+          <label for="isOnline" class="ml-2 text-gray-700 font-medium">Événement en ligne</label>
+        </div>
+      </div>
+      
+      <!-- Lieu -->
+      <div class="mb-4">
+        <label for="location" class="block text-gray-700 font-medium mb-2">
+          {{ isOnlineEvent ? 'Plateforme (Zoom, Teams, etc.)' : 'Lieu' }} *
+        </label>
+        <input 
+          type="text" 
+          id="location" 
+          formControlName="location"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [ngClass]="{'border-red-500': location?.invalid && location?.touched}">
+        <div *ngIf="location?.invalid && location?.touched" class="text-red-500 text-sm mt-1">
+          <div *ngIf="location?.errors?.['required']">Le lieu est requis.</div>
+        </div>
+      </div>
+      
+      <!-- Lien de réunion (pour événements en ligne) -->
+      <div *ngIf="isOnlineEvent" class="mb-4">
+        <label for="meetingLink" class="block text-gray-700 font-medium mb-2">Lien de réunion *</label>
+        <input 
+          type="url" 
+          id="meetingLink" 
+          formControlName="meetingLink"
+          placeholder="https://..."
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [ngClass]="{'border-red-500': meetingLink?.invalid && meetingLink?.touched}">
+        <div *ngIf="meetingLink?.invalid && meetingLink?.touched" class="text-red-500 text-sm mt-1">
+          <div *ngIf="meetingLink?.errors?.['required']">Le lien de réunion est requis pour un événement en ligne.</div>
+        </div>
+      </div>
+      
+      <!-- Date et heure -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div>
+          <label for="date" class="block text-gray-700 font-medium mb-2">Date *</label>
+          <input 
+            type="date" 
+            id="date" 
+            formControlName="date"
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            [ngClass]="{'border-red-500': date?.invalid && date?.touched}">
+          <div *ngIf="date?.invalid && date?.touched" class="text-red-500 text-sm mt-1">
+            <div *ngIf="date?.errors?.['required']">La date est requise.</div>
+          </div>
+        </div>
+        
+        <div>
+          <label for="startTime" class="block text-gray-700 font-medium mb-2">Heure de début</label>
+          <input 
+            type="time" 
+            id="startTime" 
+            formControlName="startTime"
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        
+        <div>
+          <label for="endTime" class="block text-gray-700 font-medium mb-2">Heure de fin</label>
+          <input 
+            type="time" 
+            id="endTime" 
+            formControlName="endTime"
+            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+      </div>
+      
+      <!-- Communauté -->
+      <div class="mb-4">
+        <label for="community" class="block text-gray-700 font-medium mb-2">Communauté *</label>
+        <select 
+          id="community" 
+          formControlName="community"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [ngClass]="{'border-red-500': community?.invalid && community?.touched}">
+          <option value="" disabled>Sélectionnez une communauté</option>
+          <option *ngFor="let community of communities" [value]="community._id">{{ community.name }}</option>
+        </select>
+        <div *ngIf="loadingCommunities" class="text-gray-500 text-sm mt-1">
+          Chargement des communautés...
+        </div>
+        <div *ngIf="community?.invalid && community?.touched" class="text-red-500 text-sm mt-1">
+          <div *ngIf="community?.errors?.['required']">La communauté est requise.</div>
+        </div>
+      </div>
+      
+      <!-- Nombre maximum de participants -->
+      <div class="mb-4">
+        <label for="maxParticipants" class="block text-gray-700 font-medium mb-2">Nombre maximum de participants</label>
+        <input 
+          type="number" 
+          id="maxParticipants" 
+          formControlName="maxParticipants"
+          min="1"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+      
+      <!-- URL de l'image -->
+      <div class="mb-4">
+        <label for="imageUrl" class="block text-gray-700 font-medium mb-2">URL de l'image</label>
+        <input 
+          type="url" 
+          id="imageUrl" 
+          formControlName="imageUrl"
+          placeholder="https://..."
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+      
+      <!-- Tags -->
+      <div class="mb-6">
+        <label for="tags" class="block text-gray-700 font-medium mb-2">Tags (séparés par des virgules)</label>
+        <input 
+          type="text" 
+          id="tags" 
+          formControlName="tags"
+          placeholder="formation, technologie, networking..."
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+      
+      <!-- Boutons d'action -->
+      <div class="flex justify-end gap-3">
+        <button 
+          type="button"
+          (click)="cancel()"
+          class="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg">
+          Annuler
+        </button>
+        
+        <button 
+          type="submit"
+          [disabled]="isSubmitting"
+          class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center">
+          <span *ngIf="isSubmitting" class="mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full animate-spin"></span>
+          {{ isSubmitting ? 'Création en cours...' : 'Créer l\'événement' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

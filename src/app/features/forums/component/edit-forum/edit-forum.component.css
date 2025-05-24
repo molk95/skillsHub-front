@@ -1,0 +1,54 @@
+.edit-forum-container {
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .edit-forum-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  form div {
+    margin-bottom: 15px;
+  }
+  
+  form label {
+    font-weight: bold;
+  }
+  
+  form input,
+  form textarea {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  form button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  form button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+  }
+  
+  form button[type="button"] {
+    background-color: #f44336;
+    color: white;
+    border: none;
+  }
+  

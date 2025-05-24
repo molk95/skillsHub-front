@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200px" height="200px" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Empty Forums</title>
+    <g id="Empty-Forums" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="Background" fill="#E6F0FF" cx="100" cy="100" r="100"></circle>
+        <g id="Chat-Bubbles" transform="translate(40.000000, 50.000000)">
+            <rect id="Bubble-1" fill="#FFFFFF" x="0" y="0" width="80" height="60" rx="10"></rect>
+            <rect id="Bubble-2" fill="#3B82F6" x="40" y="40" width="80" height="60" rx="10"></rect>
+            <circle id="Dot-1" fill="#3B82F6" cx="20" cy="30" r="5"></circle>
+            <circle id="Dot-2" fill="#3B82F6" cx="40" cy="30" r="5"></circle>
+            <circle id="Dot-3" fill="#3B82F6" cx="60" cy="30" r="5"></circle>
+            <circle id="Dot-4" fill="#FFFFFF" cx="60" cy="70" r="5"></circle>
+            <circle id="Dot-5" fill="#FFFFFF" cx="80" cy="70" r="5"></circle>
+            <circle id="Dot-6" fill="#FFFFFF" cx="100" cy="70" r="5"></circle>
+        </g>
+    </g>
+</svg>
