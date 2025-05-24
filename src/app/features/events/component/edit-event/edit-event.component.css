@@ -1,0 +1,90 @@
+/* Animation pour l'entrée de la page */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+:host {
+  display: block;
+}
+
+.container {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Style pour les champs de formulaire */
+input, textarea, select {
+  transition: all 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Style pour les champs invalides */
+input.border-red-500, textarea.border-red-500, select.border-red-500 {
+  border-color: #ef4444;
+}
+
+input.border-red-500:focus, textarea.border-red-500:focus, select.border-red-500:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Style pour les messages d'erreur */
+.text-red-500 {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Style pour les boutons */
+button {
+  transition: all 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Animation pour le spinner */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Style pour la checkbox */
+input[type="checkbox"] {
+  cursor: pointer;
+}
+
+/* Style pour les labels */
+label {
+  transition: color 0.2s ease;
+}
+
+label:hover {
+  color: #3b82f6;
+}
+
+/* Style pour le formulaire */
+form {
+  transition: all 0.3s ease;
+}
+
+form:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour les champs désactivés */
+select:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

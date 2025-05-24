@@ -1,0 +1,269 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold mb-4">Détails de la communauté</h1>
+  <!-- Affichage du chargement -->
+  <div *ngIf="loading" class="flex justify-center items-center py-12">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+  </div>
+
+  <!-- Message d'erreur -->
+  <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+    {{ error }}
+  </div>
+
+  <!-- Détails de la communauté -->
+  <div *ngIf="community && !loading" class="bg-white rounded-lg shadow-md p-6">
+    <!-- Boutons d'action en haut de la page avec permissions -->
+    <div class="flex justify-end mb-4 gap-2">
+      <button
+        appPermission="modify"
+        [userId]="getCurrentUserId()"
+        [communityId]="community._id || ''"
+        [entityAuthorId]="getCreatorId(community.creator)"
+        entityType="community"
+        (click)="editCommunity()"
+        class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+        </svg>
+        Modifier
+      </button>
+      <button
+        appPermission="delete"
+        [userId]="getCurrentUserId()"
+        [communityId]="community._id || ''"
+        [entityAuthorId]="getCreatorId(community.creator)"
+        entityType="community"
+        (click)="deleteCommunity()"
+        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+        </svg>
+        Supprimer
+      </button>
+    </div>
+
+    <div class="flex justify-between items-start mb-6">
+      <h1 class="text-3xl font-bold">{{ community.name }}</h1>
+    </div>
+
+    <!-- Description -->
+    <p class="text-gray-700 mb-6">{{ community.description || 'Aucune description disponible.' }}</p>
+
+    <!-- Informations supplémentaires -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+      <div class="bg-gray-50 p-4 rounded">
+        <h2 class="text-xl font-semibold mb-2">Informations</h2>
+        <p><span class="font-medium">Créée le:</span> {{ community.createdAt | date:'dd/MM/yyyy' }}</p>
+        <p><span class="font-medium">Nombre de membres:</span> {{ community.members?.length || 0 }}</p>
+      </div>
+    </div>
+
+    <!-- Liste des membres -->
+    <div class="mb-8">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold">Membres</h2>
+        <button
+          (click)="showMembers = !showMembers"
+          class="text-blue-500 hover:text-blue-700">
+          {{ showMembers ? 'Masquer les membres' : 'Voir les membres' }}
+        </button>
+      </div>
+
+      <div *ngIf="showMembers" class="bg-gray-50 p-4 rounded">
+        <div *ngIf="loadingMembers" class="flex justify-center py-4">
+          <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+
+        <ul *ngIf="!loadingMembers && community.members && community.members.length > 0" class="divide-y">
+          <li *ngFor="let member of community.members" class="py-2">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 mr-3">
+                {{ getMemberInitials(member) }}
+              </div>
+              <div>
+                <p class="font-medium">{{ getMemberName(member) }}</p>
+                <p *ngIf="isCreatorMember(member)" class="text-xs text-gray-500">Créateur</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+        <p *ngIf="!loadingMembers && (!community.members || community.members.length === 0)" class="text-gray-500 py-2">
+          Aucun membre dans cette communauté.
+        </p>
+      </div>
+    </div>
+
+    <!-- Boutons d'action en bas de page -->
+    <div class="mt-8 flex justify-between">
+      <button
+        routerLink="/communities"
+        class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+        </svg>
+        Retour à la liste
+      </button>
+
+      <button
+        *ngIf="isCreator"
+        (click)="editCommunity()"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+        </svg>
+        Modifier la communauté
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Section pour afficher les forums de la communauté -->
+<div class="mt-8 bg-white rounded-lg shadow-md p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h3 class="text-2xl font-bold text-gray-800">
+      <i class="bi bi-chat-square-text-fill me-2 text-blue-500"></i> Forums de la communauté
+    </h3>
+
+    <!-- Bouton pour rafraîchir les forums -->
+    <button
+      class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded flex items-center"
+      (click)="loadCommunityForums()">
+      <i class="bi bi-arrow-clockwise me-2"></i> Rafraîchir
+    </button>
+  </div>
+
+  <div class="border-b border-gray-200 mb-6"></div>
+
+  <!-- Bouton pour créer un forum -->
+  <div *ngIf="!loading && communityForums.length === 0" class="text-center py-8 bg-gray-50 rounded-lg border border-dashed border-gray-300">
+    <img src="assets/empty-forums.svg" alt="Aucun forum" class="w-24 h-24 mx-auto mb-4" onerror="this.src='https://cdn-icons-png.flaticon.com/512/6134/6134065.png'; this.onerror=null;">
+    <p class="text-gray-600 mb-4">Aucun forum n'a encore été créé dans cette communauté.</p>
+    <button
+      class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-medium shadow-md transition-all duration-200 transform hover:scale-105 flex items-center mx-auto"
+      (click)="navigateToForums()">
+      <i class="bi bi-plus-circle-fill me-2 text-lg"></i> Créer le premier forum
+    </button>
+  </div>
+
+  <!-- Bouton pour créer un forum (quand il y a déjà des forums) -->
+  <div *ngIf="!loading && communityForums.length > 0" class="mb-4 flex justify-end">
+    <button
+      class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded flex items-center"
+      (click)="createForumInCommunity()">
+      <i class="bi bi-plus-circle-fill me-2"></i> Nouveau forum
+    </button>
+  </div>
+
+  <!-- Affichage des forums avec mise en page à deux colonnes -->
+  <div *ngIf="!loading && communityForums.length > 0" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Colonne de gauche : Dernier forum créé (2/3 de l'espace) -->
+    <div class="md:col-span-2 border rounded-lg p-6 bg-white shadow-md">
+      <div class="flex justify-between items-start mb-4">
+        <h3 class="text-xl font-bold text-gray-800">Dernier forum</h3>
+        <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full">Nouveau</span>
+      </div>
+
+      <ng-container *ngIf="communityForums.length > 0">
+        <h4 class="text-2xl font-semibold text-gray-800 mb-3">{{ communityForums[0].title }}</h4>
+
+        <!-- Contenu du forum avec plus de détails -->
+        <p class="text-gray-600 mb-6 leading-relaxed">{{ communityForums[0].content | slice:0:300 }}{{ communityForums[0].content.length > 300 ? '...' : '' }}</p>
+
+        <!-- Informations du forum -->
+        <div class="flex flex-wrap items-center gap-4 mb-6">
+          <span class="counter">
+            <i class="bi bi-calendar me-1 text-blue-500"></i> {{ communityForums[0].created_at | date:'dd/MM/yyyy' }}
+          </span>
+          <!-- Compteur de vues avec icône d'œil -->
+          <span class="counter bg-gray-100 px-2 py-1 rounded">
+            <i class="bi bi-eye-fill me-1 text-green-500 text-lg"></i> {{ communityForums[0].viewCount || 0 }}
+          </span>
+          <!-- Compteur de likes -->
+          <span class="counter bg-gray-100 px-2 py-1 rounded">
+            <i class="bi bi-heart-fill me-1 text-red-500 text-lg"></i> {{ communityForums[0].likeCount || 0 }}
+          </span>
+        </div>
+
+        <!-- Actions du forum -->
+        <div class="flex flex-wrap gap-3">
+          <!-- Bouton pour voir les détails -->
+          <button
+            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded flex items-center"
+            (click)="navigateToForumDetails(communityForums[0].id || '')">
+            <i class="bi bi-eye-fill me-2"></i> Voir les détails
+          </button>
+
+          <!-- Bouton Like avec compteur -->
+          <button
+            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded flex items-center"
+            (click)="likeForumPost(communityForums[0].id || '')">
+            <i class="bi bi-heart-fill me-2"></i> J'aime
+          </button>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Colonne de droite : Liste des forums (1/3 de l'espace) -->
+    <div class="bg-gray-50 rounded-lg p-4 border">
+      <h3 class="text-lg font-semibold mb-4 text-gray-700 border-b pb-2">
+        <i class="bi bi-list-ul me-2"></i> Tous les forums ({{ communityForums.length }})
+      </h3>
+
+      <!-- Liste simplifiée des forums -->
+      <div class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
+        <div *ngFor="let forum of communityForums; let i = index"
+             class="p-3 bg-white rounded border hover:shadow-md transition-shadow cursor-pointer"
+             [class.border-blue-300]="i === 0"
+             [class.bg-blue-50]="i === 0"
+             (click)="navigateToForumDetails(forum.id || '')">
+
+          <!-- Titre du forum -->
+          <h4 class="font-medium text-gray-800 mb-1 truncate">{{ forum.title }}</h4>
+
+          <!-- Extrait du contenu -->
+          <p class="text-gray-600 text-sm mb-2 line-clamp-2">{{ forum.content | slice:0:80 }}{{ forum.content.length > 80 ? '...' : '' }}</p>
+
+          <!-- Compteurs simplifiés -->
+          <div class="flex items-center justify-between text-xs text-gray-500">
+            <span>{{ forum.created_at | date:'dd/MM/yyyy' }}</span>
+
+            <div class="flex items-center gap-3">
+              <!-- Compteur de vues -->
+              <span class="flex items-center">
+                <i class="bi bi-eye-fill me-1 text-green-500"></i> {{ forum.viewCount || 0 }}
+              </span>
+
+              <!-- Compteur de likes avec cœur cliquable -->
+              <span class="flex items-center">
+                <i class="bi bi-heart-fill me-1 text-red-500 cursor-pointer"
+                   (click)="$event.stopPropagation(); likeForumPost(forum.id || '')"></i> {{ forum.likeCount || 0 }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,14 +3,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
+
+import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
+
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+
 import { WalletsModule } from './features/wallets/wallets.module';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { DashboardPageComponent } from './features/dashboard/dashboard-page/dashboard-page.component';
 import { NavbarComponent } from './features/layout/navbar/navbar.component';
 import { SidebarComponent } from './features/layout/sidebar/sidebar.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddForumComponent } from './features/forums/component/add-forum/add-forum.component';
 import { ForumsListComponent } from './features/forums/component/list-forum/list-forum.component';
@@ -26,13 +30,20 @@ import { AddSessionsComponent } from './features/sessions/components/add-session
 import { SessionListComponent } from './features/sessions/components/list-sessions/list-sessions.component';
 import { UpdateSessionComponent } from './features/sessions/components/update-sessions/update-sessions.component';
 import { DeleteSessionsComponent } from './features/sessions/components/delete-sessions/delete-sessions.component';
-import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 import { SalonsSessionsComponent } from './features/salons/components/salons-sessions/salons-sessions.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { SignInComponent } from './features/auth/components/sign-in/sign-in.component';
 import { AuthModule } from './features/auth/auth.module';
 import { MarketplaceModule } from './features/marketplace/marketplace.module';
+import { EditForumComponent } from './features/forums/component/edit-forum/edit-forum.component';
+import { ForumService } from './features/forums/service/forum.service';
+
+import { ForumDetailsComponent } from './features/forums/component/forum-details/forum-details.component';
+
+// Import the Events module
+import { EventsModule } from './features/events/events.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -41,8 +52,6 @@ import { MarketplaceModule } from './features/marketplace/marketplace.module';
     NavbarComponent,
     SidebarComponent,
     LandingPageComponent,
-    AddForumComponent,
-    ForumsListComponent,
     AddSalonsComponent,
     ListSalonsComponent,
     UpdateSalonsComponent,
@@ -53,14 +62,13 @@ import { MarketplaceModule } from './features/marketplace/marketplace.module';
     SessionListComponent,
     UpdateSessionComponent,
     DeleteSessionsComponent,
-    SalonsSessionsComponent,
-    
+    SalonsSessionsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
+    FormsModule,              // 👈 Obligatoire pour [(ngModel)]
     ReactiveFormsModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
@@ -78,6 +86,6 @@ import { MarketplaceModule } from './features/marketplace/marketplace.module';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

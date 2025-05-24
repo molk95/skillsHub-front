@@ -1,0 +1,110 @@
+/* Styles pour les cartes de communauté */
+.community-card {
+  transition: transform 0.3s, box-shadow 0.3s;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+}
+
+.community-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.community-header {
+  padding: 15px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.community-body {
+  padding: 20px;
+}
+
+.community-footer {
+  padding: 15px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Styles pour les boutons */
+.btn-join {
+  background-color: #3b82f6;
+  color: white;
+  transition: all 0.3s;
+}
+
+.btn-join:hover {
+  background-color: #2563eb;
+}
+
+.btn-leave {
+  background-color: #ef4444;
+  color: white;
+  transition: all 0.3s;
+}
+
+.btn-leave:hover {
+  background-color: #dc2626;
+}
+
+.btn-details {
+  background-color: #3b82f6;
+  color: white;
+  transition: all 0.3s;
+}
+
+.btn-details:hover {
+  background-color: #2563eb;
+}
+
+/* Animation pour les cartes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.community-grid {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.community-grid > div {
+  animation: fadeIn 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+/* Animation séquentielle pour chaque carte */
+.community-grid > div:nth-child(1) { animation-delay: 0.1s; }
+.community-grid > div:nth-child(2) { animation-delay: 0.2s; }
+.community-grid > div:nth-child(3) { animation-delay: 0.3s; }
+.community-grid > div:nth-child(4) { animation-delay: 0.4s; }
+.community-grid > div:nth-child(5) { animation-delay: 0.5s; }
+.community-grid > div:nth-child(6) { animation-delay: 0.6s; }
+.community-grid > div:nth-child(7) { animation-delay: 0.7s; }
+.community-grid > div:nth-child(8) { animation-delay: 0.8s; }
+.community-grid > div:nth-child(9) { animation-delay: 0.9s; }
+
+/* Styles pour les boutons */
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+/* Effet de survol pour les cartes */
+.community-grid > div {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.community-grid > div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
