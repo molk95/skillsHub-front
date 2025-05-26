@@ -10,18 +10,20 @@ interface SignUpPayload {
   email: string;
   password: string;
   fullName: string;
+  skills?: any[];
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly base = `${backendServer}/api/auth`;
+  private readonly skillsBase = `${backendServer}/api/skill-market`;
 
   constructor(private http: HttpClient) {}
 
   signIn(payload: SignInPayload) {
     return this.http
       .post<{ message: string; data: { user: any; token: string } }>(
-        `${this.base}/login`,
+        `${this.base}/logIn`,
         payload
       )
       .pipe(
@@ -34,5 +36,9 @@ export class AuthService {
 
   signUp(payload: SignUpPayload) {
     return this.http.post(`${this.base}/register`, payload);
+  }
+
+  getSkillsByName(query: string) {
+    return this.http.get<any[]>(`${this.skillsBase}/?q=${query}`);
   }
 }

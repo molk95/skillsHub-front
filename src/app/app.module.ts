@@ -54,7 +54,6 @@ import { MarketplaceModule } from './features/marketplace/marketplace.module';
     UpdateSessionComponent,
     DeleteSessionsComponent,
     SalonsSessionsComponent,
-    
   ],
   imports: [
     BrowserModule,
@@ -73,7 +72,7 @@ import { MarketplaceModule } from './features/marketplace/marketplace.module';
     FormsModule,
     CommonModule, // Ajoute ceci ici aussi
     AuthModule,
-  MarketplaceModule,
+    MarketplaceModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
