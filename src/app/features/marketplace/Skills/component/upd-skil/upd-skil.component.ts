@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MarketplaceService } from '../../services/marketplace.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Skill } from '../../models/skill.model';
-import { Category } from '../../models/category.model';
+import { Skill } from '../../model/skill.model';
+import { Category } from '../../../Category/model/category.model';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({

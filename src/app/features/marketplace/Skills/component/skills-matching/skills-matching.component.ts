@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { MarketplaceService } from '../../services/marketplace.service';
 @Component({
   selector: 'app-skills-matching',

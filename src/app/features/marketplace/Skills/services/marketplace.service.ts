@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
-import { Skill } from '../models/skill.model';
-import { Category } from '../models/category.model';
+import { Skill } from '../model/skill.model';
+import { Category } from '../../Category/model/category.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MarketplaceService {
-  private apiUrl = 'http://localhost:3000/api/marketplace';
+  private apiUrl = 'http://localhost:3000/api/skill-market';
   private selectedSkill: Skill | null = null;
 
   constructor(private http: HttpClient) {}
@@ -29,11 +29,11 @@ export class MarketplaceService {
 
   // Méthodes API existantes
   getAllSkills(): Observable<Skill[]> {
-    return this.http.get<Skill[]>(this.apiUrl);
+    return this.http.get<Skill[]>('http://localhost:3000/api/skill-market');
   }
 
   getAllCategory(): Observable<Category[]> {
-    return this.http.get<Category[]>('http://localhost:3000/api/Category/all/');
+    return this.http.get<Category[]>('http://localhost:3000/api/Category/all');
   }
 
   getSkillsByCategory(category: string): Observable<Skill[]> {

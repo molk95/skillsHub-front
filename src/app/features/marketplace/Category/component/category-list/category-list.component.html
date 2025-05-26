@@ -1,0 +1,34 @@
+<div class="container">
+  <h1 class="category-title">Liste des Catégories</h1>
+  
+  <div class="search-bar">
+    <input 
+      type="text" 
+      [(ngModel)]="searchText" 
+      placeholder="Rechercher une catégorie..." 
+      class="search-input"
+    />
+    <button (click)="searchCategories()" class="search-button">Rechercher</button>
+    <button (click)="addCategory()" class="add-button">Ajouter une catégorie</button>
+  </div>
+
+  <div *ngIf="categories.length > 0; else noCategories" class="category-list">
+    <div class="category-card" *ngFor="let category of categories">
+      <h3>{{ category.name }}</h3>
+      <p><strong>Description :</strong> {{ category.description }}</p>
+      <p><strong>Créé le :</strong> {{ category.createdAt | date:'short' }}</p>
+      <p><strong>Modifié le :</strong> {{ category.updatedAt | date:'short' }}</p>
+
+      <div class="category-card-buttons">
+        <button (click)="onViewDetail(category)" class="detail-button">Détail</button>
+        <button (click)="onEditCategory(category)" class="edit-button">Modifier</button>
+        <button (click)="onDeleteCategory(category)" class="delete-button">Supprimer</button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noCategories>
+    <p class="no-data">Aucune catégorie trouvée.</p>
+  </ng-template>
+</div>
+
