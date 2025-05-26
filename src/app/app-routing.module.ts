@@ -14,90 +14,99 @@ import { UpdateSessionComponent } from './features/sessions/components/update-se
 import { DeleteSessionsComponent } from './features/sessions/components/delete-sessions/delete-sessions.component';
 import { SalonsSessionsComponent } from './features/salons/components/salons-sessions/salons-sessions.component';
 import { ForumsListComponent } from './features/forums/component/list-forum/list-forum.component';
-  // Page d'accueil
+// Page d'accueil
 import { MarketplaceListComponent } from './features/marketplace/component/marketplace-list/marketplace-list.component';
 import { MarketplaceDetailComponent } from './features/marketplace/component/marketplace-detail/marketplace-detail.component';
 import { AddSkillComponent } from './features/marketplace/component/add-skill/add-skill.component';
 import { UpdSkilComponent } from './features/marketplace/component/upd-skil/upd-skil.component';
 import { SkillsMatchingComponent } from './features/marketplace/component/skills-matching/skills-matching.component';
+import { SignInComponent } from './features/auth/components/sign-in/sign-in.component';
+import { SignUpComponent } from './features/auth/components/sign-up/sign-up.component';
 
 const routes: Routes = [
   // Route par défaut vers la page d'accueil
   {
     path: '',
     redirectTo: 'landing',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   // Page d'accueil
   {
     path: 'landing',
-    component: LandingPageComponent
+    component: LandingPageComponent,
+  },
+  {
+    path: 'signUp',
+    component: SignUpComponent,
+  },
+  {
+    path: 'logIn',
+    component: SignInComponent,
   },
   // Tableau de bord
   {
     path: 'ForumsListComponent',
-   component: ForumsListComponent
+    component: ForumsListComponent,
   },
   {
     path: 'MarketplaceList',
-    component: MarketplaceListComponent
+    component: MarketplaceListComponent,
   },
 
-  { path: 'upd-skil/:id', 
-    component: UpdSkilComponent 
-  },
+  { path: 'upd-skil/:id', component: UpdSkilComponent },
   {
     path: 'MarketplaceDetail/:id',
-    component: MarketplaceDetailComponent
+    component: MarketplaceDetailComponent,
   },
   {
     path: 'skill/add',
-    component: AddSkillComponent
-  }, 
+    component: AddSkillComponent,
+  },
   {
     path: 'dashboard',
-    component: DashboardPageComponent
+    component: DashboardPageComponent,
   },
   // Gestion des wallets
   {
     path: 'wallets',
-    loadChildren: () => import('./features/wallets/wallets.module').then(m => m.WalletsModule)
+    loadChildren: () =>
+      import('./features/wallets/wallets.module').then((m) => m.WalletsModule),
   },
   // Gestion des salons
   {
     path: 'salons/add',
-    component: AddSalonsComponent
+    component: AddSalonsComponent,
   },
   {
     path: 'salons/list',
-    component: ListSalonsComponent
+    component: ListSalonsComponent,
   },
   { path: 'salons/update/:nom', component: UpdateSalonsComponent },
   {
     path: 'salons/delete',
-    component: DeleteSalonsComponent
+    component: DeleteSalonsComponent,
   },
   // Gestion des sessions
   {
     path: 'sessions/add/:salonNom',
-    component: AddSessionsComponent
+    component: AddSessionsComponent,
   },
   { path: 'sessions/list', component: SessionListComponent }, // Route pour afficher les sessions
-  { path: 'sessions/update/:id', component: UpdateSessionComponent}, // Route pour afficher les sessions
+  { path: 'sessions/update/:id', component: UpdateSessionComponent }, // Route pour afficher les sessions
   { path: 'sessions/delete/:id', component: DeleteSessionsComponent },
-    // Nouvelle route pour afficher les salons avec leurs sessions associées
+  // Nouvelle route pour afficher les salons avec leurs sessions associées
   {
     path: 'salons-sessions',
-    component: SalonsSessionsComponent
+    component: SalonsSessionsComponent,
   },
   {
     path: 'skills-matching',
-    component: SkillsMatchingComponent
-  }
+    component: SkillsMatchingComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
