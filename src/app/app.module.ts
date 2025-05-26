@@ -55,7 +55,6 @@ import { CategoryModule } from './features/marketplace/Category/category.module'
     UpdateSessionComponent,
     DeleteSessionsComponent,
     SalonsSessionsComponent,
-    
   ],
   imports: [
     BrowserModule,
@@ -74,8 +73,10 @@ import { CategoryModule } from './features/marketplace/Category/category.module'
     FormsModule,
     CommonModule, // Ajoute ceci ici aussi
     AuthModule,
+    
     CategoryModule,
   MarketplaceModule,
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
