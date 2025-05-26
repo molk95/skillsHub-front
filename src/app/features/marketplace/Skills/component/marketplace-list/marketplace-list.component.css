@@ -96,6 +96,47 @@
   background: #e74c3c;
 }
 
+/* Boutons de navigation vers salon/session */
+.skill-card .nav-button {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-align: center;
+  background: linear-gradient(145deg, #3c4f93, #6a0dad);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.skill-card .nav-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  background: linear-gradient(145deg, #4e60a4, #7b1ebe);
+}
+
+.skill-card .nav-button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+/* Bouton salon */
+.skill-card .salon-button {
+  background: linear-gradient(145deg, #3c4f93, #5a6fb3);
+}
+
+/* Bouton session */
+.skill-card .session-button {
+  background: linear-gradient(145deg, #6a0dad, #8a2dcd);
+}
+
 /* Formulaire de recherche */
 .search-form {
   max-width: 700px;

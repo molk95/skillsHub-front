@@ -31,6 +31,7 @@ import { SalonsSessionsComponent } from './features/salons/components/salons-ses
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthModule } from './features/auth/auth.module';
 import { MarketplaceModule } from './features/marketplace/marketplace.module';
+import { CategoryModule } from './features/marketplace/Category/category.module';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,10 @@ import { MarketplaceModule } from './features/marketplace/marketplace.module';
     FormsModule,
     CommonModule, // Ajoute ceci ici aussi
     AuthModule,
-    MarketplaceModule,
+    
+    CategoryModule,
+  MarketplaceModule,
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },

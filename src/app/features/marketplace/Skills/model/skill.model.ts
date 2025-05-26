@@ -1,4 +1,4 @@
-import { Category } from "./category.model";
+import { Category } from "../../Category/model/category.model";
 export interface User {
   _id?: string;
   id?: string;

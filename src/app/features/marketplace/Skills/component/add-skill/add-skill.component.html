@@ -21,18 +21,11 @@
       <div>
         <label for="category">Catégorie :</label>
         <select formControlName="category">
+          <option value="">Sélectionnez une catégorie</option>
           <option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</option>
         </select>
         <small *ngIf="skillForm.get('category')?.invalid && skillForm.get('category')?.touched">
           Veuillez sélectionner une catégorie.
-        </small>
-      </div>
-  
-      <div>
-        <label for="userId">User ID :</label>
-        <input id="userId" formControlName="userId" type="text" />
-        <small *ngIf="skillForm.get('userId')?.invalid && skillForm.get('userId')?.touched">
-          L'utilisateur est obligatoire.
         </small>
       </div>
   
