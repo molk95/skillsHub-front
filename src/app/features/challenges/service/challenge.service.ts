@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Challenge } from '../models/challenges.models';
@@ -14,11 +14,20 @@ export class ChallengeService {
 
   private apiUrl = 'http://127.0.0.1:3000/api/challenges';
 
+  
+
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Challenge[]> {
-    return this.http.get<Challenge[]>(`${this.apiUrl}/show`);
+  getAll(filters?: { date?: string; skill?: string }): Observable<Challenge[]> {
+    let params = new HttpParams();
+    if (filters?.date) params = params.set('date', filters.date);
+    if (filters?.skill) params = params.set('skill', filters.skill);
+    return this.http.get<Challenge[]>(`${this.apiUrl}/show`, { params });
   }
+
+  /*getAll(): Observable<Challenge[]> {
+    return this.http.get<Challenge[]>(`${this.apiUrl}/show`);
+  }*/
 
   getById(_id: string): Observable<Challenge> {
     return this.http.get<Challenge>(`${this.apiUrl}/${_id}`);
@@ -28,6 +37,11 @@ export class ChallengeService {
     return this.http.post<Challenge>(`${this.apiUrl}/add`, challenge);
   }
 
+  saveUserScore(userId: string, challengeId: string, score: number): Observable<any> {
+    const scoreData = { userId, challengeId, score };
+    return this.http.post(`${this.apiUrl}/score`, scoreData);
+  }
+    
   update(_id: string, challenge: Partial<Challenge>): Observable<Challenge> {
     return this.http.put<Challenge>(`${this.apiUrl}/${_id}`, challenge);
   }
@@ -43,6 +57,7 @@ export class ChallengeService {
   validateCompletion(data: { userId: string; challengeId: string; score: number }): Observable<any> {
     return this.http.post(`${this.apiUrl}/validate`, data);
   }
+  
 
   getTriviaQuestions(params: any): Observable<any> {
     const url = `${this.apiUrl}/trivia/questions`;

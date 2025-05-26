@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ChallengeFormComponent implements OnInit{
   challengeForm!: FormGroup;
   isEdit = false;
+  categoriesTrivia: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -20,6 +21,42 @@ export class ChallengeFormComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
+    this.challengeForm = this.fb.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      skill: ['', Validators.required],
+      difficulty: ['medium', Validators.required],
+      startDate: ['', Validators.required],
+      createdBy: ['', [Validators.required]],
+      triviaSettings: this.fb.group({
+        enabled: [false],
+        amount: [5],
+        category: [null],
+        difficulty: ['medium'],
+        type: ['multiple']
+      })
+    });
+  
+    // Récupération challenge existant (edit)
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.isEdit = true;
+      this.challengeService.getById(id).subscribe(data => {
+        this.challengeForm.patchValue(data);
+      });
+    }
+
+    this.challengeService.getTriviaCategories().subscribe({
+      next: (response) => {
+        this.categoriesTrivia = response.trivia_categories || [];
+      },
+      error: () => {
+        this.categoriesTrivia = [];
+      }
+    });
+  }
+
+  /*ngOnInit(): void {
     this.challengeForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
@@ -36,9 +73,9 @@ export class ChallengeFormComponent implements OnInit{
         this.challengeForm.patchValue(data);
       });
     }
-  }
+  }*/
 
-  onSubmit(): void {
+  /*onSubmit(): void {
     if (this.challengeForm.invalid) return;
 
     if (this.isEdit) {
@@ -51,6 +88,23 @@ export class ChallengeFormComponent implements OnInit{
         this.router.navigate(['/challenges']);
       });
     }
-  }
+  }*/
+
+    onSubmit(): void {
+      if (this.challengeForm.invalid) return;
+    
+      const challengeData = this.challengeForm.value;
+    
+      if (this.isEdit) {
+        const id = this.route.snapshot.paramMap.get('id');
+        this.challengeService.update(id!, challengeData).subscribe(() => {
+          this.router.navigate(['/challenges']);
+        });
+      } else {
+        this.challengeService.create(challengeData).subscribe(() => {
+          this.router.navigate(['/challenges']);
+        });
+      }
+    }
 
 }
