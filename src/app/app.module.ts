@@ -29,8 +29,6 @@ import { DeleteSessionsComponent } from './features/sessions/components/delete-s
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 import { SalonsSessionsComponent } from './features/salons/components/salons-sessions/salons-sessions.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ErrorInterceptor } from './core/interceptors/error.interceptor';
-import { SignInComponent } from './features/auth/components/sign-in/sign-in.component';
 import { AuthModule } from './features/auth/auth.module';
 import { MarketplaceModule } from './features/marketplace/marketplace.module';
 

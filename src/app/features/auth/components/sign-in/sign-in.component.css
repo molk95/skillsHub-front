@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.gradient-bg {
+  background-image: linear-gradient(
+    to right top,
+    #160f70,
+    #2530a0,
+    #3830ac,
+    #4f6fc7,
+    #4e85ec
+  );
+  min-height: 50vh;
+  width: 50%;
+}

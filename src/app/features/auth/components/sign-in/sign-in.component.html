@@ -1,9 +1,17 @@
-<div class="max-w-md mx-auto mt-16 p-8 bg-white rounded-2xl shadow-lg">
-  <h2 class="text-2xl font-semibold text-center mb-6">Sign In</h2>
+<div
+  class="max-w-2xl h-[50%] mx-auto mt-16 p-8 rounded-2xl shadow-lg gradient-bg"
+>
+  <h2 class="text-2xl font-semibold text-center mb-6 text-white bg-[]">
+    Sign In
+  </h2>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    class="flex flex-col justify-around w-full h-[90%]"
+  >
     <div class="mb-4">
-      <label class="block text-gray-700 mb-1">Email</label>
+      <label class="block text-white mb-1">Email</label>
       <input
         formControlName="email"
         type="email"
@@ -19,7 +27,7 @@
     </div>
 
     <div class="mb-6">
-      <label class="block text-gray-700 mb-1">Password</label>
+      <label class="block text-white mb-1">Password</label>
       <input
         formControlName="password"
         type="password"
@@ -45,8 +53,8 @@
     <p *ngIf="errorMsg" class="text-red-500 text-center mt-4">{{ errorMsg }}</p>
   </form>
 
-  <p class="text-center text-gray-600 mt-6">
-    Don’t have an account?
+  <p class="text-center text-white mt-6">
+    Don't have an account?
     <a routerLink="/signUp" class="text-cyan-500 hover:underline">Sign Up</a>
   </p>
 </div>
