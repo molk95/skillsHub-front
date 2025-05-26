@@ -30,7 +30,7 @@
       <h3>{{ skill.name }}</h3>
       <p><strong>Description :</strong> {{ skill.description }}</p>
       <p><strong>Catégorie :</strong> {{ skill.category?.name }}</p>
-      <p><strong>Utilisateur :</strong> {{ getUserInfo(skill) }}</p>
+      <p><strong>Tuteur :</strong> {{ getUserInfo(skill) }}</p>
       <p><strong>GitHub Username :</strong> {{ skill.github?.username || 'N/A' }}</p>
 
       <div>
@@ -48,6 +48,12 @@
         <button (click)="onViewDetail(skill)">Détail</button>
         <button (click)="onEditSkill(skill)">Update</button>
         <button (click)="onDeleteSkill(skill)">Delete</button>
+      </div>
+      <div>
+        <button (click)="goToSalon(skill)" class="nav-button salon-button">Voir les salons</button>
+      </div>
+      <div>
+        <button (click)="goToSession(skill)" class="nav-button session-button">Voir les sessions</button>
       </div>
     </div>
   </div>

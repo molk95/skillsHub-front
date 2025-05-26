@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MarketplaceService } from '../../services/marketplace.service'
-import { Skill } from '../../models/skill.model';
-import { Category } from '../../models/category.model';
+import { MarketplaceService } from '../../services/marketplace.service';
+import { Skill } from '../../model/skill.model';
+import { Category } from '../../../Category/model/category.model';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 @Component({
@@ -114,6 +114,33 @@ this.router.navigate(['skill/add']);
       this.router.navigate(['DelSkill', skill._id]);
     }
   }
+
+  goToSalon(skill: any) {
+    // Récupérer le nom de la compétence et le nom du tuteur
+    const skillName = skill.name || '';
+    
+    // Récupérer le nom du tuteur (utilisateur)
+    let tutorName = '';
+    if (typeof skill.user === 'object' && skill.user.name) {
+      tutorName = skill.user.name;
+    }
+    
+    console.log(`Recherche de salons pour la compétence "${skillName}" et le tuteur "${tutorName}"`);
+    
+    // Naviguer vers la liste des salons avec les paramètres de recherche
+    this.router.navigate(['/salons/list'], { 
+      queryParams: { 
+        skillName: skillName,
+        tutorName: tutorName 
+      } 
+    });
+  }
+
+  goToSession(skill: any) {
+    this.router.navigate(['sessions/list', skill._id]);
+  }
+   
+
   getUserInfo(skill: Skill): string {
     console.log('Skill user data:', skill.user); // Ajout de log pour déboguer
     

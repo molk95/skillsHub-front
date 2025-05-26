@@ -33,6 +33,7 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { SignInComponent } from './features/auth/components/sign-in/sign-in.component';
 import { AuthModule } from './features/auth/auth.module';
 import { MarketplaceModule } from './features/marketplace/marketplace.module';
+import { CategoryModule } from './features/marketplace/Category/category.module';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,10 @@ import { MarketplaceModule } from './features/marketplace/marketplace.module';
     FormsModule,
     CommonModule, // Ajoute ceci ici aussi
     AuthModule,
-    MarketplaceModule,
+    
+    CategoryModule,
+  MarketplaceModule,
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
