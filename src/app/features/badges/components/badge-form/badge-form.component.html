@@ -1,0 +1,68 @@
+<div class="container mt-5 badge-form-container">
+  <div class="card badge-form-card">
+    <div class="card-header badge-form-header">
+      <h3 class="mb-0 text-center">
+        {{ badgeId ? 'Modifier' : 'Créer' }} un Badge
+      </h3>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="badgeForm" (ngSubmit)="saveBadge()">
+        <!-- User ID -->
+        <div class="form-group mb-3">
+          <label for="userId" class="form-label">ID Utilisateur</label>
+          <input
+            id="userId"
+            formControlName="userId"
+            type="text"
+            class="form-control badge-input"
+            placeholder="Entrez l'ID de l'utilisateur"
+          />
+          <div *ngIf="badgeForm.get('userId')?.invalid && badgeForm.get('userId')?.touched" class="text-danger">
+            L'ID utilisateur est requis.
+          </div>
+        </div>
+
+        <!-- Challenge ID -->
+        <div class="form-group mb-3">
+          <label for="challengeId" class="form-label">ID Challenge</label>
+          <input
+            id="challengeId"
+            formControlName="challengeId"
+            type="text"
+            class="form-control badge-input"
+            placeholder="Entrez l'ID du challenge"
+          />
+          <div *ngIf="badgeForm.get('challengeId')?.invalid && badgeForm.get('challengeId')?.touched" class="text-danger">
+            L'ID du challenge est requis.
+          </div>
+        </div>
+
+        <!-- Score -->
+        <div class="form-group mb-3">
+          <label for="score" class="form-label">Score</label>
+          <input
+            id="score"
+            formControlName="score"
+            type="number"
+            class="form-control badge-input"
+            placeholder="Entrez le score"
+          />
+          <div *ngIf="badgeForm.get('score')?.invalid && badgeForm.get('score')?.touched" class="text-danger">
+            Le score est requis et doit être un nombre positif.
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-flex justify-content-end mt-4">
+          <button
+            class="btn badge-submit-btn"
+            type="submit"
+            [disabled]="badgeForm.invalid"
+          >
+            💾 Sauvegarder
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

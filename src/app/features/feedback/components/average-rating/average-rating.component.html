@@ -1,0 +1,14 @@
+<div class="container">
+    <h2>Obtenir la Note Moyenne d'un Utilisateur</h2>
+    <div>
+      <label for="userId">ID Utilisateur:</label>
+      <input id="userId" [(ngModel)]="userId" type="text" placeholder="Entrez l'ID de l'utilisateur" />
+      <button (click)="getAverageRating()">Voir la Note Moyenne</button>
+    </div>
+    <div *ngIf="averageRating !== null">
+      <p><strong>Note Moyenne:</strong> {{ averageRating | number: '1.1-2' }}</p>
+    </div>
+    <div *ngIf="errorMessage" class="error">
+      <p>{{ errorMessage }}</p>
+    </div>
+  </div>
