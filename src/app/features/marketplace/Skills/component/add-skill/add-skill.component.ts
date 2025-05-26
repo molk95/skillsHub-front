@@ -11,10 +11,8 @@ import { AuthService } from '../../../../auth/services/auth.service';
 @Component({
   selector: 'app-add-skill',
   templateUrl: './add-skill.component.html',
-  styleUrls: ['./add-skill.component.css']
+  styleUrls: ['./add-skill.component.css'],
 })
-
-
 export class AddSkillComponent {
   skillForm!: FormGroup;
   categories: Category[] = [];
@@ -31,7 +29,7 @@ export class AddSkillComponent {
     // Récupérer l'ID de l'utilisateur connecté directement dans le composant
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     this.currentUserId = user.id || '';
-    
+
     // Vérifier si l'ID utilisateur est valide
     if (!this.currentUserId) {
       console.error('ID utilisateur non valide ou manquant');
@@ -39,7 +37,7 @@ export class AddSkillComponent {
       // this.router.navigate(['/login']);
       // return;
     }
-    
+
     this.skillForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
@@ -56,36 +54,44 @@ export class AddSkillComponent {
       }
     );
   }
-   
+
   addSkill() {
     if (this.skillForm.valid && this.currentUserId) {
       // Créer l'objet skill avec les valeurs du formulaire
       const formValues = this.skillForm.value;
-      
+
       // Trouver l'ID de la catégorie sélectionnée
-      const selectedCategory = this.categories.find(cat => cat.name === formValues.category);
-      
+      const selectedCategory = this.categories.find(
+        (cat) => cat.name === formValues.category
+      );
+
       if (!selectedCategory) {
-        alert('Catégorie non trouvée. Veuillez sélectionner une catégorie valide.');
+        alert(
+          'Catégorie non trouvée. Veuillez sélectionner une catégorie valide.'
+        );
         return;
       }
-      
+
       const skill: Skill = {
         name: formValues.name,
         description: formValues.description,
-        category: selectedCategory._id, // Utiliser l'ID de la catégorie, pas son nom
-        userId: this.currentUserId
+        category: selectedCategory, // Pass the full category object instead of just the ID
+        user: this.currentUserId, // Changed from userId to user based on the lint error
       };
-      
+
       this.skillService.addSkill(skill).subscribe({
         next: () => {
           alert('Skill ajouté avec succès!');
           this.router.navigate(['/MarketplaceList']);
         },
         error: (err: HttpErrorResponse) => {
-          console.error('Erreur lors de l\'ajout du skill :', err);
-          alert(`Erreur lors de l'ajout du skill: ${err.error?.error || err.message}`);
-        }
+          console.error("Erreur lors de l'ajout du skill :", err);
+          alert(
+            `Erreur lors de l'ajout du skill: ${
+              err.error?.error || err.message
+            }`
+          );
+        },
       });
     } else {
       if (!this.currentUserId) {

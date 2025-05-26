@@ -12,7 +12,7 @@ import { DeleteSessionsComponent } from './features/sessions/components/delete-s
 import { SalonsSessionsComponent } from './features/salons/components/salons-sessions/salons-sessions.component';
 import { ForumsListComponent } from './features/forums/component/list-forum/list-forum.component';
 
-  // Page d'accueil
+// Page d'accueil
 import { MarketplaceListComponent } from './features/marketplace/Skills/component/marketplace-list/marketplace-list.component';
 import { MarketplaceDetailComponent } from './features/marketplace/Skills/component/marketplace-detail/marketplace-detail.component';
 import { AddSkillComponent } from './features/marketplace/Skills/component/add-skill/add-skill.component';
@@ -21,8 +21,8 @@ import { SkillsMatchingComponent } from './features/marketplace/Skills/component
 import { UpdCatComponent } from './features/marketplace/Category/component/upd-cat/upd-cat.component';
 import { AddCategoryComponent } from './features/marketplace/Category/component/add-category/add-category.component';
 import { CategoryListComponent } from './features/marketplace/Category/component/category-list/category-list.component';
-import {DashboardPageComponent } from './features/dashboard/dashboard-page/dashboard-page.component';
-
+import { DashboardPageComponent } from './features/dashboard/dashboard-page/dashboard-page.component';
+import { SignUpComponent } from './features/auth/components/sign-up/sign-up.component';
 
 const routes: Routes = [
   // Route par défaut vers la page d'accueil
@@ -40,28 +40,24 @@ const routes: Routes = [
     path: 'signUp',
     component: SignUpComponent,
   },
-  {
-    path: 'logIn',
-    component: SignInComponent,
-  },
   // Tableau de bord
   {
     path: 'ForumsListComponent',
     component: ForumsListComponent,
   },
-   
-    {
-  path: 'UpdateCategory/:id',
-  component: UpdCatComponent
-},
-    {  
-    path:  'AddCategory',
- component: AddCategoryComponent
-    },
-     {
-    path: 'CategoryList' ,
-    component: CategoryListComponent
-     },
+
+  {
+    path: 'UpdateCategory/:id',
+    component: UpdCatComponent,
+  },
+  {
+    path: 'AddCategory',
+    component: AddCategoryComponent,
+  },
+  {
+    path: 'CategoryList',
+    component: CategoryListComponent,
+  },
   {
     path: 'MarketplaceList',
     component: MarketplaceListComponent,
@@ -83,7 +79,8 @@ const routes: Routes = [
   // Gestion des wallets
   {
     path: 'wallets',
-    loadChildren: () => import('./features/wallets/wallets.module').then((m) => m.WalletsModule),
+    loadChildren: () =>
+      import('./features/wallets/wallets.module').then((m) => m.WalletsModule),
   },
   // Gestion des salons
   {
@@ -99,7 +96,7 @@ const routes: Routes = [
     path: 'salons/delete',
     component: DeleteSalonsComponent,
   },
-   
+
   // Gestion des sessions
   {
     path: 'sessions/add/:salonNom',
@@ -116,13 +113,13 @@ const routes: Routes = [
   {
     path: 'skills-matching',
 
-    component: SkillsMatchingComponent
+    component: SkillsMatchingComponent,
   },
   //added by manel
-  { 
-    path: '', 
-    loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule) 
-
+  {
+    path: '',
+    loadChildren: () =>
+      import('./features/auth/auth.module').then((m) => m.AuthModule),
   },
 ];
 
