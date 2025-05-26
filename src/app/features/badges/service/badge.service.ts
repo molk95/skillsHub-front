@@ -30,6 +30,10 @@ export class BadgeService {
     return this.http.post<Badge>(`${this.apiUrl}`, badge);
   }
 
+  assignBadge(userId: string, score: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/assign`, { userId, score });
+  }
+
   /*updateBadge(_id: any, badge: Partial<Badge>): Observable<Badge> {
     return this.http.put<Badge>(`${this.apiUrl}/${_id}`, badge);
   }*/

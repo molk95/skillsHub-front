@@ -1,66 +1,86 @@
-<div class="container mt-5">
-  <h1 class="display-4 text-center mb-4">🎯 Challenge Trivia</h1>
+<div *ngIf="role === 'CLIENT'">
+  <div class="container mt-5">
+    <h1 class="display-4 text-center mb-4">🎯 Challenge Trivia</h1>
 
-  <form [formGroup]="triviaForm" (ngSubmit)="fetchTriviaQuestions()" class="mb-5">
-    <div class="mb-3">
-      <label for="amount" class="form-label">🎲 Nombre de questions :</label>
-      <input type="number" id="amount" formControlName="amount" class="form-control" />
-    </div>
+    <form *ngIf="triviaForm" [formGroup]="triviaForm" (ngSubmit)="fetchTriviaQuestions()">
+      <div class="mb-3">
+        <label for="amount" class="form-label">🎲 Nombre de questions :</label>
+        <input
+          type="number"
+          id="amount"
+          formControlName="amount"
+          class="form-control"
+          [class.is-invalid]="triviaForm.get('amount')?.invalid && triviaForm.get('amount')?.touched"
+        />
+      </div>
 
-    <div class="mb-3">
-      <label for="category" class="form-label">📚 Catégorie :</label>
-      <select id="category" formControlName="category" class="form-select">
-        <option value="">Toutes les catégories</option>
-        <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
-      </select>
-    </div>
+      <div class="mb-3">
+        <label for="category" class="form-label">📚 Catégorie :</label>
+        <select id="category" formControlName="category" class="form-select">
+          <option value="">Toutes les catégories</option>
+          <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+        </select>
+      </div>
 
-    <div class="mb-3">
-      <label for="difficulty" class="form-label">⚙️ Difficulté :</label>
-      <select id="difficulty" formControlName="difficulty" class="form-select">
-        <option value="easy">Facile</option>
-        <option value="medium">Moyen</option>
-        <option value="hard">Difficile</option>
-      </select>
-    </div>
+      <div class="mb-3">
+        <label for="difficulty" class="form-label">⚙️ Difficulté :</label>
+        <select id="difficulty" formControlName="difficulty" class="form-select">
+          <option value="easy">Facile</option>
+          <option value="medium">Moyen</option>
+          <option value="hard">Difficile</option>
+        </select>
+      </div>
 
-    <div class="mb-3">
-      <label for="type" class="form-label">🧠 Type :</label>
-      <select id="type" formControlName="type" class="form-select">
-        <option value="multiple">Choix multiple</option>
-        <option value="boolean">Vrai/Faux</option>
-      </select>
-    </div>
+      <div class="mb-3">
+        <label for="type" class="form-label">🧠 Type :</label>
+        <select id="type" formControlName="type" class="form-select">
+          <option value="multiple">Choix multiple</option>
+          <option value="boolean">Vrai/Faux</option>
+        </select>
+      </div>
 
-    <div class="text-center">
-      <button type="submit" class="btn btn-primary btn-lg mt-3">
-        🔍 Récupérer les questions
-      </button>
-    </div>
-  </form>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-lg mt-3">
+          🔍 Récupérer les questions
+        </button>
+      </div>
+    </form>
 
-  <div class="mt-4">
-    <h2 class="text-center mb-3">📝 Questions de Trivia</h2>
+    <div class="mt-4">
+      <h2 class="text-center mb-3">📝 Questions de Trivia</h2>
 
-    <div *ngIf="errorMessage" class="alert alert-danger text-center">
-      {{ errorMessage }}
-    </div>
+      <div *ngIf="errorMessage" class="alert alert-danger text-center">
+        {{ errorMessage }}
+      </div>
 
-    <div *ngIf="triviaQuestions && triviaQuestions.length > 0">
-      <ul class="p-0">
-        <li *ngFor="let question of triviaQuestions">
-          <h4 [innerHTML]="question.question"></h4>
-          <ul class="p-0">
-            <li *ngFor="let answer of question.shuffledAnswers">
-              {{ answer }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
+      <div *ngIf="triviaQuestions && triviaQuestions.length > 0">
+        <ul class="list-unstyled">
+          <li *ngFor="let question of triviaQuestions" class="mb-4 border p-3 rounded">
+            <h5 [innerHTML]="question.question"></h5>
+            <div *ngFor="let answer of question.shuffledAnswers" class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                [value]="answer"
+                [name]="question.question"
+                (change)="question.selectedAnswer = answer"
+              />
+              <label class="form-check-label">{{ answer }}</label>
+            </div>
+          </li>
+        </ul>
+        <div class="text-center">
+          <button (click)="submitQuiz()" class="btn btn-success mt-3">✅ Soumettre le Quizz</button>
+        </div>
+      </div>
 
-    <div *ngIf="triviaQuestions && triviaQuestions.length === 0" class="alert alert-info text-center">
-      Aucune question trouvée.
+      <div *ngIf="score > 0" class="alert alert-success mt-3 text-center">
+        Vous avez obtenu un score de {{ score }} / {{ triviaQuestions.length }} 🎉
+      </div>
+
+      <div *ngIf="triviaQuestions && triviaQuestions.length === 0" class="alert alert-info text-center">
+        Aucune question trouvée.
+      </div>
     </div>
   </div>
 </div>
