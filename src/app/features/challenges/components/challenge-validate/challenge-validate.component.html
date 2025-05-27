@@ -1,0 +1,60 @@
+<div class="container my-5 p-4 bg-light rounded shadow">
+    <h1 class="display-4 text-dark mb-4">Validate Challenge</h1>
+    <form [formGroup]="validateForm" (ngSubmit)="onSubmit()" class="needs-validation">
+      <!-- User ID -->
+      <div class="mb-3">
+        <label for="userId" class="form-label">User ID:</label>
+        <input 
+          id="userId" 
+          type="text" 
+          formControlName="userId" 
+          class="form-control" 
+          placeholder="Enter user ID"
+          required
+        >
+      </div>
+      
+      <!-- Challenge ID -->
+      <div class="mb-3">
+        <label for="challengeId" class="form-label">Challenge ID:</label>
+        <input 
+          id="challengeId" 
+          type="text" 
+          formControlName="challengeId" 
+          class="form-control" 
+          placeholder="Enter challenge ID"
+          required
+        >
+      </div>
+      
+      <!-- Score -->
+      <div class="mb-3">
+        <label for="score" class="form-label">Score:</label>
+        <input 
+          id="score" 
+          type="number" 
+          formControlName="score" 
+          class="form-control" 
+          placeholder="Enter score"
+          required
+        >
+      </div>
+  
+      <!-- Submit Button -->
+      <div class="d-grid">
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+        >
+          Validate
+        </button>
+      </div>
+    </form>
+  
+    <!-- Validation Result -->
+    <div class="mt-4">
+      <p *ngIf="validationResult" class="text-success fw-bold">
+        {{ validationResult }}
+      </p>
+    </div>
+  </div>

@@ -1,0 +1,47 @@
+/* dashboard-page.component.css */
+
+/* Basic reset */
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #f7f7f7;
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: #1f2937; /* Tailwind gray-800 */
+}
+
+/* Main content area */
+.content {
+  background-color: #f9fafb; /* Tailwind gray-50 */
+}
+
+/* Hover effects for links */
+a:hover {
+  text-decoration: underline;
+}
+
+/* Tailwind spacing and grid setup */
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.grid-cols-1 {
+  grid-template-columns: 1fr;
+}
+
+.md\:grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.card {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}

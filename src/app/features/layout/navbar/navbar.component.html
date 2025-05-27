@@ -5,6 +5,7 @@
   <ul class="navbar-links">
     <li><a routerLink="/">Home</a></li>
     <li><a routerLink="/MarketplaceList">Marketplace</a></li>
+    <li><a routerLink="/wallets/wallet-dashboard">My wallet</a></li>
     <li><a routerLink="/skill/add">Ajouter une Compétence</a></li>
     <li><a routerLink="/profil">Chat</a></li>
     <li><a routerLink="/profil">Notre Communaute</a></li>
@@ -15,8 +16,8 @@
 
 <ul class="navbar-mobile" *ngIf="isMenuOpen">
   <li><a routerLink="/" (click)="toggleMenu()">Accueil</a></li>
-  <li><a routerLink="/marketplace" (click)="toggleMenu()">Marketplace</a></li>
-  <li><a routerLink="/ajouter" (click)="toggleMenu()">Ajouter Skill</a></li>
+  <li><a routerLink="/MarketplaceList" (click)="toggleMenu()">Marketplace</a></li>
+  <li><a routerLink="/skill/add" (click)="toggleMenu()">Ajouter Skill</a></li>
   <li><a routerLink="/profil" (click)="toggleMenu()">Profil</a></li>
   <li><a href="/logIn">Log In</a></li>
 </ul>

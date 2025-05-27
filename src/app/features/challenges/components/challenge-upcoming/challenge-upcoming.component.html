@@ -1,0 +1,24 @@
+<div class="container mt-4">
+    <h2>Défis à Venir</h2>
+  
+    <!-- Affichage d'un message d'erreur -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+  
+    <!-- Affichage des défis -->
+    <div *ngIf="upcomingChallenges && upcomingChallenges.length > 0">
+      <ul class="list-group">
+        <li *ngFor="let challenge of upcomingChallenges" class="list-group-item">
+          <h4>{{ challenge.title }}</h4>
+          <p>{{ challenge.description }}</p>
+          <small>Date : {{ challenge.startDate | date: 'short' }}</small>
+        </li>
+      </ul>
+    </div>
+  
+    <!-- Message si aucun défi n'est disponible -->
+    <div *ngIf="upcomingChallenges && upcomingChallenges.length === 0" class="alert alert-info">
+      Aucun défi à venir pour le moment.
+    </div>
+  </div>

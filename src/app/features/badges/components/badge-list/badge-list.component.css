@@ -1,0 +1,69 @@
+  .badge-card {
+    background: linear-gradient(145deg, #1e1e2f, #2e2e40);
+    color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .text-violet-dark {
+    color: #8e44ad; /* Violet foncé - tu peux ajuster */
+  }
+
+  .badge-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.8);
+  }
+
+  .badge-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #9b5de5;
+  }
+
+  .badge-type {
+    font-size: 0.9rem;
+    background-color: #00bbf9;
+    color: #000;
+    border-radius: 20px;
+    padding: 3px 10px;
+    margin-left: 10px;
+  }
+
+  .certificate-badge {
+    border: 2px dashed #00f5d4;
+    padding: 8px;
+    border-radius: 12px;
+    background-color: #1b1b2f;
+    color: #00f5d4;
+  }
+
+  .custom-select,
+  .btn {
+    border-radius: 15px;
+  }
+
+  .btn-success {
+    background-color: #00bbf9;
+    border-color: #00bbf9;
+    color: #000;
+  }
+
+  .btn-warning {
+    background-color: #f15bb5;
+    border-color: #f15bb5;
+    color: #fff;
+  }
+
+  .btn-outline-secondary {
+    color: #fff;
+    border-color: #fff;
+  }
+
+  .btn-outline-secondary:hover {
+    background-color: #fff;
+    color: #1e1e2f;
+  }
+
+  body {
+    background-color: #121212;
+  }

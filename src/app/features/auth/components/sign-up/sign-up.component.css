@@ -1,0 +1,120 @@
+.sign-up-form {
+  max-width: 350px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.sign-up-form h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.sign-up-form label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+.sign-up-form input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.sign-up-form .validation {
+  color: #d32f2f;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+.sign-up-form .error {
+  color: #fff;
+  background: #d32f2f;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.sign-up-form .success {
+  color: #fff;
+  background: #388e3c;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.sign-up-form button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.sign-up-form button:disabled {
+  background: #90caf9;
+  cursor: not-allowed;
+}
+.sign-up-form .selected-skill,
+.sign-up-form .selected-skill-chip,
+.sign-up-form span.bg-cyan-200 {
+  font-size: 0.85rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+  margin: 0 2px 2px 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.5rem;
+}
+
+.sign-up-form .selected-skill button,
+.sign-up-form .selected-skill-chip button,
+.sign-up-form span.bg-cyan-200 button {
+  font-size: 1rem;
+  padding: 0 0.2rem;
+  margin-left: 0.2rem;
+  line-height: 1;
+}
+
+.gradient-bg {
+  background-image: linear-gradient(
+    to right top,
+    #62608f,
+    #797eb6,
+    #6b698d,
+    #6c5d83,
+    #596986
+  );
+  min-height: 50vh;
+  width: 100%;
+}
+
+.form-columns {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+.form-columns > div {
+  flex: 1;
+}
+@media (max-width: 700px) {
+  .form-columns {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+.grid-form {
+  max-width: 700px;
+  width: 60%;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+}

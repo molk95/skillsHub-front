@@ -36,6 +36,13 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { SignInComponent } from './features/auth/components/sign-in/sign-in.component';
 import { AuthModule } from './features/auth/auth.module';
 import { MarketplaceModule } from './features/marketplace/marketplace.module';
+import { CategoryModule } from './features/marketplace/Category/category.module';
+import { CreateFeedbackComponent } from './features/feedback/components/create/create.component';
+import { ListFeedbackComponent } from './features/feedback/components/list/list.component';
+import { UpdateFeedbackComponent } from './features/feedback/components/update/update.component';
+import { DetailsFeedbackComponent } from './features/feedback/components/details/details.component';
+import { DeleteFeedbackComponent } from './features/feedback/components/delete/delete.component';
+import { FeedbackModule } from './features/feedback/feedback.module';
 
 
 import { EditForumComponent } from './features/forums/component/edit-forum/edit-forum.component';
@@ -50,6 +57,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 @NgModule({
   declarations: [
     AppComponent,
+    CreateFeedbackComponent,
+    ListFeedbackComponent,
+    UpdateFeedbackComponent,
+    DetailsFeedbackComponent,
+    DeleteFeedbackComponent,
     DashboardPageComponent,
     NavbarComponent,
     SidebarComponent,
@@ -68,7 +80,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     EditForumComponent,
     AddForumComponent,
     ForumsListComponent,
-    ForumDetailsComponent
+    ForumDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,6 +91,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     WalletsModule,
+    FeedbackModule,
     ReactiveFormsModule,
     FormsModule,
     StoreModule.forRoot(reducers),
@@ -89,7 +102,12 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     AuthModule,
   MarketplaceModule,
    EventsModule,             // 👈 Module des événements
-    SharedModule  
+    SharedModule,  
+
+    CategoryModule,
+    MarketplaceModule,
+
+    FeedbackModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },

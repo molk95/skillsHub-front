@@ -1,0 +1,24 @@
+<div class="container mt-5">
+    <div class="card shadow rounded-4">
+      <div class="card-header bg-primary text-white text-center rounded-top-4">
+        <h4 class="mb-0">Détails du Feedback</h4>
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <strong>Utilisateur :</strong>
+            <span class="text-muted ms-2">{{ feedback?.userId }}</span>
+          </li>
+          <li class="list-group-item">
+            <strong>Note :</strong>
+            <span class="badge bg-success ms-2">{{ feedback?.rating }} / 5</span>
+          </li>
+          <li class="list-group-item">
+            <strong>Commentaire :</strong>
+            <span class="ms-2">{{ feedback?.comment || 'Aucun commentaire' }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  

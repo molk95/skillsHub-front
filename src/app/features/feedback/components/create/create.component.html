@@ -1,0 +1,39 @@
+<div class="container mt-5">
+    <div class="card shadow-lg rounded-4">
+      <div class="card-header bg-primary text-white text-center rounded-top-4">
+        <h3 class="mb-0">Créer un Feedback</h3>
+      </div>
+      <div class="card-body p-4">
+        <form [formGroup]="feedbackForm" (ngSubmit)="onSubmit()">
+          
+          <div class="mb-3">
+            <label for="userId" class="form-label">Utilisateur</label>
+            <input id="userId" formControlName="userId" type="text" class="form-control" placeholder="ID de l'utilisateur">
+          </div>
+  
+          <div class="mb-3">
+            <label for="targetUserId" class="form-label">Utilisateur Cible</label>
+            <input id="targetUserId" formControlName="targetUserId" type="text" class="form-control" placeholder="ID de l'utilisateur cible">
+          </div>
+  
+          <div class="mb-3">
+            <label for="rating" class="form-label">Note</label>
+            <input id="rating" formControlName="rating" type="number" class="form-control" min="1" max="5" placeholder="Note entre 1 et 5">
+          </div>
+  
+          <div class="mb-3">
+            <label for="comment" class="form-label">Commentaire</label>
+            <textarea id="comment" formControlName="comment" class="form-control" rows="4" placeholder="Votre commentaire ici..."></textarea>
+          </div>
+  
+          <div class="text-end">
+            <button type="submit" class="btn btn-success px-4" [disabled]="feedbackForm.invalid">
+              <i class="bi bi-check-circle me-2"></i>Créer Feedback
+            </button>
+          </div>
+  
+        </form>
+      </div>
+    </div>
+  </div>
+  

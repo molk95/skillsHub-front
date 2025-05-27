@@ -1,0 +1,26 @@
+
+<div class="add-category-form">
+    <h2>Ajouter un category</h2>
+  
+    <form [formGroup]="categoryForm">
+      <div>
+        <label for="name">Nom :</label>
+        <input id="name" formControlName="name" type="text" />
+        <small *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched">
+          Le nom doit contenir au moins 3 caractères.
+        </small>
+      </div>
+  
+      <div>
+        <label for="description">Description :</label>
+        <input id="description" formControlName="description" type="text" />
+        <small *ngIf="categoryForm.get('description')?.invalid && categoryForm.get('description')?.touched">
+          La description doit contenir au moins 10 caractères.
+        </small>
+      </div>
+  
+       
+      <button type="submit" [disabled]="categoryForm.invalid" (click)="addCategory()">Ajouter category</button>
+    </form>
+  </div>
+  

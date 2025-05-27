@@ -1,0 +1,29 @@
+<div class="update-category-form">
+  <h2 style="  font-weight: bold;">Mettre à jour une compétence</h2>
+
+  <form [formGroup]="categoryForm" (ngSubmit)="updateCategory()">
+    
+    <div>
+      <label for="name">Nom :</label>
+      <input id="name" formControlName="name" type="text" />
+      <small *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched">
+        Le nom doit contenir au moins 3 caractères.
+      </small>
+    </div>
+
+    <div>
+      <label for="description">Description :</label>
+      <input id="description" formControlName="description" type="text" />
+      <small *ngIf="categoryForm.get('description')?.invalid && categoryForm.get('description')?.touched">
+        La description doit contenir au moins 10 caractères.
+      </small>
+    </div>
+
+   
+
+
+    <button type="submit" [disabled]="categoryForm.invalid">Mettre à jour</button>
+  </form>
+</div>
+
+

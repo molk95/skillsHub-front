@@ -1,0 +1,35 @@
+<div class="add-skill-form">
+    <h2>Ajouter un skill</h2>
+  
+    <form [formGroup]="skillForm">
+      <div>
+        <label for="name">Nom :</label>
+        <input id="name" formControlName="name" type="text" />
+        <small *ngIf="skillForm.get('name')?.invalid && skillForm.get('name')?.touched">
+          Le nom doit contenir au moins 3 caractères.
+        </small>
+      </div>
+  
+      <div>
+        <label for="description">Description :</label>
+        <input id="description" formControlName="description" type="text" />
+        <small *ngIf="skillForm.get('description')?.invalid && skillForm.get('description')?.touched">
+          La description doit contenir au moins 10 caractères.
+        </small>
+      </div>
+  
+      <div>
+        <label for="category">Catégorie :</label>
+        <select formControlName="category">
+          <option value="">Sélectionnez une catégorie</option>
+          <option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</option>
+        </select>
+        <small *ngIf="skillForm.get('category')?.invalid && skillForm.get('category')?.touched">
+          Veuillez sélectionner une catégorie.
+        </small>
+      </div>
+  
+      <button type="submit" [disabled]="skillForm.invalid" (click)="addSkill()">Ajouter skill</button>
+    </form>
+  </div>
+  

@@ -44,7 +44,7 @@ export class TopUpComponent implements OnInit {
       if (wallet && !wallet.isActive) {
         this.walletError = 'Cannot top up a deactivated wallet. Please activate the wallet first.';
         setTimeout(() => {
-          this.router.navigate(['/wallets']);
+          this.router.navigate(['/wallets/wallet-dashboard']);
         }, 3000);
       }
     });
@@ -61,7 +61,7 @@ export class TopUpComponent implements OnInit {
 
     // Load Stripe with the correct key name from environment
     this.stripe = await loadStripe(environment.stripePublishableKey);
-    
+
     // Subscribe to checkout URL and redirect when available
     this.checkoutUrl$.subscribe((url) => {
       if (url) {
@@ -86,17 +86,21 @@ export class TopUpComponent implements OnInit {
       return;
     }
 
-    const userId = "680bc3701cafa75c695bac60"
-    // const userId = localStorage.getItem('userId');
+    // Get the logged-in user's ID from localStorage
+    const userStr = localStorage.getItem('user');
+    const user = userStr ? JSON.parse(userStr) : null;
+    const userId = user?.id || user?._id || null;
+
     if (!userId) {
       this.store.dispatch(
-        WalletActions.initiateCheckoutFailure({ error: 'User ID not found' })
+        WalletActions.initiateCheckoutFailure({ error: 'User ID not found. Please log in again.' })
       );
       return;
     }
 
-    console.log('Initiating checkout with:', {
+    console.log('Initiating checkout with logged-in user:', {
       userId,
+      userInfo: user,
       amount: this.selectedPackage.amount,
       imoneyValue: this.selectedPackage.imoneyValue
     });
@@ -114,4 +118,3 @@ export class TopUpComponent implements OnInit {
     this.router.navigate(['/wallets/packages']);
   }
 }
-  

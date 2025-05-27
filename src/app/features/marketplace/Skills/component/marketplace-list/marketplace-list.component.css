@@ -1,0 +1,199 @@
+
+
+
+/* Styles généraux */
+.marketplace-title {
+  text-align: center;
+  font-size: 2.8rem;
+  margin: 30px 0;
+  font-weight: bold;
+  color: #3c4f93;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Liste des compétences */
+.skill-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  padding: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Carte compétence */
+.skill-card {
+  background: linear-gradient(145deg, #ffffff, #f5f7ff);
+  color: #333;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  border-left: 5px solid #6a0dad;
+  position: relative;
+  overflow: hidden;
+}
+
+.skill-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.skill-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #3c4f93;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+.skill-card p {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.skill-card strong {
+  color: #6a0dad;
+  font-weight: 600;
+}
+
+/* Boutons */
+.skill-card-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.skill-card-buttons button {
+  flex: 1;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.skill-card-buttons button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.skill-card-buttons button:nth-child(1) {
+  background: #3c4f93;
+}
+
+.skill-card-buttons button:nth-child(2) {
+  background: #6a0dad;
+}
+
+.skill-card-buttons button:nth-child(3) {
+  background: #e74c3c;
+}
+
+/* Boutons de navigation vers salon/session */
+.skill-card .nav-button {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-align: center;
+  background: linear-gradient(145deg, #3c4f93, #6a0dad);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.skill-card .nav-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  background: linear-gradient(145deg, #4e60a4, #7b1ebe);
+}
+
+.skill-card .nav-button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+/* Bouton salon */
+.skill-card .salon-button {
+  background: linear-gradient(145deg, #3c4f93, #5a6fb3);
+}
+
+/* Bouton session */
+.skill-card .session-button {
+  background: linear-gradient(145deg, #6a0dad, #8a2dcd);
+}
+
+/* Formulaire de recherche */
+.search-form {
+  max-width: 700px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.search-container {
+  display: flex;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+select#category-select {
+  padding: 12px 20px;
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 10px 0 0 10px;
+  font-size: 14px;
+  min-width: 180px;
+  color: #333;
+  font-weight: 500;
+  border-right: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 1em;
+}
+
+.search-input {
+  padding: 12px 20px;
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-left: none;
+  font-size: 14px;
+}
+
+.search-button {
+  padding: 0 20px;
+  background-color: #3c4f93;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.search-button:hover {
+  background-color: #2c3e7c;
+}
+
+/* Message quand aucune compétence n'est trouvée */
+ng-template p {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #6c757d;
+  margin: 50px 0;
+  font-style: italic;
+}
