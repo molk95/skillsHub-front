@@ -15,6 +15,7 @@ import { DashboardPageComponent } from './features/dashboard/dashboard-page/dash
 import { NavbarComponent } from './features/layout/navbar/navbar.component';
 import { SidebarComponent } from './features/layout/sidebar/sidebar.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
+import { HomeComponent } from './components/home/home.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddForumComponent } from './features/forums/component/add-forum/add-forum.component';
@@ -66,6 +67,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     NavbarComponent,
     SidebarComponent,
     LandingPageComponent,
+    HomeComponent,
     AddSalonsComponent,
     ListSalonsComponent,
     UpdateSalonsComponent,
@@ -102,7 +104,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     AuthModule,
   MarketplaceModule,
    EventsModule,             // 👈 Module des événements
-    SharedModule,  
+    SharedModule,
 
     CategoryModule,
     MarketplaceModule,
