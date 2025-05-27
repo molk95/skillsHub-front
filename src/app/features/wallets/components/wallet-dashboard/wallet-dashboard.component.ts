@@ -131,5 +131,8 @@ ngOnInit(): void {
 goBackToWallets(): void {
   this.router.navigate(['/wallets']);
 }
+goBackToMyWallet(): void {
+  this.router.navigate(['/wallets/wallet-dashboard']);
+}
 
 }

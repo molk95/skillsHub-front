@@ -22,6 +22,8 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   timeUntilActivation: string | null = null;
   private routeSubscription: Subscription | null = null;
   private walletSubscription: Subscription | null = null;
+  userRole: string | null = null;
+
 
   constructor(
     private store: Store<AppState>,
@@ -36,6 +38,9 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Initial load from route params
     this.loadWalletFromRouteParams();
+    const userStr = localStorage.getItem('user');
+  const user = userStr ? JSON.parse(userStr) : null;
+  this.userRole = user?.role || null;
     
     // Subscribe to route parameter changes to handle navigation between different wallet details
     this.routeSubscription = this.route.paramMap.subscribe(params => {
@@ -166,7 +171,9 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   goBackToWallets(): void {
     this.router.navigate(['/wallets']);
   }
-
+goBackToMyWallet(): void {
+  this.router.navigate(['/wallets/wallet-dashboard']);
+}
   handleTopUpClick(wallet: IWallet): void {
     if (!wallet.isActive) {
       this.statusError = 'Cannot top up a deactivated wallet. Please activate the wallet first.';

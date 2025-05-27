@@ -68,12 +68,23 @@
       >
         Top Up
       </a>
-      <button
-        (click)="goBackToWallets()"
-        class="bg-gray-700 hover:bg-gray-800 text-white py-2 px-4 rounded-lg transition"
-      >
-        Back to Wallets
-      </button>
+   <!-- Back to Wallets Button - Only for ADMIN users -->
+  <div *ngIf="userRole === 'ADMIN'" class="mt-6 text-center">
+    <button
+      (click)="goBackToWallets()"
+      class="bg-gray-700 hover:bg-gray-800 text-white py-2 px-4 rounded-lg transition"
+    >
+      Back to Wallets
+    </button>
+  </div>
+    <div *ngIf="userRole === 'CLIENT'" class="mt-6 text-center">
+    <button
+      (click)="goBackToMyWallet()"
+      class="bg-gray-700 hover:bg-gray-800 text-white py-2 px-4 rounded-lg transition"
+    >
+      Back
+    </button>
+  </div>
     </div>
   </div>
 
