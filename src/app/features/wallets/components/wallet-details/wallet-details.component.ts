@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { AppState } from 'src/app/core/app.state';
 import { IWallet } from '../../models/wallets.model';
+import { IRewardsHistory, IRewardsWithConversion } from '../../models/rewards.model';
 import * as WalletActions from '../../store/wallets.actions';
 import { WalletsService } from '../../services/wallets.service';
 
@@ -24,6 +25,11 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   private walletSubscription: Subscription | null = null;
   userRole: string | null = null;
 
+  // Rewards observables
+  rewardsHistory$: Observable<IRewardsHistory[]>;
+  rewardsLoading$: Observable<boolean>;
+  userRewards$: Observable<IRewardsWithConversion | null>;
+
 
   constructor(
     private store: Store<AppState>,
@@ -33,6 +39,11 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   ) {
     this.wallet$ = this.store.select(state => state.wallets.selectedWallet);
     this.isLoading$ = this.store.select(state => state.wallets.isLoading);
+
+    // Initialize rewards observables
+    this.rewardsHistory$ = this.store.select(state => state.wallets.rewardsHistory);
+    this.rewardsLoading$ = this.store.select(state => state.wallets.rewardsLoading);
+    this.userRewards$ = this.store.select(state => state.wallets.userRewards);
   }
 
   ngOnInit(): void {
@@ -41,7 +52,7 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
     const userStr = localStorage.getItem('user');
   const user = userStr ? JSON.parse(userStr) : null;
   this.userRole = user?.role || null;
-    
+
     // Subscribe to route parameter changes to handle navigation between different wallet details
     this.routeSubscription = this.route.paramMap.subscribe(params => {
       const walletId = params.get('id');
@@ -83,6 +94,16 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   private fetchWalletData(walletId: string): void {
     console.log('Fetching wallet with ID:', walletId);
     this.store.dispatch(WalletActions.fetchWalletById({ id: walletId }));
+
+    // Also load rewards data if we have a user ID
+    const userStr = localStorage.getItem('user');
+    const user = userStr ? JSON.parse(userStr) : null;
+    const userId = user?.id || user?._id || null;
+
+    if (userId) {
+      this.store.dispatch(WalletActions.fetchUserRewards({ userId }));
+      this.store.dispatch(WalletActions.fetchRewardsHistory({ userId }));
+    }
   }
 
   private checkActivationEligibility(wallet: IWallet): void {
@@ -96,7 +117,7 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
     const currentTime = new Date();
     const timeDifference = currentTime.getTime() - deactivatedAt.getTime();
     const hoursDifference = timeDifference / (1000 * 3600);
-    
+
     if (hoursDifference >= 48) {
       this.canActivate = true;
       this.timeUntilActivation = null;
@@ -119,13 +140,13 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
 
   toggleWalletStatus(wallet: IWallet): void {
     if (!wallet) return;
-    
+
     this.isToggling = true;
     this.statusError = null;
     this.statusSuccess = null;
-    
+
     const walletId = wallet._id;
-    
+
     if (wallet.isActive) {
       this.deactivateWallet(walletId);
     } else {
@@ -179,7 +200,58 @@ goBackToMyWallet(): void {
       this.statusError = 'Cannot top up a deactivated wallet. Please activate the wallet first.';
       return;
     }
-    
+
     this.router.navigate(['/wallets/packages']);
+  }
+
+  // Activity display methods (same as wallet dashboard)
+  getActivityIcon(source: string): string {
+    switch (source) {
+      case 'wallet_topup':
+        return '💰';
+      case 'skill_purchase':
+        return '🎯';
+      case 'challenge_purchase':
+        return '🏆';
+      case 'points_to_imoney':
+        return '🔄';
+      default:
+        return '⭐';
+    }
+  }
+
+  getActivityLabel(source: string): string {
+    switch (source) {
+      case 'wallet_topup':
+        return 'Wallet Top-up';
+      case 'skill_purchase':
+        return 'Skill Purchase';
+      case 'challenge_purchase':
+        return 'Challenge Purchase';
+      case 'points_to_imoney':
+        return 'Points Conversion';
+      default:
+        return 'Manual Points';
+    }
+  }
+
+  formatActivityDate(dateString: string): string {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - date.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 1) {
+      return 'Today';
+    } else if (diffDays === 2) {
+      return 'Yesterday';
+    } else if (diffDays <= 7) {
+      return `${diffDays - 1} days ago`;
+    } else {
+      return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric'
+      });
+    }
   }
 }

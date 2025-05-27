@@ -1,0 +1,300 @@
+<div class="rewards-container p-6 bg-white rounded-lg shadow-lg">
+  <!-- Loading State -->
+  <div *ngIf="rewardsLoading$ | async" class="flex justify-center items-center py-8">
+    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+    <span class="ml-2 text-gray-600">Loading rewards...</span>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="rewardsError$ | async as error" class="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
+    <div class="flex">
+      <div class="flex-shrink-0">
+        <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+        </svg>
+      </div>
+      <div class="ml-3">
+        <h3 class="text-sm font-medium text-red-800">Error loading rewards</h3>
+        <p class="mt-1 text-sm text-red-700">{{ error }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rewards Content -->
+  <div *ngIf="userRewards$ | async as rewardsData" class="space-y-6">
+    <!-- Header -->
+    <div class="text-center">
+      <h2 class="text-2xl font-bold text-gray-900 mb-2">🎁 Reward Points</h2>
+      <p class="text-gray-600">Earn points for activities and convert them to iMoney!</p>
+    </div>
+
+    <!-- Points Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Current Points -->
+      <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg p-6 text-white">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-purple-100 text-sm font-medium">Current Points</p>
+            <p class="text-3xl font-bold">{{ rewardsData.rewards?.points || 0 }}</p>
+          </div>
+          <div class="text-4xl">⭐</div>
+        </div>
+      </div>
+
+      <!-- Total Redeemed -->
+      <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-6 text-white">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-blue-100 text-sm font-medium">Total Redeemed</p>
+            <p class="text-3xl font-bold">{{ rewardsData.rewards?.redeemed || 0 }}</p>
+          </div>
+          <div class="text-4xl">🔄</div>
+        </div>
+      </div>
+
+      <!-- Best Available Conversion -->
+      <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg p-6 text-white">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-green-100 text-sm font-medium">Best Conversion</p>
+            <p class="text-3xl font-bold">{{ rewardsData.conversion?.bestTier?.imoney || 0 }}</p>
+            <p class="text-xs text-green-200" *ngIf="rewardsData.conversion?.bestTier">
+              {{ rewardsData.conversion.bestTier!.points }} pts → {{ rewardsData.conversion.bestTier!.imoney }} iMoney
+            </p>
+          </div>
+          <div class="text-4xl">💰</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conversion Section -->
+    <div class="bg-gray-50 rounded-lg p-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">💱 Convert Points to iMoney</h3>
+
+      <div class="space-y-4">
+        <!-- Conversion Info -->
+        <div class="bg-white rounded-md p-4 border">
+          <div class="mb-3">
+            <span class="text-gray-600 font-medium">Tiered Conversion Rates:</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-sm mb-3">
+            <div *ngFor="let tier of rewardsData.conversion.conversionTiers"
+                 class="flex justify-between p-2 rounded"
+                 [class.bg-green-50]="rewardsData.conversion.userPoints >= tier.points"
+                 [class.bg-gray-50]="rewardsData.conversion.userPoints < tier.points">
+              <span [class.text-green-700]="rewardsData.conversion.userPoints >= tier.points"
+                    [class.text-gray-500]="rewardsData.conversion.userPoints < tier.points">
+                {{ tier.points }} pts
+              </span>
+              <span [class.text-green-700]="rewardsData.conversion.userPoints >= tier.points"
+                    [class.text-gray-500]="rewardsData.conversion.userPoints < tier.points">
+                → {{ tier.imoney }} iMoney
+              </span>
+            </div>
+          </div>
+          <div class="text-sm">
+            <span class="text-gray-600">Your Points:</span>
+            <span class="font-semibold text-gray-600 ml-2">{{ rewardsData.conversion.userPoints || 0 }}</span>
+          </div>
+        </div>
+
+        <!-- Conversion Form -->
+        <div *ngIf="rewardsData.conversion.canConvert" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Select Conversion Tier</label>
+            <select
+              [(ngModel)]="convertAmount"
+              (change)="onConvertAmountChange($event)"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <option *ngFor="let tier of rewardsData.conversion.availableTiers"
+                      [value]="tier.points">
+                {{ tier.points }} points → {{ tier.imoney }} iMoney
+              </option>
+            </select>
+          </div>
+
+          <button
+            (click)="convertPoints()"
+            [disabled]="convertAmount > rewardsData.conversion.userPoints || (rewardsLoading$ | async)"
+            class="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+            <span *ngIf="!(rewardsLoading$ | async)">Convert {{ convertAmount }} Points</span>
+            <span *ngIf="rewardsLoading$ | async" class="flex items-center justify-center">
+              <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+              Converting...
+            </span>
+          </button>
+        </div>
+
+        <!-- Not Enough Points -->
+        <div *ngIf="!rewardsData.conversion.canConvert" class="text-center py-4">
+          <p class="text-gray-600">You need at least {{ rewardsData.conversion.minimumPoints }} points to convert to iMoney.</p>
+          <p class="text-sm text-gray-500 mt-1">
+            Keep earning points by topping up your wallet and purchasing skills/challenges!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- How to Earn Points -->
+    <div class="bg-blue-50 rounded-lg p-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">📈 How to Earn Points & Convert</h3>
+
+      <!-- Wallet Top-up Packages -->
+      <div class="mb-6">
+        <h4 class="font-medium text-gray-900 mb-3">💰 Wallet Top-up Packages:</h4>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="bg-white rounded-lg p-3 border border-blue-200">
+            <div class="text-center">
+              <div class="text-sm font-bold text-purple-600">Basic Package</div>
+              <div class="text-xs text-gray-600">$10 → 10 iMoney</div>
+              <div class="text-lg font-bold text-green-600">+15 points</div>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg p-3 border border-blue-200">
+            <div class="text-center">
+              <div class="text-sm font-bold text-purple-600">Standard Package</div>
+              <div class="text-xs text-gray-600">$25 → 30 iMoney</div>
+              <div class="text-lg font-bold text-green-600">+50 points</div>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg p-3 border border-blue-200">
+            <div class="text-center">
+              <div class="text-sm font-bold text-purple-600">Premium Package</div>
+              <div class="text-xs text-gray-600">$50 → 65 iMoney</div>
+              <div class="text-lg font-bold text-green-600">+120 points</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Other Earning Methods -->
+      <div class="mb-6">
+        <h4 class="font-medium text-gray-900 mb-3">🎯 Other Ways to Earn:</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="flex items-center space-x-3">
+            <div class="text-2xl">🎯</div>
+            <div>
+              <p class="font-medium text-gray-900">Skill Purchase</p>
+              <p class="text-sm text-gray-600">1 point per 20 iMoney</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="text-2xl">🏆</div>
+            <div>
+              <p class="font-medium text-gray-900">Challenge Purchase</p>
+              <p class="text-sm text-gray-600">1 point per 15 iMoney</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conversion Rates -->
+      <div>
+        <h4 class="font-medium text-gray-900 mb-3">🔄 Tiered Conversion Rates:</h4>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="bg-white rounded-lg p-3 border border-blue-200">
+            <div class="text-center">
+              <div class="text-lg font-bold text-blue-600">100 pts</div>
+              <div class="text-sm text-gray-600">→</div>
+              <div class="text-lg font-bold text-green-600">10 iMoney</div>
+              <div class="text-xs text-gray-500">Basic Tier</div>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg p-3 border border-blue-200">
+            <div class="text-center">
+              <div class="text-lg font-bold text-blue-600">200 pts</div>
+              <div class="text-sm text-gray-600">→</div>
+              <div class="text-lg font-bold text-green-600">25 iMoney</div>
+              <div class="text-xs text-gray-500">Better Rate!</div>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg p-3 border border-blue-200">
+            <div class="text-center">
+              <div class="text-lg font-bold text-blue-600">300 pts</div>
+              <div class="text-sm text-gray-600">→</div>
+              <div class="text-lg font-bold text-green-600">40 iMoney</div>
+              <div class="text-xs text-gray-500">Great Rate!</div>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg p-3 border border-blue-200">
+            <div class="text-center">
+              <div class="text-lg font-bold text-blue-600">400 pts</div>
+              <div class="text-sm text-gray-600">→</div>
+              <div class="text-lg font-bold text-green-600">55 iMoney</div>
+              <div class="text-xs text-gray-500">Best Rate!</div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3 text-center">
+          <p class="text-sm text-gray-600">💡 <strong>Tip:</strong> Save up for higher tiers to get better conversion rates!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- History Button -->
+    <div class="text-center space-y-2">
+      <button
+        (click)="loadHistory()"
+        class="bg-gray-600 text-white py-2 px-6 rounded-md hover:bg-gray-700 transition-colors">
+        {{ showHistory ? 'Refresh' : 'View' }} History
+      </button>
+
+      <!-- Debug Test Button -->
+      <!-- <div>
+        <button
+          (click)="testDirectConversion()"
+          class="bg-orange-600 text-white py-2 px-4 rounded-md hover:bg-orange-700 transition-colors text-sm">
+          🔧 Test Direct API Conversion
+        </button>
+      </div> -->
+    </div>
+  </div>
+
+  <!-- No Rewards Data -->
+  <div *ngIf="!(userRewards$ | async) && !(rewardsLoading$ | async)" class="text-center py-8">
+    <div class="text-6xl mb-4">🎁</div>
+    <h3 class="text-lg font-medium text-gray-900 mb-2">No rewards data yet</h3>
+    <p class="text-gray-600 mb-4">Start earning points by topping up your wallet or purchasing skills!</p>
+    <button
+      (click)="loadRewards()"
+      class="bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 transition-colors">
+      Load Rewards
+    </button>
+  </div>
+</div>
+
+<!-- History Modal/Section -->
+<div *ngIf="showHistory" class="mt-6 bg-white rounded-lg shadow-lg p-6">
+  <div class="flex justify-between items-center mb-4">
+    <h3 class="text-lg font-semibold text-gray-900">📊 Rewards History</h3>
+    <button
+      (click)="showHistory = false"
+      class="text-gray-400 hover:text-gray-600">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div *ngIf="rewardsHistory$ | async as history" class="space-y-3">
+    <div *ngIf="history.length === 0" class="text-center py-8 text-gray-500">
+      No history available yet.
+    </div>
+
+    <div *ngFor="let item of history" class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+      <div class="flex items-center space-x-3">
+        <div class="text-2xl">{{ getSourceIcon(item.source || 'manual') }}</div>
+        <div>
+          <p class="font-medium text-gray-900">{{ getSourceLabel(item.source || 'manual') }}</p>
+          <p class="text-sm text-gray-600">{{ item.description || 'No description' }}</p>
+          <p class="text-xs text-gray-500">{{ formatDate(item.createdAt) }}</p>
+        </div>
+      </div>
+      <div class="text-right">
+        <p class="font-semibold" [ngClass]="getTypeClass(item.type)">
+          {{ item.type === 'EARNED' ? '+' : '-' }}{{ item.points }} points
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,157 @@
+.rewards-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Custom gradient backgrounds */
+.bg-gradient-to-r {
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+}
+
+.from-purple-500 {
+  --tw-gradient-from: #8b5cf6;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(139, 92, 246, 0));
+}
+
+.to-purple-600 {
+  --tw-gradient-to: #7c3aed;
+}
+
+.from-blue-500 {
+  --tw-gradient-from: #3b82f6;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(59, 130, 246, 0));
+}
+
+.to-blue-600 {
+  --tw-gradient-to: #2563eb;
+}
+
+.from-green-500 {
+  --tw-gradient-from: #10b981;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(16, 185, 129, 0));
+}
+
+.to-green-600 {
+  --tw-gradient-to: #059669;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .rewards-container {
+    padding: 1rem;
+  }
+  
+  .grid-cols-1.md\\:grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+  
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+/* Button hover effects */
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Card hover effects */
+.bg-white {
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.bg-white:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* History item animations */
+.space-y-3 > div {
+  transition: transform 0.2s ease-in-out;
+}
+
+.space-y-3 > div:hover {
+  transform: translateX(4px);
+}
+
+/* Loading spinner */
+.animate-spin {
+  border-top-color: transparent;
+}
+
+/* Text colors */
+.text-green-600 {
+  color: #059669;
+}
+
+.text-blue-600 {
+  color: #2563eb;
+}
+
+.text-purple-100 {
+  color: #e9d5ff;
+}
+
+.text-blue-100 {
+  color: #dbeafe;
+}
+
+.text-green-100 {
+  color: #d1fae5;
+}
+
+/* Focus styles */
+select:focus,
+button:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: #8b5cf6;
+  ring-offset: 2px;
+}
+
+/* Custom scrollbar for history */
+.space-y-3 {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.space-y-3::-webkit-scrollbar {
+  width: 6px;
+}
+
+.space-y-3::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.space-y-3::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.space-y-3::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
