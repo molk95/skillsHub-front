@@ -6,12 +6,6 @@ import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { WalletsModule } from './features/wallets/wallets.module';
-import {  CreateFeedbackComponent } from './features/feedback/components/create/create.component';
-import {  ListFeedbackComponent } from './features/feedback/components/list/list.component';
-import { UpdateFeedbackComponent } from './features/feedback/components/update/update.component';
-import { DetailsFeedbackComponent } from './features/feedback/components/details/details.component';
-import { DeleteFeedbackComponent } from './features/feedback/components/delete/delete.component';
-import { FeedbackModule } from './features/feedback/feedback.module';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { DashboardPageComponent } from './features/dashboard/dashboard-page/dashboard-page.component';
 import { NavbarComponent } from './features/layout/navbar/navbar.component';
@@ -38,8 +32,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthModule } from './features/auth/auth.module';
 import { MarketplaceModule } from './features/marketplace/marketplace.module';
 import { CategoryModule } from './features/marketplace/Category/category.module';
-import {  CreateFeedbackComponent } from './features/feedback/components/create/create.component';
-import {  ListFeedbackComponent } from './features/feedback/components/list/list.component';
+import { CreateFeedbackComponent } from './features/feedback/components/create/create.component';
+import { ListFeedbackComponent } from './features/feedback/components/list/list.component';
 import { UpdateFeedbackComponent } from './features/feedback/components/update/update.component';
 import { DetailsFeedbackComponent } from './features/feedback/components/details/details.component';
 import { DeleteFeedbackComponent } from './features/feedback/components/delete/delete.component';
@@ -74,7 +68,7 @@ import { FeedbackModule } from './features/feedback/feedback.module';
     ListFeedbackComponent,
     UpdateFeedbackComponent,
     DetailsFeedbackComponent,
-    DeleteFeedbackComponent
+    DeleteFeedbackComponent,
   ],
   imports: [
     BrowserModule,
@@ -94,11 +88,11 @@ import { FeedbackModule } from './features/feedback/feedback.module';
     FormsModule,
     CommonModule, // Ajoute ceci ici aussi
     AuthModule,
-    
-    CategoryModule,
-  MarketplaceModule,
 
-    FeedbackModule
+    CategoryModule,
+    MarketplaceModule,
+
+    FeedbackModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
