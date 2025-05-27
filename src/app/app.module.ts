@@ -16,6 +16,8 @@ import { NavbarComponent } from './features/layout/navbar/navbar.component';
 import { SidebarComponent } from './features/layout/sidebar/sidebar.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
 import { HomeComponent } from './components/home/home.component';
+import { AboutComponent } from './components/about/about.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddForumComponent } from './features/forums/component/add-forum/add-forum.component';
@@ -68,6 +70,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     SidebarComponent,
     LandingPageComponent,
     HomeComponent,
+    AboutComponent,
+    ContactComponent,
     AddSalonsComponent,
     ListSalonsComponent,
     UpdateSalonsComponent,

@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardPageComponent } from './features/dashboard/dashboard-page/dashboard-page.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
 import { HomeComponent } from './components/home/home.component';
+import { AboutComponent } from './components/about/about.component';
+import { ContactComponent } from './components/contact/contact.component';
 import { AddSalonsComponent } from './features/salons/components/add-salons/add-salons.component';
 import { ListSalonsComponent } from './features/salons/components/list-salons/list-salons.component';
 import { UpdateSalonsComponent } from './features/salons/components/update-salons/update-salons.component';
@@ -38,6 +40,14 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+  },
+  {
+    path: 'about',
+    component: AboutComponent,
+  },
+  {
+    path: 'contact',
+    component: ContactComponent,
   },
   {
     path: 'forums/edit/:id',

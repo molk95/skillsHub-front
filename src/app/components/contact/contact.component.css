@@ -1,0 +1,114 @@
+/* Contact Us Page Styles */
+
+/* Form animations */
+.form-field {
+  transition: all 0.3s ease;
+}
+
+.form-field:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+/* Contact info animations */
+.contact-item {
+  transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+  transform: translateX(5px);
+}
+
+/* Button animations */
+.btn-submit {
+  transition: all 0.3s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+}
+
+/* Success message animation */
+.success-message {
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading spinner */
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Form validation styles */
+.field-error {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus styles for accessibility */
+input:focus,
+textarea:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: #3B82F6;
+}
+
+/* Hover effects for contact info */
+.contact-info-item {
+  transition: all 0.3s ease;
+}
+
+.contact-info-item:hover {
+  background-color: #F9FAFB;
+  border-radius: 8px;
+  padding: 8px;
+  margin: -8px;
+}
