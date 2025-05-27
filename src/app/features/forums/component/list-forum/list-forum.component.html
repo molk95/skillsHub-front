@@ -1,44 +1,122 @@
 <div class="container mt-4">
-  <!-- Table des forums -->
-  <table class="table table-bordered table-striped custom-table">
-    <thead class="table-dark text-center">
-      <tr>
-        <th>Titre</th>
-        <th>Auteur</th>
-        <th>Contenu</th>
-        <th>Commentaires</th>
-        <th>Communauté</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let forum of forums; trackBy: trackById" class="text-center align-middle">
-        <td>{{ forum.title }}</td>
-        <td>{{ forum.author }}</td>
-        <td>{{ forum.content | slice: 0:50 }}...</td>
-        <td>{{ forum.comments.length }}</td>
-        <td>{{ forum.community }}</td>
-        <td>
-          {{ forum.averageRating }}
-        </td>
-        <td>
-          <div class="d-flex justify-content-center gap-2">
-            <button class="btn btn-sm btn-outline-primary custom-btn" (click)="onEditForum(forum._id)">
-              Modifier
-            </button>
-            <button class="btn btn-sm btn-outline-danger custom-btn" (click)="onDeleteForum(forum._id)">
-              Supprimer
-            </button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <h2 class="text-center mb-4">Liste des Forums</h2>
 
-  <!-- Section de bouton Ajouter Forum -->
-  <div class="d-flex justify-content-center mt-4">
-    <button class="btn btn-success custom-btn" (click)="onAddForum()">
-      <i class="bi bi-plus-circle"></i> Ajouter Forum
+  <!-- Messages d'erreur et de succès -->
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="errorMessage = null"></button>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ successMessage }}
+    <button type="button" class="btn-close" (click)="successMessage = null"></button>
+  </div>
+
+  <!-- Indicateur de chargement -->
+  <div *ngIf="isLoading" class="d-flex justify-content-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+  </div>
+
+  <!-- Liste complète des forums -->
+  <div class="row" *ngIf="!isLoading && forums.length > 0">
+    <div class="col-12">
+      <div class="forums-header d-flex justify-content-between align-items-center mb-4">
+        <h4>Tous les forums ({{ forums.length }})</h4>
+        <div class="forums-filter">
+          <span class="filter-label">Trier par:</span>
+          <button class="btn btn-sm btn-outline-secondary active">Date</button>
+          <button class="btn btn-sm btn-outline-secondary">Popularité</button>
+        </div>
+      </div>
+
+      <!-- Liste de tous les forums -->
+      <div class="row">
+        <div class="col-md-6 mb-4" *ngFor="let forum of forums.slice(0, displayLimit)">
+          <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="card-title mb-0">{{ forum.title }}</h5>
+              <span class="badge bg-primary">Forum</span>
+            </div>
+            <div class="card-body">
+              <p class="card-text">{{ forum.content | slice:0:150 }}{{ forum.content.length > 150 ? '...' : '' }}</p>
+              <div class="forum-info mb-3">
+                <div class="d-flex justify-content-between">
+                  <span class="info-item"><i class="bi bi-person"></i> {{ getAuthorName(forum.author) }}</span>
+                  <span class="info-item"><i class="bi bi-calendar-date"></i> {{ forum.created_at | date:'dd/MM/yyyy' }}</span>
+                </div>
+                <div class="d-flex justify-content-between mt-2">
+                  <span class="info-item"><i class="bi bi-eye"></i> {{ forum.viewCount || 0 }} vues</span>
+                  <span class="info-item"><i class="bi bi-heart"></i> {{ forum.likeCount || 0 }} j'aime</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/forums/details', forum.id]">
+                    <i class="bi bi-eye"></i> Détails
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="likeForum(forum.id || '')">
+                    <i class="bi bi-heart"></i> J'aime
+                  </button>
+                </div>
+                <div>
+                  <button
+                    class="btn btn-sm btn-outline-warning me-2"
+                    (click)="editForum(forum.id || '')"
+                    [disabled]="!canModifyForum(forum)"
+                    [class.disabled]="!canModifyForum(forum)"
+                    *ngIf="canModifyForum(forum)">
+                    <i class="bi bi-pencil-square"></i> Modifier
+                  </button>
+                  <button
+                    class="btn btn-sm btn-outline-danger"
+                    (click)="confirmDelete(forum.id || '')"
+                    [disabled]="!canDeleteForum(forum)"
+                    [class.disabled]="!canDeleteForum(forum)"
+                    *ngIf="canDeleteForum(forum)">
+                    <i class="bi bi-trash"></i> Supprimer
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Voir plus de forums -->
+      <div class="text-center mt-3" *ngIf="forums.length > displayLimit">
+        <button class="btn btn-outline-primary load-more-btn" (click)="loadMoreForums()">
+          <i class="bi bi-plus-circle"></i> Voir plus de forums
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message si aucun forum -->
+  <div *ngIf="forums.length === 0 && !isLoading" class="col-12 text-center my-5">
+    <div class="alert alert-info">
+      <h4>Aucun forum disponible</h4>
+      <p>Cliquez sur le bouton ci-dessous pour ajouter votre premier forum.</p>
+    </div>
+    <img src="assets/empty-forums.svg" alt="Aucun forum" class="img-fluid mt-3" style="max-width: 300px;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/6134/6134065.png'">
+  </div>
+
+  <!-- Bouton Ajouter centré en bas -->
+  <div class="text-center mt-4 mb-5">
+    <button
+      class="btn btn-primary btn-lg add-forum-btn"
+      (click)="goToAddForum()"
+      [disabled]="!canCreateForum()"
+      [class.disabled]="!canCreateForum()"
+      *ngIf="canCreateForum()">
+      <i class="bi bi-plus-circle"></i> Ajouter un Forum
     </button>
+    <div *ngIf="!canCreateForum()" class="alert alert-warning mt-3">
+      <i class="bi bi-exclamation-triangle"></i>
+      Vous devez être membre d'une communauté pour créer un forum.
+    </div>
   </div>
 </div>
