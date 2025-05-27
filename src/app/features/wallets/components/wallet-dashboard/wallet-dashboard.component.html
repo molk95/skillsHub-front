@@ -10,9 +10,11 @@
   </div>
 
   <!-- Wallet Dashboard -->
-  <div *ngIf="wallet$ | async as wallet" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <!-- Wallet Card -->
-    <div class="lg:col-span-1">
+  <div *ngIf="wallet$ | async as wallet" class="space-y-6">
+    <!-- Main Dashboard Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Wallet Card -->
+      <div class="lg:col-span-1">
       <div class="bg-gradient-to-r from-purple-700 to-indigo-900 rounded-xl shadow-lg overflow-hidden">
         <div class="p-6">
           <h2 class="text-2xl font-bold text-white mb-4">My Wallet</h2>
@@ -63,18 +65,59 @@
       <div class="bg-white rounded-xl shadow-lg p-6">
         <h2 class="text-xl font-bold text-gray-800 mb-4">Recent Activity</h2>
 
-        <!-- Placeholder for recent transactions -->
-        <div class="space-y-4">
+        <!-- Recent Rewards History -->
+        <div *ngIf="rewardsHistory$ | async as history" class="space-y-4">
+          <div *ngIf="history.length === 0" class="text-center py-8 text-gray-500">
+            <div class="text-4xl mb-2">📊</div>
+            <p>No recent activity yet.</p>
+            <p class="text-sm mt-1">Start earning points by topping up your wallet!</p>
+          </div>
+
+          <div *ngFor="let item of history.slice(0, 5)" class="border-b border-gray-200 pb-3">
+            <div class="flex justify-between items-center">
+              <div class="flex items-center space-x-3">
+                <div class="text-2xl">{{ getActivityIcon(item.source || 'manual') }}</div>
+                <div>
+                  <p class="font-medium text-gray-800">{{ getActivityLabel(item.source || 'manual') }}</p>
+                  <p class="text-sm text-gray-500">{{ formatActivityDate(item.createdAt) }}</p>
+                  <p class="text-xs text-gray-400" *ngIf="item.description">{{ item.description }}</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="text-lg font-semibold"
+                     [class.text-green-500]="item.type === 'EARNED'"
+                     [class.text-blue-500]="item.type === 'REDEEMED'">
+                  {{ item.type === 'EARNED' ? '+' : '-' }}{{ item.points }} pts
+                </div>
+                <div class="text-xs text-gray-500">
+                  {{ item.type === 'EARNED' ? 'Earned' : 'Redeemed' }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading State -->
+        <div *ngIf="rewardsLoading$ | async" class="text-center py-8">
+          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto"></div>
+          <p class="text-gray-500 mt-2">Loading activity...</p>
+        </div>
+
+        <!-- Fallback for no rewards data -->
+        <div *ngIf="!(rewardsHistory$ | async) && !(rewardsLoading$ | async)" class="space-y-4">
           <div *ngFor="let i of [1, 2, 3]" class="border-b border-gray-200 pb-3">
             <div class="flex justify-between items-center">
-              <div>
-                <p class="font-medium text-gray-800">{{ i === 1 ? 'Top Up' : i === 2 ? 'Course Purchase' : 'Skill Credit' }}</p>
-                <p class="text-sm text-gray-500">{{ i === 1 ? '2 days ago' : i === 2 ? 'Yesterday' : 'Today' }}</p>
+              <div class="flex items-center space-x-3">
+                <div class="text-2xl">{{ i === 1 ? '💰' : i === 2 ? '🎯' : '⭐' }}</div>
+                <div>
+                  <p class="font-medium text-gray-800">{{ i === 1 ? 'Wallet Top-Up' : i === 2 ? 'Skill Purchase' : 'Points Earned' }}</p>
+                  <p class="text-sm text-gray-500">{{ i === 1 ? '2 days ago' : i === 2 ? 'Yesterday' : 'Today' }}</p>
+                </div>
               </div>
               <div class="text-lg font-semibold"
                    [class.text-green-500]="i === 1 || i === 3"
-                   [class.text-red-500]="i === 2">
-                {{ i === 1 ? '+20' : i === 2 ? '-15' : '+5' }}
+                   [class.text-blue-500]="i === 2">
+                {{ i === 1 ? '+20 iMoney' : i === 2 ? '-15 iMoney' : '+5 pts' }}
               </div>
             </div>
           </div>
@@ -88,6 +131,11 @@
           </button>
         </div>
       </div>
+    </div>
+
+    <!-- Rewards Section -->
+    <div class="w-full">
+      <app-rewards></app-rewards>
     </div>
   </div>
 

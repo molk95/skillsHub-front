@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/app.state';
 import { IWallet } from '../../models/wallets.model';
+import { IRewardsHistory } from '../../models/rewards.model';
 import * as WalletActions from '../../store/wallets.actions';
 import { WalletsService } from '../../services/wallets.service';
 
@@ -19,6 +20,10 @@ import { WalletsService } from '../../services/wallets.service';
   walletId: string | null = null;
   userRole: string | null = null;
 
+  // Rewards observables
+  rewardsHistory$: Observable<IRewardsHistory[]>;
+  rewardsLoading$: Observable<boolean>;
+
   constructor(
     private store: Store<AppState>,
     private router: Router,
@@ -27,6 +32,10 @@ import { WalletsService } from '../../services/wallets.service';
     this.wallet$ = this.store.select(state => state.wallets.selectedWallet);
     this.isLoading$ = this.store.select(state => state.wallets.isLoading);
     this.error$ = this.store.select(state => state.wallets.error);
+
+    // Initialize rewards observables
+    this.rewardsHistory$ = this.store.select(state => state.wallets.rewardsHistory);
+    this.rewardsLoading$ = this.store.select(state => state.wallets.rewardsLoading);
   }
 
 ngOnInit(): void {
@@ -51,9 +60,15 @@ ngOnInit(): void {
       if (wallet && wallet._id) {
         this.walletId = wallet._id;
         this.store.dispatch(WalletActions.fetchWalletById({ id: wallet._id }));
+        // Also load user rewards and history
+        this.store.dispatch(WalletActions.fetchUserRewards({ userId }));
+        this.store.dispatch(WalletActions.fetchRewardsHistory({ userId }));
       } else {
         // No wallet found — NOT an error
         this.store.dispatch(WalletActions.SetWalletLoader({ isLoading: false }));
+        // Still try to load rewards even if no wallet
+        this.store.dispatch(WalletActions.fetchUserRewards({ userId }));
+        this.store.dispatch(WalletActions.fetchRewardsHistory({ userId }));
         // Do not dispatch fetchWalletByIdFailure here
       }
     },
@@ -133,6 +148,57 @@ goBackToWallets(): void {
 }
 goBackToMyWallet(): void {
   this.router.navigate(['/wallets/wallet-dashboard']);
+}
+
+// Activity display methods
+getActivityIcon(source: string): string {
+  switch (source) {
+    case 'wallet_topup':
+      return '💰';
+    case 'skill_purchase':
+      return '🎯';
+    case 'challenge_purchase':
+      return '🏆';
+    case 'points_to_imoney':
+      return '🔄';
+    default:
+      return '⭐';
+  }
+}
+
+getActivityLabel(source: string): string {
+  switch (source) {
+    case 'wallet_topup':
+      return 'Wallet Top-up';
+    case 'skill_purchase':
+      return 'Skill Purchase';
+    case 'challenge_purchase':
+      return 'Challenge Purchase';
+    case 'points_to_imoney':
+      return 'Points Conversion';
+    default:
+      return 'Manual Points';
+  }
+}
+
+formatActivityDate(dateString: string): string {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffTime = Math.abs(now.getTime() - date.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 1) {
+    return 'Today';
+  } else if (diffDays === 2) {
+    return 'Yesterday';
+  } else if (diffDays <= 7) {
+    return `${diffDays - 1} days ago`;
+  } else {
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric'
+    });
+  }
 }
 
 }

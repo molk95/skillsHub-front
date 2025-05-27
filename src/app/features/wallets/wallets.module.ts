@@ -18,6 +18,7 @@ import { WalletStatusComponent } from './components/wallet-status/wallet-status.
 import { walletsReducer } from './store/wallets.reducers';
 import { WalletsEffects } from './store/wallets.effects';
 import { WalletDashboardComponent } from './components/wallet-dashboard/wallet-dashboard.component';
+import { RewardsComponent } from './components/rewards/rewards.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { WalletDashboardComponent } from './components/wallet-dashboard/wallet-d
     CancelComponent,
     SuccessComponent,
     WalletStatusComponent,
-    WalletDashboardComponent
+    WalletDashboardComponent,
+    RewardsComponent
   ],
   imports: [
     CommonModule,
