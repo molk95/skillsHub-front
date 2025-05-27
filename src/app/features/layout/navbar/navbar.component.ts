@@ -40,7 +40,7 @@ export class NavbarComponent implements OnInit {
   }
 
   navigateToSkills(): void {
-    this.router.navigate(['/skills']);
+    this.router.navigate(['/MarketplaceList']);
     this.closeMenu();
   }
 
@@ -55,7 +55,7 @@ export class NavbarComponent implements OnInit {
   }
 
   navigateToSalons(): void {
-    this.router.navigate(['/salons']);
+    this.router.navigate(['/salons/list']);
     this.closeMenu();
   }
 
@@ -71,6 +71,16 @@ export class NavbarComponent implements OnInit {
 
   navigateToSignup(): void {
     this.router.navigate(['/signUp']);
+    this.closeMenu();
+  }
+
+  navigateToAbout(): void {
+    this.router.navigate(['/about']);
+    this.closeMenu();
+  }
+
+  navigateToContact(): void {
+    this.router.navigate(['/contact']);
     this.closeMenu();
   }
 
