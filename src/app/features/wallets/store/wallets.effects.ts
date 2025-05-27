@@ -33,26 +33,26 @@ export class WalletsEffects {
             )
         )
     );
-    
+
     FetchWalletByIdEffect$ = createEffect(() =>
         this.actions$.pipe(
             ofType(WalletsActions.fetchWalletById),
             mergeMap(({ id }) =>
                 this.walletsService.getWalletById(id).pipe(
                     map((wallet) => WalletsActions.fetchWalletByIdSuccess({ wallet })),
-                    catchError((error) => of(WalletsActions.fetchWalletByIdFailure({ 
-                        error: error.message || 'Failed to fetch wallet details' 
+                    catchError((error) => of(WalletsActions.fetchWalletByIdFailure({
+                        error: error.message || 'Failed to fetch wallet details'
                     })))
                 )
             )
         )
     );
-    
+
     initiateCheckout$ = createEffect(() =>
         this.actions$.pipe(
             ofType(WalletsActions.initiateCheckout),
-            mergeMap(({ userId, amount, imoneyValue }) =>
-                this.walletsService.createCheckoutSession(userId, amount, imoneyValue).pipe(
+            mergeMap(({ userId, amount, imoneyValue, packageName }) =>
+                this.walletsService.createCheckoutSession(userId, amount, imoneyValue, packageName).pipe(
                     map((response) =>
                         WalletsActions.initiateCheckoutSuccess({
                             checkoutUrl: response.url,
@@ -60,28 +60,28 @@ export class WalletsEffects {
                         })
                     ),
                     catchError((error) =>
-                        of(WalletsActions.initiateCheckoutFailure({ 
-                            error: error.message || 'Failed to initiate checkout' 
+                        of(WalletsActions.initiateCheckoutFailure({
+                            error: error.message || 'Failed to initiate checkout'
                         }))
                     )
                 )
             )
         )
-    ); 
+    );
 
     handleCheckoutSuccess$ = createEffect(() =>
         this.actions$.pipe(
             ofType(WalletsActions.handleCheckoutSuccess),
             switchMap(({ sessionId }) =>
                 this.walletsService.handleCheckoutSuccess(sessionId).pipe(
-                    map((response) => 
-                        WalletsActions.handleCheckoutSuccessResult({ 
-                            message: response.message || 'Payment processed successfully' 
+                    map((response) =>
+                        WalletsActions.handleCheckoutSuccessResult({
+                            message: response.message || 'Payment processed successfully'
                         })
                     ),
                     catchError((error) =>
-                        of(WalletsActions.handleCheckoutFailure({ 
-                            error: error.error || 'Failed to process payment' 
+                        of(WalletsActions.handleCheckoutFailure({
+                            error: error.error || 'Failed to process payment'
                         }))
                     )
                 )

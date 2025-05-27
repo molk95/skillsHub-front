@@ -31,11 +31,12 @@ export class WalletsService {
     return this.http.patch(`${environment.BASE_URL_API}wallets/${walletId}/activate`, {});
   }
 
-  public createCheckoutSession(userId: string, amount: number, imoneyValue: number): Observable<any> {
+  public createCheckoutSession(userId: string, amount: number, imoneyValue: number, packageName: string): Observable<any> {
     return this.http.post(`${environment.BASE_URL_API}wallets/top-up/create-session`, {
       userId,
       amount,
       imoneyValue,
+      packageName,
     });
   }
 
