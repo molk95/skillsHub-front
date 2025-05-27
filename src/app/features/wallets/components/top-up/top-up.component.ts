@@ -110,6 +110,7 @@ export class TopUpComponent implements OnInit {
         userId,
         amount: this.selectedPackage.amount,
         imoneyValue: this.selectedPackage.imoneyValue,
+        packageName: this.selectedPackage.name,
       })
     );
   }

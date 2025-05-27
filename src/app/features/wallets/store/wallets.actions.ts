@@ -37,7 +37,7 @@ export const SetWalletLoader = createAction(
 
 export const initiateCheckout = createAction(
 '[Wallet] Initiate Checkout',
-props<{ userId: string; amount: number; imoneyValue: number }>()
+props<{ userId: string; amount: number; imoneyValue: number; packageName: string }>()
 );
 
 export const initiateCheckoutSuccess = createAction(
