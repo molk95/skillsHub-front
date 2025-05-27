@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardPageComponent } from './features/dashboard/dashboard-page/dashboard-page.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
+import { HomeComponent } from './components/home/home.component';
 import { AddSalonsComponent } from './features/salons/components/add-salons/add-salons.component';
 import { ListSalonsComponent } from './features/salons/components/list-salons/list-salons.component';
 import { UpdateSalonsComponent } from './features/salons/components/update-salons/update-salons.component';
@@ -31,8 +32,12 @@ import { SignUpComponent } from './features/auth/components/sign-up/sign-up.comp
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'landing',
+    redirectTo: 'home',
     pathMatch: 'full',
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
   },
   {
     path: 'forums/edit/:id',
