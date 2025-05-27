@@ -51,10 +51,12 @@ const routes: Routes = [
     path: 'wallets',
     loadChildren: () => import('./features/wallets/wallets.module').then(m => m.WalletsModule)
   },
+  // Redirection pour le chemin wallet
   {
     path: 'salons/add',
     component: AddSalonsComponent
   },
+  // Catch-all route pour les pages success et cancel
   {
     path: 'salons/list',
     component: ListSalonsComponent
@@ -95,6 +97,51 @@ const routes: Routes = [
     path: 'communities',
     loadChildren: () => import('./features/communities/communities.module').then(m => m.CommunitiesModule)
   },
+  {
+    path: 'Communities',
+    redirectTo: 'communities',
+    pathMatch: 'full'
+  },
+  {
+    path: 'Communities/create',
+    redirectTo: 'communities/create',
+    pathMatch: 'full'
+  },
+  {
+    path: 'Communities/edit/:id',
+    redirectTo: 'communities/edit/:id',
+    pathMatch: 'full'
+  },
+  {
+    path: 'Communities/my-communities',
+    redirectTo: 'communities/my-communities',
+    pathMatch: 'full'
+  },
+  // Redirection pour gérer la casse
+  {
+    path: 'Forums',
+    redirectTo: 'forums',
+    pathMatch: 'full'
+  },
+  {
+    path: 'Forums/edit/:id',
+    redirectTo: 'forums/edit/:id',
+    pathMatch: 'full'
+  },
+  {
+    path: 'Forums/add',
+    redirectTo: 'forums/add',
+    pathMatch: 'full'
+  },
+  {
+    path: 'communities',
+    loadChildren: () => import('./features/communities/communities.module').then(m => m.CommunitiesModule)
+  },
+  {
+    path: 'test-permissions',
+    loadChildren: () => import('./test-permissions.module').then(m => m.TestPermissionsModule)
+  },
+  // Redirection pour gérer la casse pour communities
   {
     path: 'Communities',
     redirectTo: 'communities',

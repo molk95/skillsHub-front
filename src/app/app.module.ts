@@ -1,9 +1,10 @@
 import { isDevMode, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 
 import { StoreModule } from '@ngrx/store';
@@ -31,19 +32,20 @@ import { SessionListComponent } from './features/sessions/components/list-sessio
 import { UpdateSessionComponent } from './features/sessions/components/update-sessions/update-sessions.component';
 import { DeleteSessionsComponent } from './features/sessions/components/delete-sessions/delete-sessions.component';
 import { SalonsSessionsComponent } from './features/salons/components/salons-sessions/salons-sessions.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { SignInComponent } from './features/auth/components/sign-in/sign-in.component';
 import { AuthModule } from './features/auth/auth.module';
 import { MarketplaceModule } from './features/marketplace/marketplace.module';
+
+
 import { EditForumComponent } from './features/forums/component/edit-forum/edit-forum.component';
 import { ForumService } from './features/forums/service/forum.service';
-
 import { ForumDetailsComponent } from './features/forums/component/forum-details/forum-details.component';
 
 // Import the Events module
 import { EventsModule } from './features/events/events.module';
 import { SharedModule } from './shared/shared.module';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,11 @@ import { SharedModule } from './shared/shared.module';
     SessionListComponent,
     UpdateSessionComponent,
     DeleteSessionsComponent,
-    SalonsSessionsComponent
+    SalonsSessionsComponent,
+    EditForumComponent,
+    AddForumComponent,
+    ForumsListComponent,
+    ForumDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -82,6 +88,8 @@ import { SharedModule } from './shared/shared.module';
     CommonModule, // Ajoute ceci ici aussi
     AuthModule,
   MarketplaceModule,
+   EventsModule,             // 👈 Module des événements
+    SharedModule  
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
