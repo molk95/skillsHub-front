@@ -21,6 +21,9 @@ import { WalletDashboardComponent } from './components/wallet-dashboard/wallet-d
 import { RewardsComponent } from './components/rewards/rewards.component';
 import { AdminWalletDetailsComponent } from './components/admin-wallet-details/admin-wallet-details.component';
 import { AdminRewardsManagementComponent } from './components/admin-rewards-management/admin-rewards-management.component';
+import { SendGiftComponent } from './components/send-gift/send-gift.component';
+import { GiftSuccessComponent } from './components/gift-success/gift-success.component';
+import { GiftHistoryComponent } from './components/gift-history/gift-history.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import { AdminRewardsManagementComponent } from './components/admin-rewards-mana
     WalletDashboardComponent,
     RewardsComponent,
     AdminWalletDetailsComponent,
-    AdminRewardsManagementComponent
+    AdminRewardsManagementComponent,
+    SendGiftComponent,
+    GiftSuccessComponent,
+    GiftHistoryComponent
   ],
   imports: [
     CommonModule,

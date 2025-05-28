@@ -216,4 +216,13 @@ quickConvertPoints(): void {
   });
 }
 
+// Gift-related methods
+sendGift(): void {
+  this.router.navigate(['/wallets/send-gift']);
+}
+
+viewGiftHistory(): void {
+  this.router.navigate(['/wallets/gift-history']);
+}
+
 }

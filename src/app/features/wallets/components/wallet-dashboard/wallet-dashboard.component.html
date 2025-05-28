@@ -22,7 +22,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
     <!-- Debug Information (always visible for troubleshooting) -->
-    
+
     <!-- No Wallet Found -->
     <div *ngIf="(wallet$ | async) === null && !(isLoading$ | async) && !(error$ | async)" class="text-center py-16">
       <div class="bg-white rounded-2xl shadow-xl p-12 max-w-lg mx-auto border border-gray-100">
@@ -116,10 +116,27 @@
                   </button>
 
                   <button
-                    (click)="viewTransactions()"
-                    class="w-full bg-white/20 hover:bg-white/30 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 backdrop-blur-sm border border-white/20">
-                    📊 View History
+                    (click)="sendGift()"
+                    [disabled]="!wallet.isActive || (wallet.imoney?.value || 0) === 0"
+                    [class.opacity-50]="!wallet.isActive || (wallet.imoney?.value || 0) === 0"
+                    [class.cursor-not-allowed]="!wallet.isActive || (wallet.imoney?.value || 0) === 0"
+                    class="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    🎁 Send Gift
                   </button>
+
+                  <div class="grid grid-cols-2 gap-2">
+                    <button
+                      (click)="viewTransactions()"
+                      class="bg-white/20 hover:bg-white/30 text-white py-2 px-4 rounded-xl font-semibold transition-all duration-300 backdrop-blur-sm border border-white/20 text-sm">
+                      📊 History
+                    </button>
+
+                    <button
+                      (click)="viewGiftHistory()"
+                      class="bg-white/20 hover:bg-white/30 text-white py-2 px-4 rounded-xl font-semibold transition-all duration-300 backdrop-blur-sm border border-white/20 text-sm">
+                      🎁 Gifts
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

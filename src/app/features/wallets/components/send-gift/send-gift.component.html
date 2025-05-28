@@ -1,0 +1,302 @@
+<!-- Send Gift Component -->
+<div class="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
+
+  <!-- Header Section -->
+  <div class="bg-white shadow-sm border-b">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center">
+          <!-- <img src="/assets/logo_transparent.png" alt="SmartSkillz Logo" class="h-10 w-auto mr-3"> -->
+          <div>
+            <!-- <span class="text-2xl font-bold text-gray-900">SmartSkillz</span> -->
+            <span class="text-sm text-gray-500 ml-2">Send Gift</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm font-medium">
+            🎁 Gift iMoney
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- Page Title -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        Send <span class="text-pink-600">iMoney Gift</span> 🎁
+      </h1>
+      <p class="text-xl text-gray-600 mb-6">
+        Share the joy of learning by gifting iMoney to friends and colleagues
+      </p>
+
+      <!-- Current Balance Display -->
+      <div class="inline-flex items-center bg-gradient-to-r from-blue-100 to-purple-100 rounded-xl px-6 py-3 border border-blue-200">
+        <span class="text-blue-800 font-medium mr-2">💰 Your Balance:</span>
+        <span *ngIf="!isLoading" class="text-blue-900 font-bold text-lg">{{ formatCurrency(currentUserBalance) }} iMoney</span>
+        <span *ngIf="isLoading" class="text-blue-900 font-bold text-lg">
+          <div class="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-blue-600 inline-block mr-2"></div>
+          Loading...
+        </span>
+      </div>
+    </div>
+
+    <!-- Success Message -->
+    <div *ngIf="successMessage" class="bg-green-50 border border-green-200 rounded-xl p-6 mb-8 text-center">
+      <div class="text-green-500 text-4xl mb-4">🎉</div>
+      <h3 class="text-green-900 font-bold text-lg mb-2">Gift Sent Successfully!</h3>
+      <p class="text-green-700">{{ successMessage }}</p>
+      <div class="mt-4 text-sm text-green-600">Redirecting to confirmation page...</div>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="bg-red-50 border border-red-200 rounded-xl p-6 mb-8">
+      <div class="flex items-center">
+        <div class="text-red-500 text-2xl mr-4">⚠️</div>
+        <div>
+          <h4 class="text-red-900 font-bold">Error Sending Gift</h4>
+          <p class="text-red-700">{{ errorMessage }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gift Form -->
+    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+
+      <!-- Form Header -->
+      <div class="bg-gradient-to-r from-pink-600 to-purple-600 p-6 text-white">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-2xl font-bold">Gift Details</h3>
+            <p class="text-pink-100">Fill in the details to send your gift</p>
+          </div>
+          <div class="text-4xl">🎁</div>
+        </div>
+      </div>
+
+      <!-- Loading Overlay -->
+      <div *ngIf="isLoading" class="p-8 text-center">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-pink-500 mx-auto mb-4"></div>
+        <p class="text-gray-600 text-lg">Loading your wallet information...</p>
+      </div>
+
+      <!-- Form Content -->
+      <form *ngIf="!isLoading" [formGroup]="giftForm" (ngSubmit)="onSubmit()" class="p-8">
+
+        <!-- Recipient Section -->
+        <div class="mb-8">
+          <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+            👤 Recipient Information
+          </h4>
+
+          <!-- Email Input with Search -->
+          <div class="relative">
+            <label for="recipientEmail" class="block text-sm font-medium text-gray-700 mb-2">
+              Recipient Email Address *
+            </label>
+
+            <!-- Selected Recipient Display -->
+            <div *ngIf="selectedRecipient" class="mb-4 p-4 bg-green-50 border border-green-200 rounded-xl">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="h-10 w-10 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center text-white font-bold mr-3">
+                    {{ selectedRecipient.fullName.charAt(0).toUpperCase() }}
+                  </div>
+                  <div>
+                    <div class="font-medium text-gray-900">{{ selectedRecipient.fullName }}</div>
+                    <div class="text-sm text-gray-500">{{ selectedRecipient.email }}</div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  (click)="clearRecipient()"
+                  class="text-red-500 hover:text-red-700 font-medium">
+                  ✕ Change
+                </button>
+              </div>
+            </div>
+
+            <!-- Email Input -->
+            <input
+              type="email"
+              id="recipientEmail"
+              formControlName="recipientEmail"
+              [class.hidden]="selectedRecipient"
+              class="w-full text-gray-500 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all duration-300"
+              placeholder="Enter recipient's email address"
+              autocomplete="off">
+
+            <!-- Search Results -->
+            <div *ngIf="searchResults.length > 0 && !selectedRecipient" class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto">
+              <div *ngFor="let user of searchResults"
+                   (click)="selectRecipient(user)"
+                   class="p-4 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0">
+                <div class="flex items-center">
+                  <div class="h-8 w-8 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white font-bold mr-3 text-sm">
+                    {{ user.fullName.charAt(0).toUpperCase() }}
+                  </div>
+                  <div>
+                    <div class="font-medium text-gray-900">{{ user.fullName }}</div>
+                    <div class="text-sm text-gray-500">{{ user.email }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Search Loading -->
+            <div *ngIf="isSearching" class="absolute right-3 top-11 text-gray-400">
+              <div class="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-pink-500"></div>
+            </div>
+
+            <!-- Email Validation Errors -->
+            <div *ngIf="recipientEmailControl?.invalid && recipientEmailControl?.touched" class="mt-2 text-red-600 text-sm">
+              <div *ngIf="recipientEmailControl?.errors?.['required']">Email is required</div>
+              <div *ngIf="recipientEmailControl?.errors?.['email']">Please enter a valid email address</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Amount Section -->
+        <div class="mb-8">
+          <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+            💰 Gift Amount
+          </h4>
+
+          <div class="relative">
+            <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">
+              Amount (iMoney) *
+            </label>
+            <div class="relative">
+              <input
+                type="number"
+                id="amount"
+                formControlName="amount"
+                min="1"
+                [max]="currentUserBalance"
+                class="w-full text-gray-500 px-4 py-3 pl-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all duration-300"
+                placeholder="Enter amount">
+              <div class="absolute left-4 top-3 text-gray-500 font-medium">💎</div>
+            </div>
+
+            <!-- Quick Amount Buttons -->
+            <div class="mt-3 flex flex-wrap gap-2">
+              <button
+                type="button"
+                *ngFor="let amount of [10, 25, 50, 100]"
+                (click)="giftForm.patchValue({amount: amount})"
+                [disabled]="amount > currentUserBalance"
+                class="px-4 py-2 bg-gray-100 hover:bg-pink-100 text-gray-700 hover:text-pink-700 rounded-lg font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                {{ amount }} iMoney
+              </button>
+            </div>
+
+            <!-- Amount Validation Errors -->
+            <div *ngIf="amountControl?.invalid && amountControl?.touched" class="mt-2 text-red-600 text-sm">
+              <div *ngIf="amountControl?.errors?.['required']">Amount is required</div>
+              <div *ngIf="amountControl?.errors?.['min']">Minimum amount is 1 iMoney</div>
+              <div *ngIf="amountControl?.errors?.['max']">Maximum amount is {{ currentUserBalance }} iMoney</div>
+              <div *ngIf="amountControl?.errors?.['insufficientBalance']">Insufficient balance</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reason Section -->
+        <div class="mb-8">
+          <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+            ✨ Gift Reason
+          </h4>
+
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <label *ngFor="let reason of giftReasons"
+                   class="relative cursor-pointer">
+              <input
+                type="radio"
+                [value]="reason.value"
+                formControlName="reason"
+                class="sr-only text-gray-500 ">
+              <div class="p-4 border-2 rounded-xl text-center transition-all duration-300"
+                   [class.border-pink-500]="reasonControl?.value === reason.value"
+                   [class.bg-pink-50]="reasonControl?.value === reason.value"
+                   [class.border-gray-200]="reasonControl?.value !== reason.value"
+                   [class.hover:border-pink-300]="reasonControl?.value !== reason.value">
+                <div class="text-2xl mb-2">{{ reason.emoji }}</div>
+                <div class="text-sm font-medium"
+                     [class.text-pink-700]="reasonControl?.value === reason.value"
+                     [class.text-gray-700]="reasonControl?.value !== reason.value">
+                  {{ reason.label.split(' ').slice(1).join(' ') }}
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Message Section -->
+        <div class="mb-8">
+          <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+            💌 Personal Message (Optional)
+          </h4>
+
+          <textarea
+            formControlName="message"
+            rows="4"
+            maxlength="200"
+            class="w-full text-gray-500 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all duration-300 resize-none"
+            placeholder="Add a personal message to your gift..."></textarea>
+
+          <div class="mt-2 text-right text-sm text-gray-500">
+            {{ messageControl?.value?.length || 0 }}/200 characters
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+          <button
+            type="button"
+            (click)="goBackToWallet()"
+            class="flex-1 bg-white border-2 border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 py-3 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg">
+            ← Back to Wallet
+          </button>
+
+          <button
+            type="submit"
+            [disabled]="giftForm.invalid || isSending || currentUserBalance === 0"
+            class="flex-1 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg disabled:transform-none disabled:cursor-not-allowed">
+            <span *ngIf="!isSending" class="flex items-center justify-center">
+              🎁 Send Gift
+            </span>
+            <span *ngIf="isSending" class="flex items-center justify-center">
+              <div class="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white mr-2"></div>
+              Sending Gift...
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Gift Preview -->
+    <div *ngIf="giftForm.valid && selectedRecipient && amountControl?.value"
+         class="mt-8 bg-gradient-to-r from-pink-50 to-purple-50 rounded-2xl p-6 border border-pink-200">
+      <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+        👀 Gift Preview
+      </h4>
+
+      <div class="bg-white rounded-xl p-6 shadow-sm">
+        <div class="text-center">
+          <div class="text-4xl mb-4">{{ getSelectedReason()?.emoji }}</div>
+          <h5 class="text-xl font-bold text-gray-900 mb-2">
+            {{ formatCurrency(amountControl?.value) }} iMoney Gift
+          </h5>
+          <p class="text-gray-600 mb-4">
+            From: <span class="font-medium">You</span><br>
+            To: <span class="font-medium">{{ selectedRecipient.fullName }}</span>
+          </p>
+          <div *ngIf="messageControl?.value" class="bg-gray-50 rounded-lg p-4 text-gray-700 italic">
+            "{{ messageControl?.value }}"
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

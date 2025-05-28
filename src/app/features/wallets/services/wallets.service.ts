@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { IWallet } from '../models/wallets.model';
+import { IWallet, IGiftRequest, IGiftResponse, IGiftTransaction } from '../models/wallets.model';
 import { IRewardsWithConversion, IRewardsHistory, IPointsConversionResponse } from '../models/rewards.model';
 
 @Injectable({
@@ -65,6 +65,42 @@ export class WalletsService {
     return this.http.post<IPointsConversionResponse>(`${environment.BASE_URL_API}wallets/convert-points-to-imoney`, {
       userId,
       points
+    });
+  }
+
+  // Gift-related methods
+  public sendGift(senderUserId: string, giftRequest: IGiftRequest): Observable<IGiftResponse> {
+    return this.http.post<IGiftResponse>(`${environment.BASE_URL_API}wallets/send-gift`, {
+      senderUserId,
+      ...giftRequest
+    });
+  }
+
+  public getGiftHistory(userId: string): Observable<IGiftTransaction[]> {
+    return this.http.get<IGiftTransaction[]>(`${environment.BASE_URL_API}wallets/gifts/history/${userId}`);
+  }
+
+  public getSentGifts(userId: string): Observable<IGiftTransaction[]> {
+    return this.http.get<IGiftTransaction[]>(`${environment.BASE_URL_API}wallets/gifts/sent/${userId}`);
+  }
+
+  public getReceivedGifts(userId: string): Observable<IGiftTransaction[]> {
+    return this.http.get<IGiftTransaction[]>(`${environment.BASE_URL_API}wallets/gifts/received/${userId}`);
+  }
+
+  public cancelGift(giftId: string): Observable<IGiftResponse> {
+    const userStr = localStorage.getItem('user');
+    const user = userStr ? JSON.parse(userStr) : null;
+    const userId = user?._id;
+
+    return this.http.patch<IGiftResponse>(`${environment.BASE_URL_API}wallets/gifts/${giftId}/cancel`, {
+      userId
+    });
+  }
+
+  public searchUsersByEmail(email: string): Observable<{users: Array<{_id: string, fullName: string, email: string}>}> {
+    return this.http.get<{users: Array<{_id: string, fullName: string, email: string}>}>(`${environment.BASE_URL_API}wallets/users/search`, {
+      params: { email }
     });
   }
 }
