@@ -254,4 +254,17 @@ goBackToMyWallet(): void {
       });
     }
   }
+
+  // New methods for advanced wallet management
+  exportTransactions(): void {
+    // TODO: Implement transaction export functionality
+    console.log('Exporting transactions...');
+    // This could generate a CSV or PDF of transaction history
+  }
+
+  openSecuritySettings(): void {
+    // TODO: Implement security settings modal or navigation
+    console.log('Opening security settings...');
+    // This could open a modal with security options like 2FA, password change, etc.
+  }
 }

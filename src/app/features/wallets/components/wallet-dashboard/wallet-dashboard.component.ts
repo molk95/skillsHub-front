@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/app.state';
 import { IWallet } from '../../models/wallets.model';
-import { IRewardsHistory } from '../../models/rewards.model';
+import { IRewardsHistory, IRewardsWithConversion } from '../../models/rewards.model';
 import * as WalletActions from '../../store/wallets.actions';
 import { WalletsService } from '../../services/wallets.service';
 
@@ -23,6 +23,7 @@ import { WalletsService } from '../../services/wallets.service';
   // Rewards observables
   rewardsHistory$: Observable<IRewardsHistory[]>;
   rewardsLoading$: Observable<boolean>;
+  userRewards$: Observable<IRewardsWithConversion | null>;
 
   constructor(
     private store: Store<AppState>,
@@ -36,6 +37,7 @@ import { WalletsService } from '../../services/wallets.service';
     // Initialize rewards observables
     this.rewardsHistory$ = this.store.select(state => state.wallets.rewardsHistory);
     this.rewardsLoading$ = this.store.select(state => state.wallets.rewardsLoading);
+    this.userRewards$ = this.store.select(state => state.wallets.userRewards);
   }
 
 ngOnInit(): void {
@@ -199,6 +201,18 @@ formatActivityDate(dateString: string): string {
       day: 'numeric'
     });
   }
+}
+
+// New methods for rewards preview
+navigateToRewards(): void {
+  this.router.navigate(['/wallets/rewards']);
+}
+
+quickConvertPoints(): void {
+  // Navigate to rewards page with conversion focus
+  this.router.navigate(['/wallets/rewards'], {
+    queryParams: { action: 'convert' }
+  });
 }
 
 }
