@@ -96,7 +96,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     ReactiveFormsModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
-    WalletsModule,
     FeedbackModule,
     ReactiveFormsModule,
     FormsModule,

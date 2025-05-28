@@ -37,11 +37,43 @@ export interface ITransaction {
   id: string;
   walletId: string;
   amount: number;
-  type: 'topup' | 'purchase' | 'refund';
+  type: 'topup' | 'purchase' | 'refund' | 'gift_sent' | 'gift_received';
   description: string;
   createdAt: Date;
   status: 'pending' | 'completed' | 'failed';
   reference?: string;
+}
+
+export interface IGiftTransaction {
+  _id: string;
+  senderUserId: string;
+  senderName: string;
+  senderEmail: string;
+  recipientUserId: string;
+  recipientName: string;
+  recipientEmail: string;
+  amount: number;
+  message?: string;
+  reason?: 'birthday' | 'congratulations' | 'thank_you' | 'just_because' | 'other';
+  status: 'pending' | 'completed' | 'failed' | 'cancelled';
+  transactionId?: string;
+  createdAt: Date;
+  completedAt?: Date;
+}
+
+export interface IGiftRequest {
+  recipientEmail: string;
+  amount: number;
+  message?: string;
+  reason?: 'birthday' | 'congratulations' | 'thank_you' | 'just_because' | 'other';
+}
+
+export interface IGiftResponse {
+  success: boolean;
+  message: string;
+  gift?: IGiftTransaction;
+  senderNewBalance?: number;
+  recipientNewBalance?: number;
 }
 
 export interface IWalletAnalytics {
