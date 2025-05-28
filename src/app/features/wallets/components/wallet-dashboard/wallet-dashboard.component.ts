@@ -66,12 +66,13 @@ ngOnInit(): void {
         this.store.dispatch(WalletActions.fetchUserRewards({ userId }));
         this.store.dispatch(WalletActions.fetchRewardsHistory({ userId }));
       } else {
-        // No wallet found — NOT an error
+        // No wallet found — explicitly set wallet to null
+        console.log('No wallet found, setting wallet to null');
         this.store.dispatch(WalletActions.SetWalletLoader({ isLoading: false }));
+        this.store.dispatch(WalletActions.fetchWalletByIdSuccess({ wallet: null as any }));
         // Still try to load rewards even if no wallet
         this.store.dispatch(WalletActions.fetchUserRewards({ userId }));
         this.store.dispatch(WalletActions.fetchRewardsHistory({ userId }));
-        // Do not dispatch fetchWalletByIdFailure here
       }
     },
     error: (error) => {

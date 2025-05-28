@@ -20,6 +20,22 @@
   </div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- Debug Information (always visible for troubleshooting) -->
+    
+    <!-- No Wallet Found -->
+    <div *ngIf="(wallet$ | async) === null && !(isLoading$ | async) && !(error$ | async)" class="text-center py-16">
+      <div class="bg-white rounded-2xl shadow-xl p-12 max-w-lg mx-auto border border-gray-100">
+        <div class="text-6xl mb-6">💳</div>
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">Welcome to SmartSkillz!</h2>
+        <p class="text-gray-600 mb-8 text-lg">You don't have a wallet yet. Create one to start your learning journey with iMoney.</p>
+        <button (click)="createWalletIfNeeded()" class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-4 px-8 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+          🚀 Create My Wallet
+        </button>
+        <p class="text-sm text-gray-500 mt-4">Start earning and spending iMoney on skills and challenges</p>
+      </div>
+    </div>
+
     <!-- Loading spinner -->
     <div *ngIf="isLoading$ | async" class="flex justify-center items-center h-64">
       <div class="text-center">
@@ -190,24 +206,7 @@
         </div>
       </div>
     </div>
-
-    <!-- Rewards Section -->
-    <div class="w-full">
-      <app-rewards></app-rewards>
-    </div>
   </div>
 
-    <!-- No Wallet Found -->
-    <div *ngIf="(wallet$ | async) === null && !(isLoading$ | async) && !(error$ | async)" class="text-center py-16">
-      <div class="bg-white rounded-2xl shadow-xl p-12 max-w-lg mx-auto border border-gray-100">
-        <div class="text-6xl mb-6">💳</div>
-        <h2 class="text-3xl font-bold text-gray-900 mb-4">Welcome to SmartSkillz!</h2>
-        <p class="text-gray-600 mb-8 text-lg">You don't have a wallet yet. Create one to start your learning journey with iMoney.</p>
-        <button (click)="createWalletIfNeeded()" class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-4 px-8 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
-          🚀 Create My Wallet
-        </button>
-        <p class="text-sm text-gray-500 mt-4">Start earning and spending iMoney on skills and challenges</p>
-      </div>
-    </div>
   </div>
 </div>
