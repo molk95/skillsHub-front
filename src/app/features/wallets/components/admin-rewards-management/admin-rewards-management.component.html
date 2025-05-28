@@ -1,0 +1,229 @@
+<!-- Authorization Check -->
+<div *ngIf="!isAuthorized" class="min-h-screen bg-gradient-to-br from-red-50 via-white to-red-50 flex items-center justify-center">
+  <div class="bg-white rounded-2xl shadow-xl p-12 max-w-lg mx-auto border border-red-100 text-center">
+    <div class="text-6xl mb-6">🚫</div>
+    <h2 class="text-3xl font-bold text-red-900 mb-4">Access Denied</h2>
+    <p class="text-red-600 mb-8 text-lg">This page is only accessible to administrators.</p>
+    <p class="text-gray-600 mb-6">You will be redirected to your wallet dashboard.</p>
+    <div class="animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-red-500 mx-auto"></div>
+  </div>
+</div>
+
+<!-- Admin Content -->
+<div *ngIf="isAuthorized" class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+
+  <!-- Header Section -->
+  <div class="bg-white shadow-sm border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center">
+          <!-- <img src="/assets/logo_transparent.png" alt="SmartSkillz Logo" class="h-10 w-auto mr-3"> -->
+          <div>
+            <!-- <span class="text-2xl font-bold text-gray-900">SmartSkillz</span> -->
+            <span class="text-sm text-gray-500 ml-2">Rewards Management</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
+            🎁 REWARDS ADMIN
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- Loading State -->
+    <div *ngIf="(isLoading$ | async) || isLoadingRewards" class="flex justify-center items-center h-64">
+      <div class="text-center">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"></div>
+        <p class="text-gray-600 text-lg">Loading rewards data...</p>
+      </div>
+    </div>
+
+    <!-- Page Title and Actions -->
+    <div *ngIf="!((isLoading$ | async) || isLoadingRewards)" class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        Rewards <span class="text-purple-600">Management</span>
+      </h1>
+      <p class="text-xl text-gray-600 mb-6">
+        System-wide overview and management of user rewards and points
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-center space-x-4">
+        <button
+          (click)="goBackToWalletsList()"
+          class="bg-white border-2 border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 py-3 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg">
+          ← Back to Wallets
+        </button>
+
+        <!-- <button
+          (click)="refreshRewardsData()"
+          class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+          🔄 Refresh Data
+        </button> -->
+
+        <button
+          (click)="exportRewardsData()"
+          class="bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+          📊 Export CSV
+        </button>
+      </div>
+    </div>
+
+    <!-- Analytics Dashboard -->
+    <div *ngIf="!((isLoading$ | async) || isLoadingRewards)" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+      <!-- Total System Points -->
+      <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-bold text-gray-900">Total Points</h3>
+          <div class="text-3xl">🎯</div>
+        </div>
+        <div class="text-3xl font-bold text-blue-600">{{ formatNumber(totalSystemPoints) }}</div>
+        <div class="text-sm text-gray-500">System-wide points</div>
+      </div>
+
+      <!-- Total Conversions -->
+      <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-bold text-gray-900">Total Conversions</h3>
+          <div class="text-3xl">💰</div>
+        </div>
+        <div class="text-3xl font-bold text-green-600">{{ formatNumber(totalSystemConversions) }}</div>
+        <div class="text-sm text-gray-500">iMoney from conversions</div>
+      </div>
+
+      <!-- Active Users -->
+      <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-bold text-gray-900">Active Users</h3>
+          <div class="text-3xl">👥</div>
+        </div>
+        <div class="text-3xl font-bold text-purple-600">{{ formatNumber(totalActiveUsers) }}</div>
+        <div class="text-sm text-gray-500">Users with activity</div>
+      </div>
+
+      <!-- Average Points -->
+      <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-bold text-gray-900">Avg Points</h3>
+          <div class="text-3xl">📊</div>
+        </div>
+        <div class="text-3xl font-bold text-orange-600">{{ formatNumber(averagePointsPerUser) }}</div>
+        <div class="text-sm text-gray-500">Points per user</div>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="rewardsError" class="bg-red-50 border border-red-200 rounded-xl p-6 mb-8">
+      <div class="flex items-center">
+        <div class="text-red-500 text-2xl mr-4">⚠️</div>
+        <div>
+          <h4 class="text-red-900 font-bold">Error Loading Rewards Data</h4>
+          <p class="text-red-700">{{ rewardsError }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Rewards Table -->
+    <div *ngIf="!((isLoading$ | async) || isLoadingRewards) && userRewardsSummaries.length > 0" class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+
+      <!-- Table Header -->
+      <div class="bg-gradient-to-r from-purple-600 to-pink-600 p-6 text-white">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-2xl font-bold">User Rewards Overview</h3>
+            <p class="text-purple-100">Detailed breakdown of user points and conversions</p>
+          </div>
+          <div class="text-4xl">🎁</div>
+        </div>
+      </div>
+
+      <!-- Rewards Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-gray-50 border-b border-gray-200">
+            <tr>
+              <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+              <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Current Points</th>
+              <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Earned</th>
+              <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Converted</th>
+              <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Wallet Balance</th>
+              <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Activity</th>
+              <!-- <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th> -->
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let user of userRewardsSummaries" class="hover:bg-gray-50 transition-colors duration-200">
+
+              <!-- User Info -->
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10">
+                    <div class="h-10 w-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold">
+                      {{ getUserInitial(user.userName) }}
+                    </div>
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900">{{ user.userName || 'Unknown User' }}</div>
+                    <div class="text-sm text-gray-500">{{ user.userEmail || 'No email' }}</div>
+                  </div>
+                </div>
+              </td>
+
+              <!-- Current Points -->
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-bold text-purple-600">{{ formatNumber(user.currentPoints) }}</div>
+                <div class="text-xs text-gray-500">Available</div>
+              </td>
+
+              <!-- Total Earned -->
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-bold text-green-600">{{ formatNumber(user.totalPointsEarned) }}</div>
+                <div class="text-xs text-gray-500">All time</div>
+              </td>
+
+              <!-- Converted -->
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-bold text-blue-600">{{ formatNumber(user.totalPointsConverted) }}</div>
+                <div class="text-xs text-gray-500">→ {{ formatNumber(user.totalImoneyFromConversion) }} iMoney</div>
+              </td>
+
+              <!-- Wallet Balance -->
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-bold text-orange-600">{{ formatNumber(user.walletBalance) }}</div>
+                <div class="text-xs text-gray-500">iMoney</div>
+              </td>
+
+              <!-- Last Activity -->
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {{ formatDate(user.lastActivity) }}
+              </td>
+
+              <!-- Actions -->
+              <!-- <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <button
+                  (click)="viewUserRewardsDetails(user.userId)"
+                  class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-2 px-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                  🔍 View Details
+                </button>
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!((isLoading$ | async) || isLoadingRewards) && userRewardsSummaries.length === 0" class="text-center py-16">
+      <div class="bg-white rounded-2xl shadow-xl p-12 max-w-lg mx-auto border border-gray-100">
+        <div class="text-6xl mb-6">🎁</div>
+        <h4 class="text-xl font-bold text-gray-900 mb-2">No Rewards Data Found</h4>
+        <p class="text-gray-600">No users have earned rewards yet.</p>
+      </div>
+    </div>
+  </div>
+</div>

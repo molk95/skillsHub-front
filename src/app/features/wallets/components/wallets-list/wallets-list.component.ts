@@ -94,4 +94,8 @@ export class WalletsListComponent implements OnInit {
       });
     }
   }
+
+  navigateToAdminRewards(): void {
+    this.router.navigate(['/wallets/admin-rewards']);
+  }
 }

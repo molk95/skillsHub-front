@@ -11,15 +11,15 @@
 
 <!-- Admin Content -->
 <div *ngIf="isAuthorized" class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-  
+
   <!-- Header Section -->
   <div class="bg-white shadow-sm border-b">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center">
-          <img src="/assets/logo_transparent.png" alt="SmartSkillz Logo" class="h-10 w-auto mr-3">
+          <!-- <img src="/assets/logo_transparent.png" alt="SmartSkillz Logo" class="h-10 w-auto mr-3"> -->
           <div>
-            <span class="text-2xl font-bold text-gray-900">SmartSkillz</span>
+            <!-- <span class="text-2xl font-bold text-gray-900">SmartSkillz</span> -->
             <span class="text-sm text-gray-500 ml-2">Admin Wallet Management</span>
           </div>
         </div>
@@ -33,7 +33,7 @@
   </div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    
+
     <!-- Loading State -->
     <div *ngIf="isLoading$ | async" class="flex justify-center items-center h-64">
       <div class="text-center">
@@ -50,7 +50,7 @@
       <p class="text-xl text-gray-600 mb-6">
         Complete administrative control and insights for user wallet
       </p>
-      
+
       <!-- Back Button -->
       <button
         (click)="goBackToWalletsList()"
@@ -61,14 +61,14 @@
 
     <!-- Wallet Details -->
     <div *ngIf="wallet$ | async as wallet" class="space-y-8">
-      
+
       <!-- User Information Card -->
       <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
         <div class="flex items-center justify-between mb-6">
           <h3 class="text-xl font-bold text-gray-900">User Information</h3>
           <div class="text-3xl">👤</div>
         </div>
-        
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="space-y-4">
             <div class="p-4 bg-blue-50 rounded-xl">
@@ -77,7 +77,7 @@
                 <span class="text-blue-600">{{ wallet.user?.fullName || 'Unknown' }}</span>
               </div>
             </div>
-            
+
             <div class="p-4 bg-green-50 rounded-xl">
               <div class="flex items-center justify-between">
                 <span class="text-green-800 font-medium">Email</span>
@@ -85,7 +85,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="space-y-4">
             <div class="p-4 bg-purple-50 rounded-xl">
               <div class="flex items-center justify-between">
@@ -93,7 +93,7 @@
                 <span class="text-purple-600">{{ wallet.user?.role || 'Unknown' }}</span>
               </div>
             </div>
-            
+
             <div class="p-4 bg-gray-50 rounded-xl">
               <div class="flex items-center justify-between">
                 <span class="text-gray-800 font-medium">User ID</span>
@@ -110,7 +110,7 @@
           <h3 class="text-xl font-bold text-gray-900">Wallet Balance</h3>
           <div class="text-3xl">💰</div>
         </div>
-        
+
         <div class="text-center py-8">
           <div class="text-6xl font-bold text-blue-600 mb-2">{{ wallet.imoney?.value || 0 }}</div>
           <div class="text-xl text-gray-600">{{ wallet.imoney?.currencyType || 'iMoney' }}</div>
@@ -182,13 +182,57 @@
         </div>
       </div>
 
+      <!-- User Rewards & Points (Admin View) -->
+      <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-xl font-bold text-gray-900">Rewards & Points Management</h3>
+          <div class="text-3xl">🏆</div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <!-- Current Points -->
+          <div class="text-center p-6 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl border border-yellow-200">
+            <div class="text-3xl mb-2">⭐</div>
+            <div class="text-2xl font-bold text-yellow-600">{{ userRewards?.points || 0 }}</div>
+            <div class="text-sm text-yellow-700">Current Points</div>
+          </div>
+
+          <!-- Total Earned -->
+          <div class="text-center p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border border-green-200">
+            <div class="text-3xl mb-2">💎</div>
+            <div class="text-2xl font-bold text-green-600">{{ userRewards?.totalEarned || 0 }}</div>
+            <div class="text-sm text-green-700">Total Earned</div>
+          </div>
+
+          <!-- Converted to iMoney -->
+          <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl border border-blue-200">
+            <div class="text-3xl mb-2">💰</div>
+            <div class="text-2xl font-bold text-blue-600">{{ userRewards?.totalConverted || 0 }}</div>
+            <div class="text-sm text-blue-700">Converted to iMoney</div>
+          </div>
+        </div>
+
+        <!-- Admin Controls -->
+        <div class="border-t border-gray-200 pt-6">
+          <h4 class="text-lg font-semibold text-gray-900 mb-4">Admin Controls</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <button class="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+              ➕ Add Points
+            </button>
+            <button class="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+              📊 View History
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- Wallet Metadata -->
       <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
         <div class="flex items-center justify-between mb-6">
           <h3 class="text-xl font-bold text-gray-900">Wallet Metadata</h3>
           <div class="text-3xl">📊</div>
         </div>
-        
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="p-4 bg-blue-50 rounded-xl">
             <div class="flex items-center justify-between">
@@ -196,21 +240,21 @@
               <span class="text-blue-600 text-sm font-mono">{{ wallet._id }}</span>
             </div>
           </div>
-          
+
           <div class="p-4 bg-green-50 rounded-xl">
             <div class="flex items-center justify-between">
               <span class="text-green-800 font-medium">Created</span>
               <span class="text-green-600 text-sm">{{ formatDate(wallet.createdAt) }}</span>
             </div>
           </div>
-          
+
           <div class="p-4 bg-purple-50 rounded-xl">
             <div class="flex items-center justify-between">
               <span class="text-purple-800 font-medium">Last Updated</span>
               <span class="text-purple-600 text-sm">{{ formatDate(wallet.updatedAt) }}</span>
             </div>
           </div>
-          
+
           <div class="p-4 bg-gray-50 rounded-xl">
             <div class="flex items-center justify-between">
               <span class="text-gray-800 font-medium">iMoney ID</span>
