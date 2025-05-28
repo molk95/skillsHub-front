@@ -9,11 +9,13 @@ import { CancelComponent } from './components/cancel/cancel.component';
 import { WalletDashboardComponent } from './components/wallet-dashboard/wallet-dashboard.component';
 import { RewardsComponent } from './components/rewards/rewards.component';
 import { AdminWalletDetailsComponent } from './components/admin-wallet-details/admin-wallet-details.component';
+import { AdminRewardsManagementComponent } from './components/admin-rewards-management/admin-rewards-management.component';
 
 const routes: Routes = [
   { path: '', component: WalletsListComponent },
   { path: 'wallet-dashboard', component: WalletDashboardComponent },
   { path: 'rewards', component: RewardsComponent },
+  { path: 'admin-rewards', component: AdminRewardsManagementComponent },
   { path: 'packages', component: PackageSelectionComponent },
   { path: 'top-up', component: TopUpComponent },
   { path: 'top-up/success', component: SuccessComponent },

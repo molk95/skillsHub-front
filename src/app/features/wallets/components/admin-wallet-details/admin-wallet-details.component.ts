@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { AppState } from 'src/app/core/app.state';
 import { IWallet } from '../../models/wallets.model';
+import { IRewardsHistory } from '../../models/rewards.model';
 import * as WalletsActions from '../../store/wallets.actions';
 import { WalletsService } from '../../services/wallets.service';
 
@@ -24,6 +25,14 @@ export class AdminWalletDetailsComponent implements OnInit, OnDestroy {
   private walletSubscription: Subscription | null = null;
   userRole: string | null = null;
   isAuthorized = false;
+
+  // Rewards data
+  userRewards: {
+    points: number;
+    totalEarned: number;
+    totalConverted: number;
+  } | null = null;
+  isLoadingRewards = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -60,13 +69,19 @@ export class AdminWalletDetailsComponent implements OnInit, OnDestroy {
       }
     });
 
-    // Subscribe to wallet changes to check activation eligibility
+    // Subscribe to wallet changes to check activation eligibility and load rewards
     this.walletSubscription = this.wallet$.subscribe(wallet => {
-      if (wallet && !wallet.isActive && wallet.deactivatedAt) {
-        this.checkActivationEligibility(wallet);
-      } else {
-        this.canActivate = false;
-        this.timeUntilActivation = null;
+      if (wallet) {
+        // Check activation eligibility
+        if (!wallet.isActive && wallet.deactivatedAt) {
+          this.checkActivationEligibility(wallet);
+        } else {
+          this.canActivate = false;
+          this.timeUntilActivation = null;
+        }
+
+        // Load user rewards data
+        this.loadUserRewards(wallet.user._id);
       }
     });
   }
@@ -104,6 +119,43 @@ export class AdminWalletDetailsComponent implements OnInit, OnDestroy {
   private fetchWalletData(walletId: string): void {
     console.log('Fetching wallet data for ID:', walletId);
     this.store.dispatch(WalletsActions.fetchWalletById({ id: walletId }));
+  }
+
+  private async loadUserRewards(userId: string): Promise<void> {
+    this.isLoadingRewards = true;
+
+    try {
+      // Load user rewards and history
+      const [rewardsData, rewardsHistory] = await Promise.all([
+        this.walletsService.getUserRewardsWithConversion(userId).toPromise(),
+        this.walletsService.getRewardsHistory(userId).toPromise()
+      ]);
+
+      // Calculate rewards summary
+      const totalEarned = (rewardsHistory || [])
+        .filter((history: IRewardsHistory) => history.type === 'EARNED')
+        .reduce((sum: number, history: IRewardsHistory) => sum + history.points, 0);
+
+      const totalConverted = (rewardsHistory || [])
+        .filter((history: IRewardsHistory) => history.type === 'REDEEMED')
+        .reduce((sum: number, history: IRewardsHistory) => sum + history.points, 0);
+
+      this.userRewards = {
+        points: rewardsData?.rewards?.points || 0,
+        totalEarned,
+        totalConverted
+      };
+
+    } catch (error) {
+      console.error('Error loading user rewards:', error);
+      this.userRewards = {
+        points: 0,
+        totalEarned: 0,
+        totalConverted: 0
+      };
+    } finally {
+      this.isLoadingRewards = false;
+    }
   }
 
   private checkActivationEligibility(wallet: IWallet): void {

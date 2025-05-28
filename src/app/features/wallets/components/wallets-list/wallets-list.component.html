@@ -17,13 +17,18 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center">
-          <img src="/assets/logo_transparent.png" alt="SmartSkillz Logo" class="h-10 w-auto mr-3">
+          <!-- <img src="/assets/logo_transparent.png" alt="SmartSkillz Logo" class="h-10 w-auto mr-3"> -->
           <div>
-            <span class="text-2xl font-bold text-gray-900">SmartSkillz</span>
+            <!-- <span class="text-2xl font-bold text-gray-900">SmartSkillz</span> -->
             <span class="text-sm text-gray-500 ml-2">Admin Dashboard</span>
           </div>
         </div>
         <div class="flex items-center space-x-4">
+          <button
+            (click)="navigateToAdminRewards()"
+            class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-2 px-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+            🎁 Rewards Management
+          </button>
           <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
             🔧 ADMIN ONLY
           </div>
