@@ -19,6 +19,7 @@ import { walletsReducer } from './store/wallets.reducers';
 import { WalletsEffects } from './store/wallets.effects';
 import { WalletDashboardComponent } from './components/wallet-dashboard/wallet-dashboard.component';
 import { RewardsComponent } from './components/rewards/rewards.component';
+import { AdminWalletDetailsComponent } from './components/admin-wallet-details/admin-wallet-details.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { RewardsComponent } from './components/rewards/rewards.component';
     SuccessComponent,
     WalletStatusComponent,
     WalletDashboardComponent,
-    RewardsComponent
+    RewardsComponent,
+    AdminWalletDetailsComponent
   ],
   imports: [
     CommonModule,

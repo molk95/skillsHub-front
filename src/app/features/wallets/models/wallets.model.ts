@@ -20,6 +20,7 @@ export interface IWallet {
     _id: string;
     fullName: string;
     email: string;
+    role?: string; // Added role property for admin interface
   };
   imoney?: {
     _id: string;

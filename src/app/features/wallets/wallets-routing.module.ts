@@ -8,6 +8,7 @@ import { SuccessComponent } from './components/success/success.component';
 import { CancelComponent } from './components/cancel/cancel.component';
 import { WalletDashboardComponent } from './components/wallet-dashboard/wallet-dashboard.component';
 import { RewardsComponent } from './components/rewards/rewards.component';
+import { AdminWalletDetailsComponent } from './components/admin-wallet-details/admin-wallet-details.component';
 
 const routes: Routes = [
   { path: '', component: WalletsListComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'top-up', component: TopUpComponent },
   { path: 'top-up/success', component: SuccessComponent },
   { path: 'top-up/cancel', component: CancelComponent },
+  { path: 'admin-details/:id', component: AdminWalletDetailsComponent },
   { path: ':id', component: WalletDetailsComponent },
 ];
 
