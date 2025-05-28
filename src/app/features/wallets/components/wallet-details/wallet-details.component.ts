@@ -97,6 +97,11 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
 goBackToMyWallet(): void {
   this.router.navigate(['/wallets/wallet-dashboard']);
 }
+
+navigateToRewards(): void {
+  this.router.navigate(['/wallets/rewards']);
+}
+
   handleTopUpClick(wallet: IWallet): void {
     if (!wallet.isActive) {
       console.log('Wallet is inactive - please contact support');

@@ -57,6 +57,12 @@
           📊 Export History
         </button>
 
+        <button
+          (click)="navigateToRewards()"
+          class="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+          🎁 Rewards System
+        </button>
+
         <!-- Back Button -->
         <button
           (click)="goBackToMyWallet()"
@@ -168,16 +174,7 @@
     </div>
 
     <!-- Advanced Features Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-
-      <!-- Rewards Management -->
-      <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
-        <div class="flex items-center justify-between mb-6">
-          <h3 class="text-xl font-bold text-gray-900">Rewards System</h3>
-          <div class="text-3xl">🎁</div>
-        </div>
-        <app-rewards></app-rewards>
-      </div>
+    <div class="grid grid-cols-1 gap-8 mb-8">
 
       <!-- Transaction Analytics -->
       <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">

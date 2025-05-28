@@ -33,6 +33,14 @@ export class NavbarComponent implements OnInit {
     return '';
   }
 
+  getUserInitial(): string {
+    const userName = this.getUserName();
+    if (userName && userName.length > 0) {
+      return userName.charAt(0).toUpperCase();
+    }
+    return 'U';
+  }
+
   // Navigation methods
   navigateToHome(): void {
     this.router.navigate(['/home']);
@@ -51,6 +59,16 @@ export class NavbarComponent implements OnInit {
 
   navigateToCommunities(): void {
     this.router.navigate(['/communities']);
+    this.closeMenu();
+  }
+
+  navigateToForums(): void {
+    this.router.navigate(['/forums']);
+    this.closeMenu();
+  }
+
+  navigateToEvents(): void {
+    this.router.navigate(['/events']);
     this.closeMenu();
   }
 
