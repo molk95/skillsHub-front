@@ -1,0 +1,224 @@
+<!-- Authorization Check -->
+<div *ngIf="!isAuthorized" class="min-h-screen bg-gradient-to-br from-red-50 via-white to-red-50 flex items-center justify-center">
+  <div class="bg-white rounded-2xl shadow-xl p-12 max-w-lg mx-auto border border-red-100 text-center">
+    <div class="text-6xl mb-6">🚫</div>
+    <h2 class="text-3xl font-bold text-red-900 mb-4">Access Denied</h2>
+    <p class="text-red-600 mb-8 text-lg">This page is only accessible to administrators.</p>
+    <p class="text-gray-600 mb-6">You will be redirected to your wallet dashboard.</p>
+    <div class="animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-red-500 mx-auto"></div>
+  </div>
+</div>
+
+<!-- Admin Content -->
+<div *ngIf="isAuthorized" class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+  
+  <!-- Header Section -->
+  <div class="bg-white shadow-sm border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center">
+          <img src="/assets/logo_transparent.png" alt="SmartSkillz Logo" class="h-10 w-auto mr-3">
+          <div>
+            <span class="text-2xl font-bold text-gray-900">SmartSkillz</span>
+            <span class="text-sm text-gray-500 ml-2">Admin Wallet Management</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
+            🔧 ADMIN ONLY
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Loading State -->
+    <div *ngIf="isLoading$ | async" class="flex justify-center items-center h-64">
+      <div class="text-center">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"></div>
+        <p class="text-gray-600 text-lg">Loading wallet details...</p>
+      </div>
+    </div>
+
+    <!-- Page Title and Actions -->
+    <div *ngIf="!(isLoading$ | async)" class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        Admin <span class="text-blue-600">Wallet</span> Management
+      </h1>
+      <p class="text-xl text-gray-600 mb-6">
+        Complete administrative control and insights for user wallet
+      </p>
+      
+      <!-- Back Button -->
+      <button
+        (click)="goBackToWalletsList()"
+        class="bg-white border-2 border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 py-3 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg">
+        ← Back to All Wallets
+      </button>
+    </div>
+
+    <!-- Wallet Details -->
+    <div *ngIf="wallet$ | async as wallet" class="space-y-8">
+      
+      <!-- User Information Card -->
+      <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-xl font-bold text-gray-900">User Information</h3>
+          <div class="text-3xl">👤</div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <div class="p-4 bg-blue-50 rounded-xl">
+              <div class="flex items-center justify-between">
+                <span class="text-blue-800 font-medium">Full Name</span>
+                <span class="text-blue-600">{{ wallet.user?.fullName || 'Unknown' }}</span>
+              </div>
+            </div>
+            
+            <div class="p-4 bg-green-50 rounded-xl">
+              <div class="flex items-center justify-between">
+                <span class="text-green-800 font-medium">Email</span>
+                <span class="text-green-600">{{ wallet.user?.email || 'No email' }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="p-4 bg-purple-50 rounded-xl">
+              <div class="flex items-center justify-between">
+                <span class="text-purple-800 font-medium">User Role</span>
+                <span class="text-purple-600">{{ wallet.user?.role || 'Unknown' }}</span>
+              </div>
+            </div>
+            
+            <div class="p-4 bg-gray-50 rounded-xl">
+              <div class="flex items-center justify-between">
+                <span class="text-gray-800 font-medium">User ID</span>
+                <span class="text-gray-600 text-sm font-mono">{{ wallet.user?._id || 'Unknown' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wallet Balance Card -->
+      <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-xl font-bold text-gray-900">Wallet Balance</h3>
+          <div class="text-3xl">💰</div>
+        </div>
+        
+        <div class="text-center py-8">
+          <div class="text-6xl font-bold text-blue-600 mb-2">{{ wallet.imoney?.value || 0 }}</div>
+          <div class="text-xl text-gray-600">{{ wallet.imoney?.currencyType || 'iMoney' }}</div>
+          <div class="text-sm text-gray-500 mt-2">Current Balance</div>
+        </div>
+      </div>
+
+      <!-- Wallet Status & Admin Controls -->
+      <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-xl font-bold text-gray-900">Wallet Status & Controls</h3>
+          <div class="text-3xl">{{ wallet.isActive ? '✅' : '❌' }}</div>
+        </div>
+
+        <div class="space-y-4">
+          <!-- Status Display -->
+          <div class="p-4 rounded-xl" [class.bg-green-50]="wallet.isActive" [class.bg-red-50]="!wallet.isActive">
+            <div class="flex items-center justify-between">
+              <span class="font-medium" [class.text-green-800]="wallet.isActive" [class.text-red-800]="!wallet.isActive">
+                {{ wallet.isActive ? 'Active & Operational' : 'Deactivated' }}
+              </span>
+              <span class="inline-block w-3 h-3 rounded-full" [class.bg-green-500]="wallet.isActive" [class.bg-red-500]="!wallet.isActive"></span>
+            </div>
+            <div *ngIf="wallet.deactivatedAt && !wallet.isActive" class="text-sm text-red-600 mt-2">
+              Deactivated: {{ formatDate(wallet.deactivatedAt) }}
+            </div>
+          </div>
+
+          <!-- Admin Control Button -->
+          <button
+            (click)="toggleWalletStatus(wallet)"
+            [disabled]="isToggling || (!wallet.isActive && !canActivate)"
+            [class.bg-red-600]="wallet.isActive"
+            [class.hover:bg-red-700]="wallet.isActive && !isToggling"
+            [class.bg-green-600]="!wallet.isActive && canActivate"
+            [class.hover:bg-green-700]="!wallet.isActive && canActivate && !isToggling"
+            [class.bg-gray-400]="!wallet.isActive && !canActivate"
+            class="w-full text-white py-3 px-4 rounded-xl font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+            <span *ngIf="isToggling" class="inline-flex items-center">
+              <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+              Processing...
+            </span>
+            <span *ngIf="!isToggling">
+              {{ wallet.isActive ? '🔒 Deactivate Wallet' : '🔓 Activate Wallet' }}
+            </span>
+          </button>
+
+          <!-- Status Messages -->
+          <div *ngIf="statusError" class="p-3 bg-red-50 border border-red-200 rounded-xl">
+            <p class="text-red-700 text-sm">{{ statusError }}</p>
+          </div>
+
+          <div *ngIf="statusSuccess" class="p-3 bg-green-50 border border-green-200 rounded-xl">
+            <p class="text-green-700 text-sm">{{ statusSuccess }}</p>
+          </div>
+
+          <div *ngIf="!wallet.isActive && timeUntilActivation" class="p-3 bg-amber-50 border border-amber-200 rounded-xl">
+            <p class="text-amber-700 text-sm">
+              <strong>Note:</strong> Wallet can only be activated after 48 hours of deactivation.<br>
+              <strong>Time remaining:</strong> {{ timeUntilActivation }}
+            </p>
+          </div>
+
+          <div *ngIf="!wallet.isActive && canActivate" class="p-3 bg-green-50 border border-green-200 rounded-xl">
+            <p class="text-green-700 text-sm">
+              ✅ This wallet is now eligible for activation.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wallet Metadata -->
+      <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-xl font-bold text-gray-900">Wallet Metadata</h3>
+          <div class="text-3xl">📊</div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-4 bg-blue-50 rounded-xl">
+            <div class="flex items-center justify-between">
+              <span class="text-blue-800 font-medium">Wallet ID</span>
+              <span class="text-blue-600 text-sm font-mono">{{ wallet._id }}</span>
+            </div>
+          </div>
+          
+          <div class="p-4 bg-green-50 rounded-xl">
+            <div class="flex items-center justify-between">
+              <span class="text-green-800 font-medium">Created</span>
+              <span class="text-green-600 text-sm">{{ formatDate(wallet.createdAt) }}</span>
+            </div>
+          </div>
+          
+          <div class="p-4 bg-purple-50 rounded-xl">
+            <div class="flex items-center justify-between">
+              <span class="text-purple-800 font-medium">Last Updated</span>
+              <span class="text-purple-600 text-sm">{{ formatDate(wallet.updatedAt) }}</span>
+            </div>
+          </div>
+          
+          <div class="p-4 bg-gray-50 rounded-xl">
+            <div class="flex items-center justify-between">
+              <span class="text-gray-800 font-medium">iMoney ID</span>
+              <span class="text-gray-600 text-sm font-mono">{{ wallet.imoney?._id || 'N/A' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
