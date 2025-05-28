@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
@@ -23,7 +24,10 @@ export class RewardsComponent implements OnInit, OnDestroy {
   showHistory = false;
   convertAmount = 100; // Default conversion amount
 
-  constructor(private store: Store<AppState>) {
+  constructor(
+    private store: Store<AppState>,
+    private router: Router
+  ) {
     this.userRewards$ = this.store.select(state => state.wallets.userRewards);
     this.rewardsHistory$ = this.store.select(state => state.wallets.rewardsHistory);
     this.rewardsLoading$ = this.store.select(state => state.wallets.rewardsLoading);
@@ -198,5 +202,10 @@ export class RewardsComponent implements OnInit, OnDestroy {
       console.error('Direct API conversion error:', error);
       alert(`Direct API test failed: ${error.message}`);
     });
+  }
+
+  // Navigation method
+  goBackToDashboard(): void {
+    this.router.navigate(['/wallets/wallet-dashboard']);
   }
 }

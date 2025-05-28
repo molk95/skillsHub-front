@@ -1,9 +1,64 @@
-<div class="rewards-container p-6 bg-white rounded-lg shadow-lg">
-  <!-- Loading State -->
-  <div *ngIf="rewardsLoading$ | async" class="flex justify-center items-center py-8">
-    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
-    <span class="ml-2 text-gray-600">Loading rewards...</span>
+<!-- SmartSkillz Rewards Center -->
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+
+  <!-- Header Section -->
+  <div class="bg-white shadow-sm border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center">
+          <!-- <img src="/assets/logo_transparent.png" alt="SmartSkillz Logo" class="h-10 w-auto mr-3"> -->
+          <div>
+            <!-- <span class="text-2xl font-bold text-gray-900">SmartSkillz</span> -->
+            <span class="text-sm text-gray-500 ml-2">Rewards Center</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <span class="text-gray-600">🎁 Earn & Convert Points</span>
+          <button
+            (click)="goBackToDashboard()"
+            class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition-all duration-300">
+            ← Back to Dashboard
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- Page Title -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        <span class="text-blue-600">SmartSkillz</span> Rewards Center
+      </h1>
+      <p class="text-xl text-gray-600">
+        Earn points for every activity and convert them to valuable iMoney
+      </p>
+    </div>
+
+    <div class="rewards-container bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+      <!-- Rewards Header -->
+      <div class="bg-gradient-to-r from-purple-600 to-blue-600 p-6 text-white">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <img src="/assets/logo_transparent.png" alt="SmartSkillz" class="h-8 w-auto mr-3 opacity-90">
+            <div>
+              <h2 class="text-2xl font-bold">Your Rewards Dashboard</h2>
+              <p class="text-purple-100">Manage your points and conversions</p>
+            </div>
+          </div>
+          <div class="text-4xl">🎁</div>
+        </div>
+      </div>
+
+  <div class="p-8">
+    <!-- Loading State -->
+    <div *ngIf="rewardsLoading$ | async" class="flex justify-center items-center py-12">
+      <div class="text-center">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-purple-600 mx-auto mb-4"></div>
+        <span class="text-gray-600 text-lg">Loading rewards...</span>
+      </div>
+    </div>
 
   <!-- Error State -->
   <div *ngIf="rewardsError$ | async as error" class="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
@@ -20,52 +75,48 @@
     </div>
   </div>
 
-  <!-- Rewards Content -->
-  <div *ngIf="userRewards$ | async as rewardsData" class="space-y-6">
-    <!-- Header -->
-    <div class="text-center">
-      <h2 class="text-2xl font-bold text-gray-900 mb-2">🎁 Reward Points</h2>
-      <p class="text-gray-600">Earn points for activities and convert them to iMoney!</p>
-    </div>
-
-    <!-- Points Overview -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <!-- Current Points -->
-      <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg p-6 text-white">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-purple-100 text-sm font-medium">Current Points</p>
-            <p class="text-3xl font-bold">{{ rewardsData.rewards?.points || 0 }}</p>
+    <!-- Rewards Content -->
+    <div *ngIf="userRewards$ | async as rewardsData" class="space-y-8">
+      <!-- Points Overview -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Current Points -->
+        <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white shadow-xl transform hover:scale-105 transition-all duration-300">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-purple-100 text-sm font-medium mb-2">Current Points</p>
+              <p class="text-4xl font-bold">{{ rewardsData.rewards?.points || 0 }}</p>
+              <p class="text-purple-200 text-xs mt-1">Available to convert</p>
+            </div>
+            <div class="text-5xl opacity-80">⭐</div>
           </div>
-          <div class="text-4xl">⭐</div>
+        </div>
+
+        <!-- Total Redeemed -->
+        <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-xl transform hover:scale-105 transition-all duration-300">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-blue-100 text-sm font-medium mb-2">Total Redeemed</p>
+              <p class="text-4xl font-bold">{{ rewardsData.rewards?.redeemed || 0 }}</p>
+              <p class="text-blue-200 text-xs mt-1">Points converted</p>
+            </div>
+            <div class="text-5xl opacity-80">🔄</div>
+          </div>
+        </div>
+
+        <!-- Best Available Conversion -->
+        <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white shadow-xl transform hover:scale-105 transition-all duration-300">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-green-100 text-sm font-medium mb-2">Best Conversion</p>
+              <p class="text-4xl font-bold">{{ rewardsData.conversion?.bestTier?.imoney || 0 }}</p>
+              <p class="text-green-200 text-xs mt-1" *ngIf="rewardsData.conversion?.bestTier">
+                {{ rewardsData.conversion.bestTier!.points }} pts → {{ rewardsData.conversion.bestTier!.imoney }} iMoney
+              </p>
+            </div>
+            <div class="text-5xl opacity-80">💰</div>
+          </div>
         </div>
       </div>
-
-      <!-- Total Redeemed -->
-      <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-6 text-white">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-blue-100 text-sm font-medium">Total Redeemed</p>
-            <p class="text-3xl font-bold">{{ rewardsData.rewards?.redeemed || 0 }}</p>
-          </div>
-          <div class="text-4xl">🔄</div>
-        </div>
-      </div>
-
-      <!-- Best Available Conversion -->
-      <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-lg p-6 text-white">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-green-100 text-sm font-medium">Best Conversion</p>
-            <p class="text-3xl font-bold">{{ rewardsData.conversion?.bestTier?.imoney || 0 }}</p>
-            <p class="text-xs text-green-200" *ngIf="rewardsData.conversion?.bestTier">
-              {{ rewardsData.conversion.bestTier!.points }} pts → {{ rewardsData.conversion.bestTier!.imoney }} iMoney
-            </p>
-          </div>
-          <div class="text-4xl">💰</div>
-        </div>
-      </div>
-    </div>
 
     <!-- Conversion Section -->
     <div class="bg-gray-50 rounded-lg p-6">
@@ -294,6 +345,7 @@
         <p class="font-semibold" [ngClass]="getTypeClass(item.type)">
           {{ item.type === 'EARNED' ? '+' : '-' }}{{ item.points }} points
         </p>
+      </div>
       </div>
     </div>
   </div>
