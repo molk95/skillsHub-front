@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-contact',
@@ -15,7 +17,8 @@ export class ContactComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private http: HttpClient
   ) {
     this.contactForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -44,18 +47,42 @@ export class ContactComponent implements OnInit {
     if (this.contactForm.valid) {
       this.isSubmitting = true;
       this.submitError = false;
-      
-      // Simulate form submission
-      setTimeout(() => {
-        this.isSubmitting = false;
-        this.submitSuccess = true;
-        this.contactForm.reset();
-        
-        // Hide success message after 5 seconds
-        setTimeout(() => {
-          this.submitSuccess = false;
-        }, 5000);
-      }, 2000);
+
+      const formData = {
+        name: this.contactForm.get('name')?.value,
+        email: this.contactForm.get('email')?.value,
+        subject: this.contactForm.get('subject')?.value,
+        message: this.contactForm.get('message')?.value,
+        timestamp: new Date().toISOString()
+      };
+
+      console.log('Sending contact form:', formData);
+
+      // Send to backend API
+      this.http.post(`${environment.BASE_URL_API}contact/send`, formData)
+        .subscribe({
+          next: (response: any) => {
+            console.log('Contact form sent successfully:', response);
+            this.isSubmitting = false;
+            this.submitSuccess = true;
+            this.contactForm.reset();
+
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+              this.submitSuccess = false;
+            }, 5000);
+          },
+          error: (error) => {
+            console.error('Error sending contact form:', error);
+            this.isSubmitting = false;
+            this.submitError = true;
+
+            // Hide error message after 5 seconds
+            setTimeout(() => {
+              this.submitError = false;
+            }, 5000);
+          }
+        });
     } else {
       // Mark all fields as touched to show validation errors
       Object.keys(this.contactForm.controls).forEach(key => {

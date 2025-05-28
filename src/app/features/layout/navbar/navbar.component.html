@@ -40,6 +40,16 @@
       <!-- Auth Section for Unauthenticated Users -->
       <div *ngIf="!isAuthenticated()" class="hidden md:flex items-center space-x-4">
         <button
+          (click)="navigateToAbout()"
+          class="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+          About
+        </button>
+        <button
+          (click)="navigateToContact()"
+          class="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+          Contact
+        </button>
+        <button
           (click)="navigateToLogin()"
           class="text-gray-700 hover:text-blue-600 font-medium transition-colors">
           Login
@@ -118,6 +128,14 @@
 
       <!-- Mobile Auth for Unauthenticated Users -->
       <div *ngIf="!isAuthenticated()" class="space-y-2">
+        <a (click)="navigateToAbout()"
+           class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md cursor-pointer transition-colors">
+          📚 About
+        </a>
+        <a (click)="navigateToContact()"
+           class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md cursor-pointer transition-colors">
+          📞 Contact
+        </a>
         <a (click)="navigateToLogin()"
            class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md cursor-pointer transition-colors">
           🔑 Login
