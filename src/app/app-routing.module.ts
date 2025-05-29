@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardPageComponent } from './features/dashboard/dashboard-page/dashboard-page.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
 import { HomeComponent } from './features/home/home.component';
 import { AboutComponent } from './features/about/about.component';
@@ -15,10 +14,6 @@ import { UpdateSessionComponent } from './features/sessions/components/update-se
 import { DeleteSessionsComponent } from './features/sessions/components/delete-sessions/delete-sessions.component';
 import { SalonsSessionsComponent } from './features/salons/components/salons-sessions/salons-sessions.component';
 import { ForumsListComponent } from './features/forums/component/list-forum/list-forum.component';
-import { AddForumComponent } from './features/forums/component/add-forum/add-forum.component';
-import { EditForumComponent } from './features/forums/component/edit-forum/edit-forum.component';
-import { ForumDetailsComponent } from './features/forums/component/forum-details/forum-details.component';
-import { CommunitiesModule } from './features/communities/communities.module';
 
 // Page d'accueil
 import { MarketplaceListComponent } from './features/marketplace/Skills/component/marketplace-list/marketplace-list.component';
@@ -29,34 +24,19 @@ import { SkillsMatchingComponent } from './features/marketplace/Skills/component
 import { UpdCatComponent } from './features/marketplace/Category/component/upd-cat/upd-cat.component';
 import { AddCategoryComponent } from './features/marketplace/Category/component/add-category/add-category.component';
 import { CategoryListComponent } from './features/marketplace/Category/component/category-list/category-list.component';
+import { DashboardPageComponent } from './features/dashboard/dashboard-page/dashboard-page.component';
 import { SignUpComponent } from './features/auth/components/sign-up/sign-up.component';
 import {MarketplaceClientComponent} from '../app/features/marketplace-client/marketplace-client.component';
+
+import { DetailSalonListComponent } from './features/salons/components/detail-salon-list/detail-salon-list.component';
+import { SalonDocumentsComponent } from './features/salons/components/salon-documents/salon-documents.component';
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'home',
+  // Route par défaut vers la page d'accueil
+{path: '',
+    redirectTo: 'landing',
     pathMatch: 'full',
   },
-  {
-    path: 'home',
-    component: HomeComponent,
-  },
-  {
-    path: 'about',
-    component: AboutComponent,
-  },
-  {
-    path: 'contact',
-    component: ContactComponent,
-  },
-  {
-    path: 'forums/edit/:id',
-    component: EditForumComponent
-  },
-  {
-    path: 'forums/add',
-    component: AddForumComponent
-  },
+  // Page d'accueil
   {
     path: 'landing',
     component: LandingPageComponent,
@@ -65,14 +45,8 @@ const routes: Routes = [
     path: 'signUp',
     component: SignUpComponent,
   },
+  // Tableau de bord
   {
-    path: 'forums/details/:id',
-    component: ForumDetailsComponent
-  },
-  {
-    path: 'forums',
-    component: ForumsListComponent
-  },{
     path: 'ForumsListComponent',
     component: ForumsListComponent,
   },
@@ -111,22 +85,31 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardPageComponent,
   },
+  // Gestion des wallets
   {
     path: 'wallets',
     loadChildren: () =>
       import('./features/wallets/wallets.module').then((m) => m.WalletsModule),
   },
-  // Redirection pour le chemin wallet
+  // Gestion des salons
   {
     path: 'salons/add',
     component: AddSalonsComponent,
   },
-  // Catch-all route pour les pages success et cancel
   {
     path: 'wallet/top-up/cancel',
     redirectTo: 'wallets/top-up/cancel',
     pathMatch: 'full'
   },
+    {
+    path: 'documents',
+    component: DetailSalonListComponent
+  },
+  {
+  path: 'salon/:id/documents',
+  component: SalonDocumentsComponent
+},
+
   {
     path: 'challenges',
     loadChildren: () => import('./features/challenges/challenges.module').then(m => m.ChallengesModule)
@@ -148,11 +131,13 @@ const routes: Routes = [
     component: DeleteSalonsComponent,
   },
 
+  // Gestion des sessions
   {
     path: 'sessions/add/:salonNom',
     component: AddSessionsComponent,
   },
-  { path: 'sessions/list', component: SessionListComponent }, // Route pour afficher les sessions
+    { path: 'sessions/list', component: SessionListComponent },
+  { path: 'sessions/list/:salonName', component: SessionListComponent },
   { path: 'sessions/update/:id', component: UpdateSessionComponent }, // Route pour afficher les sessions
   { path: 'sessions/delete/:id', component: DeleteSessionsComponent },
   // Nouvelle route pour afficher les salons avec leurs sessions associées
@@ -160,86 +145,6 @@ const routes: Routes = [
     path: 'salons-sessions',
     component: SalonsSessionsComponent,
   },
-  {
-    path: 'Forums',
-    redirectTo: 'forums',
-    pathMatch: 'full'
-  },
-  {
-    path: 'Forums/edit/:id',
-    redirectTo: 'forums/edit/:id',
-    pathMatch: 'full'
-  },
-  {
-    path: 'Forums/add',
-    redirectTo: 'forums/add',
-    pathMatch: 'full'
-  },
-  {
-    path: 'communities',
-    loadChildren: () => import('./features/communities/communities.module').then(m => m.CommunitiesModule)
-  },
-  {
-    path: 'Communities',
-    redirectTo: 'communities',
-    pathMatch: 'full'
-  },
-  {
-    path: 'Communities/create',
-    redirectTo: 'communities/create',
-    pathMatch: 'full'
-  },
-  {
-    path: 'Communities/edit/:id',
-    redirectTo: 'communities/edit/:id',
-    pathMatch: 'full'
-  },
-  {
-    path: 'Communities/my-communities',
-    redirectTo: 'communities/my-communities',
-    pathMatch: 'full'
-  },
-  // Redirection pour gérer la casse
-  {
-    path: 'Forums',
-    redirectTo: 'forums',
-    pathMatch: 'full'
-  },
-  {
-    path: 'Forums/edit/:id',
-    redirectTo: 'forums/edit/:id',
-    pathMatch: 'full'
-  },
-  {
-    path: 'Forums/add',
-    redirectTo: 'forums/add',
-    pathMatch: 'full'
-  },
-  {
-    path: 'communities',
-    loadChildren: () => import('./features/communities/communities.module').then(m => m.CommunitiesModule)
-  },
-
-  // Redirection pour gérer la casse pour communities
-  {
-    path: 'Communities',
-    redirectTo: 'communities',
-    pathMatch: 'full'
-  },
-  {
-    path: 'Communities/create',
-    redirectTo: 'communities/create',
-    pathMatch: 'full'
-  },
-  {
-    path: 'Communities/edit/:id',
-    redirectTo: 'communities/edit/:id',
-    pathMatch: 'full'
-  },
-  {
-    path: 'Communities/my-communities',
-    redirectTo: 'communities/my-communities',
-    pathMatch: 'full'},
   {
     path: 'skills-matching',
 

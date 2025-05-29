@@ -66,51 +66,44 @@ export class UpdateSessionComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (!this.sessionData.type || !this.sessionData.dateDebut || 
-        !this.sessionData.dateFin || !this.sessionData.createurNom) {
-      alert("Tous les champs sont obligatoires");
-      return;
-    }
-
-    // Préparer les données à envoyer
-    const updatedData = { ...this.originalData };
-    updatedData.type = this.sessionData.type;
-    updatedData.createurNom = this.sessionData.createurNom;
-    updatedData.etat = this.sessionData.etat || 'active';
-    updatedData.dateDebut = this.sessionData.dateDebut;
-    updatedData.dateFin = this.sessionData.dateFin;
-
-    // Supprimer les propriétés qui pourraient causer des problèmes
-    delete updatedData._id; // MongoDB utilise _id, mais l'API pourrait attendre id
-    
-    console.log('Données envoyées au backend:', JSON.stringify(updatedData));
-
-    this.isLoading = true;
-    this.sessionService.updateSessionById(this.sessionId, updatedData).subscribe({
-      next: (response: any) => { // Typage explicite
-        console.log("Réponse de mise à jour:", response);
-        alert("Session mise à jour avec succès !");
-        this.router.navigate(["/sessions/list"]);
-      },
-      error: (err: any) => { // Typage explicite
-        console.error("Erreur lors de la mise à jour:", err);
-        alert(`Erreur lors de la mise à jour: ${err.message || 'Erreur inconnue'}`);
-        this.isLoading = false;
-      },
-      complete: () => {
-        this.isLoading = false;
-      }
-    });
+  if (!this.sessionData.type || !this.sessionData.dateDebut || 
+      !this.sessionData.dateFin || !this.sessionData.createurNom) {
+    alert("Tous les champs sont obligatoires");
+    return;
   }
+
+  const updatedData = { ...this.originalData };
+  updatedData.type = this.sessionData.type;
+  updatedData.createurNom = this.sessionData.createurNom;
+  updatedData.etat = this.sessionData.etat || 'active';
+  updatedData.dateDebut = this.sessionData.dateDebut;
+  updatedData.dateFin = this.sessionData.dateFin;
+  delete updatedData._id; 
+
+  this.isLoading = true;
+  this.sessionService.updateSessionById(this.sessionId, updatedData).subscribe({
+    next: (response: any) => {
+      alert("Session mise à jour avec succès !");
+      // Récupère correctement le nom pour la route !
+      // Attention à bien utiliser salonName (pas salonNom) dans la route
+      const salonName = this.sessionData.salonId?.nom || this.originalData.salonId?.nom;
+      if (salonName) {
+          this.router.navigate(["/sessions/list", salonName]);
+      } else {
+        this.router.navigate(["/sessions/list",  salonName]);
+      }
+    },
+    error: (err: any) => {
+      alert(`Erreur lors de la mise à jour: ${err.message || 'Erreur inconnue'}`);
+      this.isLoading = false;
+    },
+    complete: () => {
+      this.isLoading = false;
+    }
+  });
 }
 
-
-
-
-
-
-
-
-
-
-
+  goBack(): void {
+  window.history.back();
+}
+}
