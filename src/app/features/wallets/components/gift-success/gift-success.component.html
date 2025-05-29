@@ -1,11 +1,11 @@
 <!-- Gift Success Component -->
 <div class="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 flex items-center justify-center">
-  
+
   <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-    
+
     <!-- Success Card -->
     <div class="bg-white rounded-3xl shadow-2xl border border-green-100 overflow-hidden">
-      
+
       <!-- Header with Animation -->
       <div class="bg-gradient-to-r from-green-500 to-emerald-500 p-8 text-center text-white relative overflow-hidden">
         <!-- Animated Background Elements -->
@@ -15,7 +15,7 @@
           <div class="absolute bottom-4 left-8 text-5xl animate-bounce" style="animation-delay: 0.5s;">🎁</div>
           <div class="absolute bottom-8 right-4 text-3xl animate-pulse" style="animation-delay: 1s;">💝</div>
         </div>
-        
+
         <!-- Main Content -->
         <div class="relative z-10">
           <div class="text-8xl mb-4 animate-bounce">🎉</div>
@@ -26,7 +26,7 @@
 
       <!-- Gift Details -->
       <div class="p-8">
-        
+
         <!-- Gift Summary -->
         <div class="text-center mb-8">
           <div class="bg-gradient-to-r from-green-100 to-emerald-100 rounded-2xl p-6 mb-6 border border-green-200">
@@ -38,7 +38,7 @@
               Successfully sent to <span class="font-semibold text-green-700">{{ recipientName }}</span>
             </p>
           </div>
-          
+
           <!-- Personal Message Display -->
           <div *ngIf="giftMessage" class="bg-gray-50 rounded-xl p-6 border border-gray-200 mb-6">
             <h3 class="text-lg font-semibold text-gray-900 mb-3 flex items-center justify-center">
@@ -52,21 +52,21 @@
 
         <!-- Success Features -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          
+
           <!-- Instant Delivery -->
           <div class="text-center p-4 bg-blue-50 rounded-xl border border-blue-200">
             <div class="text-3xl mb-2">⚡</div>
             <h4 class="font-semibold text-blue-900 mb-1">Instant Delivery</h4>
             <p class="text-blue-700 text-sm">Gift delivered immediately</p>
           </div>
-          
+
           <!-- Secure Transaction -->
           <div class="text-center p-4 bg-purple-50 rounded-xl border border-purple-200">
             <div class="text-3xl mb-2">🔒</div>
             <h4 class="font-semibold text-purple-900 mb-1">Secure</h4>
             <p class="text-purple-700 text-sm">Protected transaction</p>
           </div>
-          
+
           <!-- Email Notification -->
           <div class="text-center p-4 bg-pink-50 rounded-xl border border-pink-200">
             <div class="text-3xl mb-2">📧</div>
@@ -104,7 +104,7 @@
 
         <!-- Action Buttons -->
         <div class="space-y-4">
-          
+
           <!-- Primary Actions -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button
@@ -112,14 +112,14 @@
               class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-4 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
               💰 Back to Wallet
             </button>
-            
+
             <button
               (click)="sendAnotherGift()"
               class="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white py-4 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
               🎁 Send Another Gift
             </button>
           </div>
-          
+
           <!-- Secondary Actions -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- <button
@@ -127,7 +127,7 @@
               class="w-full bg-white border-2 border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 py-3 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg">
               📋 View Gift History
             </button> -->
-            
+
             <!-- <button
               (click)="shareGift()"
               class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">

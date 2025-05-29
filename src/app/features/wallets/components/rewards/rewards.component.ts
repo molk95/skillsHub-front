@@ -40,7 +40,7 @@ export class RewardsComponent implements OnInit, OnDestroy {
     const user = userStr ? JSON.parse(userStr) : null;
     this.userId = user?.id || user?._id || null;
 
-    console.log('Rewards component - User info:', {
+    console.log('Achievements component - User info:', {
       userStr: !!userStr,
       user: user,
       userId: this.userId

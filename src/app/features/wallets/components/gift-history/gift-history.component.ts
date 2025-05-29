@@ -14,15 +14,15 @@ export class GiftHistoryComponent implements OnInit, OnDestroy {
   receivedGifts: IGiftTransaction[] = [];
   isLoading = false;
   errorMessage: string | null = null;
-  
+
   // Tab management
   activeTab: 'sent' | 'received' = 'sent';
-  
+
   // Filter and sort
   statusFilter: string = 'all';
   sortBy: 'date' | 'amount' = 'date';
   sortOrder: 'asc' | 'desc' = 'desc';
-  
+
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -41,15 +41,15 @@ export class GiftHistoryComponent implements OnInit, OnDestroy {
   private loadGiftHistory(): void {
     const userStr = localStorage.getItem('user');
     const user = userStr ? JSON.parse(userStr) : null;
-    
+
     if (!user?._id) {
       this.errorMessage = 'User not found. Please log in again.';
       return;
     }
-    
+
     this.isLoading = true;
     this.errorMessage = null;
-    
+
     // Load both sent and received gifts
     const sentSub = this.walletsService.getSentGifts(user._id).subscribe({
       next: (gifts) => {
@@ -62,7 +62,7 @@ export class GiftHistoryComponent implements OnInit, OnDestroy {
         this.checkLoadingComplete();
       }
     });
-    
+
     const receivedSub = this.walletsService.getReceivedGifts(user._id).subscribe({
       next: (gifts) => {
         this.receivedGifts = gifts || [];
@@ -74,7 +74,7 @@ export class GiftHistoryComponent implements OnInit, OnDestroy {
         this.checkLoadingComplete();
       }
     });
-    
+
     this.subscriptions.push(sentSub, receivedSub);
   }
 
@@ -91,31 +91,31 @@ export class GiftHistoryComponent implements OnInit, OnDestroy {
 
   getFilteredAndSortedGifts(): IGiftTransaction[] {
     let gifts = this.activeTab === 'sent' ? this.sentGifts : this.receivedGifts;
-    
+
     // Apply status filter
     if (this.statusFilter !== 'all') {
       gifts = gifts.filter(gift => gift.status === this.statusFilter);
     }
-    
+
     // Apply sorting
     gifts = [...gifts].sort((a, b) => {
       let comparison = 0;
-      
+
       if (this.sortBy === 'date') {
         comparison = new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
       } else if (this.sortBy === 'amount') {
         comparison = a.amount - b.amount;
       }
-      
+
       return this.sortOrder === 'desc' ? -comparison : comparison;
     });
-    
+
     return gifts;
   }
 
   formatDate(dateInput: string | Date): string {
     if (!dateInput) return 'Unknown';
-    
+
     const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
     const now = new Date();
     const diffTime = Math.abs(now.getTime() - date.getTime());
@@ -230,11 +230,11 @@ export class GiftHistoryComponent implements OnInit, OnDestroy {
   canCancelGift(gift: IGiftTransaction): boolean {
     // Can only cancel pending gifts that were sent within the last hour
     if (gift.status !== 'pending') return false;
-    
+
     const giftTime = new Date(gift.createdAt).getTime();
     const now = new Date().getTime();
     const hourInMs = 60 * 60 * 1000;
-    
+
     return (now - giftTime) < hourInMs;
   }
 
@@ -253,7 +253,7 @@ export class GiftHistoryComponent implements OnInit, OnDestroy {
   exportHistory(): void {
     const gifts = this.getFilteredAndSortedGifts();
     const csvContent = this.generateCSV(gifts);
-    
+
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -273,7 +273,7 @@ export class GiftHistoryComponent implements OnInit, OnDestroy {
       gift.status,
       gift.message || ''
     ]);
-    
+
     return [headers, ...rows].map(row => row.join(',')).join('\n');
   }
 
