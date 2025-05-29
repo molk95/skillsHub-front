@@ -1,44 +1,146 @@
-<div *ngIf="isLoading$ | async" class="spinner-overlay">
-  <div class="spinner"></div>
+<!-- Authorization Check -->
+<div *ngIf="!isAuthorized" class="min-h-screen bg-gradient-to-br from-red-50 via-white to-red-50 flex items-center justify-center">
+  <div class="bg-white rounded-2xl shadow-xl p-12 max-w-lg mx-auto border border-red-100 text-center">
+    <div class="text-6xl mb-6">🚫</div>
+    <h2 class="text-3xl font-bold text-red-900 mb-4">Access Denied</h2>
+    <p class="text-red-600 mb-8 text-lg">This page is only accessible to administrators.</p>
+    <p class="text-gray-600 mb-6">You will be redirected to your wallet dashboard.</p>
+    <div class="animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-red-500 mx-auto"></div>
+  </div>
 </div>
 
-<div class="p-6 bg-white rounded-xl shadow-lg" *ngIf="!(isLoading$ | async)">
-  <h2 class="text-2xl font-bold text-[#6A00F4] mb-6">All Wallets</h2>
+<!-- Admin Content -->
+<div *ngIf="isAuthorized" class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
 
-  <div *ngIf="(wallets$ | async)?.length === 0" class="text-center py-8 text-gray-500">
-    No wallets found. Create a new wallet to get started.
+  <!-- Header Section -->
+  <div class="bg-white shadow-sm border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center">
+          <!-- <img src="/assets/logo_transparent.png" alt="SmartSkillz Logo" class="h-10 w-auto mr-3"> -->
+          <div>
+            <!-- <span class="text-2xl font-bold text-gray-900">SmartSkillz</span> -->
+            <span class="text-sm text-gray-500 ml-2">Admin Dashboard</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button
+            (click)="navigateToAdminRewards()"
+            class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-2 px-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+            🎁 Rewards Management
+          </button>
+          <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
+            🔧 ADMIN ONLY
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div *ngFor="let wallet of wallets$ | async" 
-         class="border border-gray-200 rounded-xl hover:shadow-md transition-shadow duration-300 overflow-hidden cursor-pointer"
-         (click)="viewWalletDetails(wallet._id)">
-      <div class="bg-gradient-to-r from-[#7F00FF] to-[#6A00F4] p-4 text-white">
-        <h3 class="font-medium">{{ wallet.user?.fullName || 'User' }}'s Wallet</h3>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading$ | async" class="flex justify-center items-center h-64">
+      <div class="text-center">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"></div>
+        <p class="text-gray-600 text-lg">Loading wallets...</p>
       </div>
-      <div class="p-5">
-        <div class="flex justify-between items-center mb-3">
-          <span class="text-gray-600">Balance:</span>
-          <span class="text-xl font-bold text-[#00CFFF]">{{ wallet.imoney?.value || 0 }}</span>
+    </div>
+
+    <!-- Page Title -->
+    <div *ngIf="!(isLoading$ | async)" class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        Wallet <span class="text-blue-600">Management</span>
+      </h1>
+      <p class="text-xl text-gray-600">
+        Comprehensive overview and management of all user wallets
+      </p>
+    </div>
+
+    <!-- Wallets Table -->
+    <div *ngIf="!(isLoading$ | async)" class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+
+      <!-- Table Header -->
+      <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-2xl font-bold">All Wallets</h3>
+            <p class="text-blue-100">System-wide wallet overview and management</p>
+          </div>
+          <div class="text-4xl">💳</div>
         </div>
-        <div class="flex justify-between items-center mb-3">
-          <span class="text-gray-600">Currency:</span>
-          <span>{{ wallet.imoney?.currencyType || 'N/A' }}</span>
-        </div>
-        <div class="flex justify-between items-center">
-          <span class="text-gray-600">Status:</span>
-          <span class="px-3 py-1 rounded-full text-sm font-medium" 
-                [class.bg-green-100]="wallet.isActive" 
-                [class.text-green-800]="wallet.isActive"
-                [class.bg-red-100]="!wallet.isActive"
-                [class.text-red-800]="!wallet.isActive">
-            {{ wallet.isActive ? 'Active' : 'Deactivated' }}
-          </span>
-        </div>
-        <button class="w-full mt-4 bg-[#7F00FF] hover:bg-[#6A00F4] text-white py-2 px-4 rounded-lg transition"
-                (click)="$event.stopPropagation(); viewWalletDetails(wallet._id)">
-          View Details
-        </button>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="(wallets$ | async)?.length === 0" class="text-center py-16">
+        <div class="text-6xl mb-4">💳</div>
+        <h4 class="text-xl font-bold text-gray-900 mb-2">No Wallets Found</h4>
+        <p class="text-gray-600">No wallets have been created yet.</p>
+      </div>
+
+      <!-- Wallets Table -->
+      <div *ngIf="(wallets$ | async) && (wallets$ | async)!.length > 0" class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-gray-50 border-b border-gray-200">
+            <tr>
+              <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+              <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Balance</th>
+              <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+              <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let wallet of wallets$ | async" class="hover:bg-gray-50 transition-colors duration-200">
+
+              <!-- User Info -->
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10">
+                    <div class="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold">
+                      {{ (wallet.user?.fullName || 'U').charAt(0).toUpperCase() }}
+                    </div>
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900">{{ wallet.user?.fullName || 'Unknown User' }}</div>
+                    <div class="text-sm text-gray-500">{{ wallet.user?.email || 'No email' }}</div>
+                  </div>
+                </div>
+              </td>
+
+              <!-- Balance -->
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-bold text-blue-600">{{ wallet.imoney?.value || 0 }}</div>
+                <div class="text-xs text-gray-500">{{ wallet.imoney?.currencyType || 'iMoney' }}</div>
+              </td>
+
+              <!-- Status -->
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                      [class.bg-green-100]="wallet.isActive"
+                      [class.text-green-800]="wallet.isActive"
+                      [class.bg-red-100]="!wallet.isActive"
+                      [class.text-red-800]="!wallet.isActive">
+                  {{ wallet.isActive ? '✅ Active' : '❌ Inactive' }}
+                </span>
+              </td>
+
+              <!-- Created Date -->
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {{ formatDate(wallet.createdAt) }}
+              </td>
+
+              <!-- Actions -->
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <button
+                  (click)="viewAdminWalletDetails(wallet._id)"
+                  class="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-2 px-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                  🔍 View Details
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
