@@ -1,0 +1,97 @@
+<div class="invite-form-container">
+  <div class="invite-header">
+    <h2>Inviter des participants</h2>
+    <p *ngIf="salonNom" class="salon-name">Salon: {{ salonNom }}</p>
+    
+    <!-- Toggle pour choisir entre un ou plusieurs emails -->
+    <div class="mode-toggle">
+      <button [class.active]="!multipleEmails" (click)="multipleEmails = false">
+        <i class="fas fa-user"></i> Un participant
+      </button>
+      <button [class.active]="multipleEmails" (click)="multipleEmails = true">
+        <i class="fas fa-users"></i> Plusieurs participants
+      </button>
+    </div>
+  </div>
+
+  <form (ngSubmit)="envoyerInvitation()" class="invite-form">
+    <!-- Mode email unique -->
+    <div class="form-group" *ngIf="!multipleEmails">
+      <label for="email">Email du participant :</label>
+      <div class="input-with-icon">
+        <i class="fas fa-envelope"></i>
+        <input 
+          id="email" 
+          [(ngModel)]="email" 
+          name="email" 
+          required 
+          type="email" 
+          placeholder="exemple@email.com"
+          [disabled]="loading"
+        />
+      </div>
+    </div>
+
+    <!-- Mode emails multiples -->
+    <div class="form-group" *ngIf="multipleEmails">
+      <label for="emailInput">Ajouter des emails :</label>
+      <div class="input-with-icon">
+        <i class="fas fa-envelope"></i>
+        <input 
+          id="emailInput" 
+          [(ngModel)]="emailInput" 
+          name="emailInput" 
+          type="email" 
+          placeholder="exemple@email.com"
+          [disabled]="loading"
+        />
+        <button type="button" class="btn-add" (click)="ajouterEmail()" [disabled]="!emailInput || !emailInput.includes('@')">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+      
+      <!-- Liste des emails ajoutés -->
+      <div class="email-list" *ngIf="emails.length > 0">
+        <div class="email-item" *ngFor="let email of emails; let i = index">
+          <span>{{ email }}</span>
+          <button type="button" class="btn-remove" (click)="supprimerEmail(i)">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" (click)="retourAuSalon()">
+        <i class="fas fa-arrow-left"></i> Retour
+      </button>
+      <button type="submit" [disabled]="loading || (!email && !multipleEmails) || (multipleEmails && emails.length === 0)">
+        <i class="fas fa-paper-plane"></i> 
+        {{ loading ? 'Envoi en cours...' : (multipleEmails ? 'Envoyer les invitations' : 'Envoyer l\'invitation') }}
+      </button>
+    </div>
+  </form>
+
+  <!-- Indicateur de chargement -->
+  <div *ngIf="loading" class="loading-indicator">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Message de résultat -->
+  <div *ngIf="message" class="message" [ngClass]="{'error': message.includes('Erreur')}">
+    <i [class]="message.includes('Erreur') ? 'fas fa-exclamation-circle' : 'fas fa-check-circle'"></i>
+    {{ message }}
+  </div>
+
+  <!-- Lien de prévisualisation Ethereal -->
+  <div *ngIf="etherealPreview" class="preview-link">
+    <a [href]="etherealPreview" target="_blank" rel="noopener noreferrer">
+      <i class="fas fa-external-link-alt"></i> Voir l'email envoyé (aperçu Ethereal)
+    </a>
+    <p class="preview-note">
+      Note: Ceci est un aperçu de test. En production, l'email sera envoyé directement au destinataire.
+    </p>
+  </div>
+</div>
+
+

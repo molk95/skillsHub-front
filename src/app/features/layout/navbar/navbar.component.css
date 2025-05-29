@@ -1,179 +1,171 @@
-/* Modern Responsive Navbar Styles */
-
-/* Avatar Animations */
-.avatar-circle {
-  transition: all 0.3s ease;
-}
-
-.avatar-circle:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Navigation Icons */
-.nav-icon {
-  transition: all 0.2s ease;
-}
-
-.nav-icon:hover {
-  transform: translateY(-1px);
-}
-
-/* Mobile Menu Animation */
-.mobile-menu {
-  animation: slideDown 0.3s ease-out;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
+/* Container */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #470c53; /* aubergine */
+    padding: 10px 20px;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  /* Logo */
+  .navbar-logo {
+    display: flex;
+    align-items: center;
   }
-}
-
-/* Responsive Navigation */
-@media (max-width: 1024px) {
-  /* Hide text labels on medium screens, show only icons */
-  .nav-text {
+  .navbar-logo img {
+    height: 30px;
+    margin-right: 10px;
+  }
+  .navbar-logo span {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  /* Links */
+  .navbar-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+  }
+  .navbar-links li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .navbar-links li a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Toggle Button (mobile) */
+  .navbar-toggle {
     display: none;
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
   }
-}
-
-@media (max-width: 768px) {
-  /* Mobile optimizations */
-  .mobile-nav-item {
-    padding: 12px 16px;
-    border-radius: 8px;
-    margin: 2px 0;
+  
+  /* Mobile menu */
+  .navbar-mobile {
+    display: none;
+    list-style: none;
+    background-color: #4e1a63;
+    padding: 10px;
   }
-
-  .mobile-nav-item:hover {
-    background-color: rgba(59, 130, 246, 0.1);
+  .navbar-mobile li a {
+    display: block;
+    padding: 10px 0;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
   }
-}
-
-/* Avatar Gradient Variations */
-.avatar-gradient-1 {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.avatar-gradient-2 {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-}
-
-.avatar-gradient-3 {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-}
-
-.avatar-gradient-4 {
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-}
-
-/* Online Status Indicator */
-.status-indicator {
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  .navbar-mobile li a:hover {
+    background-color: #5a2673;
   }
-  70% {
-    box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .navbar-links {
+      display: none;
+    }
+    .navbar-toggle {
+      display: block;
+    }
+    .navbar-mobile {
+      display: block;
+    }
   }
-  100% {
-    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .navbar{
+    webkit-text-size-adjust: 100%;
+    webkit-tap-highlight-color: rgba(0,0,0,0);
+    color:#0086ff;
+    color: #58008f;
+  color: #ff3e3e;
+    color: #ff7e3d;
+    color: #ffaf00;
+    color: #9fef00;
+    color: #18c99a;
+    color: #2ee7b6;
+    color: #ffffff;
+    color: #bdc7db;
+    --gray-dark: #d8dde9;
+    --primary: #0086ff;
+    --secondary: #bdc7db;
+    --success: #9fef00;
+    --info: #2ee7b6;
+    --warning: #ffaf00;
+    --danger: #ff3e3e;
+    --light: #1a2332;
+    --dark: #d8dde9;
+    --pink: #e82ecc;
+    --purple: #9f00ff;
+    --discord: #5865F2;
+    --breakpoint-xs: 0;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+    --breakpoint-xxl: 1440px;
+    --font-family-sans-serif: "neue-haas-unica", sans-serif;
+    --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --fa-style-family-brands: "Font Awesome 6 Brands";
+    --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
+    --fa-font-duotone: normal 900 1em/1 "Font Awesome 6 Duotone";
+    --fa-font-light: normal 300 1em/1 "Font Awesome 6 Pro";
+    --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Pro";
+    --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Pro";
+    --fa-style-family-classic: "Font Awesome 6 Pro";
+    --fa-font-thin: normal 100 1em/1 "Font Awesome 6 Pro";
+    --fa-font-duotone-regular: normal 400 1em/1 "Font Awesome 6 Duotone";
+    --fa-font-duotone-light: normal 300 1em/1 "Font Awesome 6 Duotone";
+    --fa-style-family-duotone: "Font Awesome 6 Duotone";
+    --fa-font-duotone-thin: normal 100 1em/1 "Font Awesome 6 Duotone";
+    --fa-font-sharp-solid: normal 900 1em/1 "Font Awesome 6 Sharp";
+    --fa-font-sharp-regular: normal 400 1em/1 "Font Awesome 6 Sharp";
+    --fa-font-sharp-light: normal 300 1em/1 "Font Awesome 6 Sharp";
+    --fa-style-family-sharp: "Font Awesome 6 Sharp";
+    --fa-font-sharp-thin: normal 100 1em/1 "Font Awesome 6 Sharp";
+    --fa-font-sharp-duotone-solid: normal 900 1em/1 "Font Awesome 6 Sharp Duotone";
+    --fa-font-sharp-duotone-regular: normal 400 1em/1 "Font Awesome 6 Sharp Duotone";
+    --fa-font-sharp-duotone-light: normal 300 1em/1 "Font Awesome 6 Sharp Duotone";
+    --fa-style-family-sharp-duotone: "Font Awesome 6 Sharp Duotone";
+    --fa-font-sharp-duotone-thin: normal 100 1em/1 "Font Awesome 6 Sharp Duotone";
+    font-family: neue-haas-unica,sans-serif;
+    font-size: .875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #a4b1cd;
+    text-align: left;
+    box-sizing: border-box;
+    display: flex!important;
+    justify-content: space-between!important;
+    align-items: center!important;
   }
-}
-
-/* Smooth Transitions */
-* {
-  transition: all 0.2s ease;
-}
-
-/* Focus States for Accessibility */
-button:focus,
-a:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-/* Hover Effects */
-.nav-item:hover {
-  transform: translateY(-1px);
-}
-
-/* Logo Responsive */
-@media (max-width: 640px) {
-  .logo-text {
-    font-size: 1.25rem;
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Additional Responsive Utilities */
-.navbar-container {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-/* Improved Mobile Menu */
-.mobile-menu-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 40;
-}
-
-/* Enhanced Avatar Styles */
-.user-avatar {
-  position: relative;
-  cursor: pointer;
-}
-
-.user-avatar:hover .avatar-circle {
-  transform: scale(1.05);
-}
-
-/* Navigation Item Spacing */
-@media (min-width: 768px) {
-  .nav-spacing {
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .nav-spacing {
-    margin-left: 2rem;
-    margin-right: 2rem;
-  }
-}

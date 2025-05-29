@@ -15,7 +15,6 @@ interface Package {
   imoneyValue: number;
   description: string;
   isPopular?: boolean;
-  points: number; // Custom points for each package
 }
 
 @Component({
@@ -103,8 +102,7 @@ export class TopUpComponent implements OnInit {
       userId,
       userInfo: user,
       amount: this.selectedPackage.amount,
-      imoneyValue: this.selectedPackage.imoneyValue,
-      points: this.selectedPackage.points
+      imoneyValue: this.selectedPackage.imoneyValue
     });
 
     this.store.dispatch(
@@ -112,8 +110,6 @@ export class TopUpComponent implements OnInit {
         userId,
         amount: this.selectedPackage.amount,
         imoneyValue: this.selectedPackage.imoneyValue,
-        packageName: this.selectedPackage.name,
-        points: this.selectedPackage.points,
       })
     );
   }

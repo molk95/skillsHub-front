@@ -1,16 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PermissionDirective } from './directives/permission.directive';
+
+
 
 @NgModule({
-  declarations: [
-    PermissionDirective
-  ],
+  declarations: [],
   imports: [
     CommonModule
-  ],
-  exports: [
-    PermissionDirective
   ]
 })
 export class SharedModule { }

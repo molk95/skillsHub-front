@@ -18,12 +18,6 @@ import { WalletStatusComponent } from './components/wallet-status/wallet-status.
 import { walletsReducer } from './store/wallets.reducers';
 import { WalletsEffects } from './store/wallets.effects';
 import { WalletDashboardComponent } from './components/wallet-dashboard/wallet-dashboard.component';
-import { RewardsComponent } from './components/rewards/rewards.component';
-import { AdminWalletDetailsComponent } from './components/admin-wallet-details/admin-wallet-details.component';
-import { AdminRewardsManagementComponent } from './components/admin-rewards-management/admin-rewards-management.component';
-import { SendGiftComponent } from './components/send-gift/send-gift.component';
-import { GiftSuccessComponent } from './components/gift-success/gift-success.component';
-import { GiftHistoryComponent } from './components/gift-history/gift-history.component';
 
 @NgModule({
   declarations: [
@@ -36,13 +30,7 @@ import { GiftHistoryComponent } from './components/gift-history/gift-history.com
     CancelComponent,
     SuccessComponent,
     WalletStatusComponent,
-    WalletDashboardComponent,
-    RewardsComponent,
-    AdminWalletDetailsComponent,
-    AdminRewardsManagementComponent,
-    SendGiftComponent,
-    GiftSuccessComponent,
-    GiftHistoryComponent
+    WalletDashboardComponent
   ],
   imports: [
     CommonModule,
