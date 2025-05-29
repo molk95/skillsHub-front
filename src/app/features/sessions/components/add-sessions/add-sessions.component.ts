@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { SessionService } from '../../services/sessions.service'; // Assurez-vous que le chemin est correct
 import { v4 as uuidv4 } from 'uuid'; // Importation pour générer un ID unique
+
 @Component({
   selector: 'app-add-sessions',
   templateUrl: './add-sessions.component.html',
@@ -19,13 +20,8 @@ export class AddSessionsComponent {
   };
   isLoading: boolean = false; // Indicateur de chargement
 
-  constructor(private sessionService: SessionService, private router: Router , private route: ActivatedRoute ) {}
-  ngOnInit(): void {
-    // Récupère le nom du salon depuis l'URL
-    this.route.paramMap.subscribe(params => {
-      this.salonNom = params.get('salonNom') || '';
-    });
-  }
+  constructor(private sessionService: SessionService, private router: Router) {}
+
   // Méthode utilitaire pour convertir les dates au format JJ/MM/AAAA HH:mm
   private formatDate(date: string): string {
     const d = new Date(date);

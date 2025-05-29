@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/app.state';
 import { IWallet } from '../../models/wallets.model';
+import { IRewardsHistory, IRewardsWithConversion } from '../../models/rewards.model';
 import * as WalletActions from '../../store/wallets.actions';
 import { WalletsService } from '../../services/wallets.service';
 
@@ -19,6 +20,11 @@ import { WalletsService } from '../../services/wallets.service';
   walletId: string | null = null;
   userRole: string | null = null;
 
+  // Rewards observables
+  rewardsHistory$: Observable<IRewardsHistory[]>;
+  rewardsLoading$: Observable<boolean>;
+  userRewards$: Observable<IRewardsWithConversion | null>;
+
   constructor(
     private store: Store<AppState>,
     private router: Router,
@@ -27,6 +33,11 @@ import { WalletsService } from '../../services/wallets.service';
     this.wallet$ = this.store.select(state => state.wallets.selectedWallet);
     this.isLoading$ = this.store.select(state => state.wallets.isLoading);
     this.error$ = this.store.select(state => state.wallets.error);
+
+    // Initialize rewards observables
+    this.rewardsHistory$ = this.store.select(state => state.wallets.rewardsHistory);
+    this.rewardsLoading$ = this.store.select(state => state.wallets.rewardsLoading);
+    this.userRewards$ = this.store.select(state => state.wallets.userRewards);
   }
 
 ngOnInit(): void {
@@ -51,10 +62,17 @@ ngOnInit(): void {
       if (wallet && wallet._id) {
         this.walletId = wallet._id;
         this.store.dispatch(WalletActions.fetchWalletById({ id: wallet._id }));
+        // Also load user rewards and history
+        this.store.dispatch(WalletActions.fetchUserRewards({ userId }));
+        this.store.dispatch(WalletActions.fetchRewardsHistory({ userId }));
       } else {
-        // No wallet found — NOT an error
+        // No wallet found — explicitly set wallet to null
+        console.log('No wallet found, setting wallet to null');
         this.store.dispatch(WalletActions.SetWalletLoader({ isLoading: false }));
-        // Do not dispatch fetchWalletByIdFailure here
+        this.store.dispatch(WalletActions.fetchWalletByIdSuccess({ wallet: null as any }));
+        // Still try to load rewards even if no wallet
+        this.store.dispatch(WalletActions.fetchUserRewards({ userId }));
+        this.store.dispatch(WalletActions.fetchRewardsHistory({ userId }));
       }
     },
     error: (error) => {
@@ -130,6 +148,81 @@ ngOnInit(): void {
 
 goBackToWallets(): void {
   this.router.navigate(['/wallets']);
+}
+goBackToMyWallet(): void {
+  this.router.navigate(['/wallets/wallet-dashboard']);
+}
+
+// Activity display methods
+getActivityIcon(source: string): string {
+  switch (source) {
+    case 'wallet_topup':
+      return '💰';
+    case 'skill_purchase':
+      return '🎯';
+    case 'challenge_purchase':
+      return '🏆';
+    case 'points_to_imoney':
+      return '🔄';
+    default:
+      return '⭐';
+  }
+}
+
+getActivityLabel(source: string): string {
+  switch (source) {
+    case 'wallet_topup':
+      return 'Wallet Top-up';
+    case 'skill_purchase':
+      return 'Skill Purchase';
+    case 'challenge_purchase':
+      return 'Challenge Purchase';
+    case 'points_to_imoney':
+      return 'Points Conversion';
+    default:
+      return 'Manual Points';
+  }
+}
+
+formatActivityDate(dateString: string): string {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffTime = Math.abs(now.getTime() - date.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 1) {
+    return 'Today';
+  } else if (diffDays === 2) {
+    return 'Yesterday';
+  } else if (diffDays <= 7) {
+    return `${diffDays - 1} days ago`;
+  } else {
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric'
+    });
+  }
+}
+
+// New methods for rewards preview
+navigateToRewards(): void {
+  this.router.navigate(['/wallets/rewards']);
+}
+
+quickConvertPoints(): void {
+  // Navigate to rewards page with conversion focus
+  this.router.navigate(['/wallets/rewards'], {
+    queryParams: { action: 'convert' }
+  });
+}
+
+// Gift-related methods
+sendGift(): void {
+  this.router.navigate(['/wallets/send-gift']);
+}
+
+viewGiftHistory(): void {
+  this.router.navigate(['/wallets/gift-history']);
 }
 
 }

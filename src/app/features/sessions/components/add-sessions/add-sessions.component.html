@@ -6,7 +6,7 @@
 
   <!-- Formulaire de création -->
   <form (ngSubmit)="onSubmit()" #sessionForm="ngForm">
-    <!-- Nom du Salon (readonly, auto-rempli depuis l'URL) -->
+    <!-- Nom du Salon -->
     <div class="mb-4">
       <label for="salonNom" class="form-label text-dark fw-semibold">
         <i class="fas fa-door-open me-1 text-primary"></i> Nom du Salon
@@ -15,10 +15,11 @@
         type="text"
         id="salonNom"
         name="salonNom"
-        [value]="salonNom"
+        [(ngModel)]="salonNom"
+        placeholder="Ex. Java"
         class="form-control border border-primary-subtle shadow-sm"
         style="background-color: #f9fafe;"
-        readonly
+        required
       />
     </div>
 
@@ -104,14 +105,14 @@
 
   <!-- Lien pour accéder à la liste des sessions -->
   <div class="mt-4 text-center">
-    <a [routerLink]="['/sessions/list', salonNom]" class="btn btn-link text-primary fw-bold">
+    <a [routerLink]="['/sessions/list']" class="btn btn-link text-primary fw-bold">
       <i class="fas fa-list me-2"></i> Voir les sessions
     </a>
   </div>
-  <!-- Lien pour accéder à la liste des Salons -->
-  <div class="mt-2 text-center">
-    <a [routerLink]="['/salons/list']" class="btn btn-link text-primary fw-bold">
-      <i class="fas fa-list me-2"></i> Voir les Salons 
-    </a>
-  </div>
+      <!-- Lien pour accéder à la liste des Salons -->
+      <div class="mt-4 text-center">
+          <a [routerLink]="['/salons/list']" class="btn btn-link text-primary fw-bold">
+            <i class="fas fa-list me-2"></i> Voir les Salons 
+          </a>
+        </div>
 </div>
