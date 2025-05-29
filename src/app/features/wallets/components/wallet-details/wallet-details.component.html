@@ -60,7 +60,7 @@
         <button
           (click)="navigateToRewards()"
           class="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
-          🎁 Rewards System
+          🏆 Rewards System
         </button>
 
         <!-- Back Button -->
@@ -92,7 +92,14 @@
               <span class="inline-block w-3 h-3 rounded-full" [class.bg-green-500]="wallet.isActive" [class.bg-red-500]="!wallet.isActive"></span>
             </div>
             <div *ngIf="!wallet.isActive" class="text-sm text-red-600 mt-2">
-              Please contact support if you need assistance with your wallet.
+              Your wallet has been temporarily deactivated by an administrator.
+            </div>
+            <div *ngIf="!wallet.isActive" class="mt-3">
+              <button
+                (click)="openContactAdminModal()"
+                class="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white py-2 px-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg">
+                📧 Request Wallet Activation
+              </button>
             </div>
           </div>
 
@@ -258,6 +265,206 @@
         <div *ngIf="!(rewardsHistory$ | async) && !(rewardsLoading$ | async)">
           <app-transaction-history [wallet]="wallet"></app-transaction-history>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Admin Modal -->
+<div *ngIf="showContactAdminModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" (click)="closeContactAdminModal()">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto" (click)="$event.stopPropagation()">
+
+    <!-- Modal Header -->
+    <div class="bg-gradient-to-r from-orange-500 to-red-500 p-6 text-white rounded-t-2xl">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-2xl font-bold">Request Wallet Activation</h2>
+          <p class="text-orange-100 mt-1">Contact administrator to reactivate your wallet</p>
+        </div>
+        <button
+          (click)="closeContactAdminModal()"
+          class="text-white hover:text-orange-200 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal Content -->
+    <div class="p-6">
+
+      <!-- Success Message -->
+      <div *ngIf="contactRequestSent" class="bg-green-50 border border-green-200 rounded-xl p-6 mb-6 text-center">
+        <div class="text-green-500 text-4xl mb-4">✅</div>
+        <h3 class="text-green-900 font-bold text-lg mb-2">Request Sent Successfully!</h3>
+        <p class="text-green-700">Your activation request has been sent to the administrators. You will receive an email notification once your wallet is reviewed.</p>
+      </div>
+
+      <!-- Contact Form -->
+      <form *ngIf="!contactRequestSent" [formGroup]="contactAdminForm" (ngSubmit)="submitContactRequest()" class="space-y-6">
+
+        <!-- User Information (Read-only) -->
+        <div class="bg-gray-50 rounded-xl p-4">
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Your Information</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+              <input
+                type="text"
+                [value]="getUserName()"
+                readonly
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+              <input
+                type="email"
+                [value]="getUserEmail()"
+                readonly
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600">
+            </div>
+          </div>
+        </div>
+
+        <!-- Request Reason -->
+        <div>
+          <label for="reason" class="block text-sm font-medium text-gray-700 mb-2">
+            Reason for Activation Request *
+          </label>
+          <select
+            id="reason"
+            formControlName="reason"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+            <option value="">Select a reason...</option>
+            <option value="account_review">Account Review Completed</option>
+            <option value="payment_resolved">Payment Issue Resolved</option>
+            <option value="policy_compliance">Policy Compliance Addressed</option>
+            <option value="technical_issue">Technical Issue Resolution</option>
+            <option value="other">Other (Please specify in message)</option>
+          </select>
+          <div *ngIf="contactAdminForm.get('reason')?.invalid && contactAdminForm.get('reason')?.touched" class="mt-1 text-sm text-red-600">
+            Please select a reason for your request
+          </div>
+        </div>
+
+        <!-- Message -->
+        <div>
+          <label for="message" class="block text-sm font-medium text-gray-700 mb-2">
+            Detailed Message *
+          </label>
+          <textarea
+            id="message"
+            formControlName="message"
+            rows="5"
+            maxlength="500"
+            placeholder="Please provide details about your situation and why you believe your wallet should be reactivated..."
+            class="w-full text-gray-500 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 resize-none"></textarea>
+          <div class="flex justify-between mt-1">
+            <div *ngIf="contactAdminForm.get('message')?.invalid && contactAdminForm.get('message')?.touched" class="text-sm text-red-600">
+              Please provide a detailed message (minimum 20 characters)
+            </div>
+            <div class="text-sm text-gray-500">
+              {{ contactAdminForm.get('message')?.value?.length || 0 }}/500 characters
+            </div>
+          </div>
+        </div>
+
+        <!-- Priority Level -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Priority Level</label>
+          <div class="grid grid-cols-3 gap-3">
+            <label class="relative cursor-pointer">
+              <input
+                type="radio"
+                value="low"
+                formControlName="priority"
+                class="sr-only">
+              <div class="p-3 border-2 rounded-lg text-center transition-all duration-300"
+                   [class.border-green-500]="contactAdminForm.get('priority')?.value === 'low'"
+                   [class.bg-green-50]="contactAdminForm.get('priority')?.value === 'low'"
+                   [class.border-gray-200]="contactAdminForm.get('priority')?.value !== 'low'">
+                <div class="text-lg mb-1">🟢</div>
+                <div class="text-sm font-medium">Low</div>
+                <div class="text-xs text-gray-500">Non-urgent</div>
+              </div>
+            </label>
+            <label class="relative cursor-pointer">
+              <input
+                type="radio"
+                value="medium"
+                formControlName="priority"
+                class="sr-only">
+              <div class="p-3 border-2 rounded-lg text-center transition-all duration-300"
+                   [class.border-yellow-500]="contactAdminForm.get('priority')?.value === 'medium'"
+                   [class.bg-yellow-50]="contactAdminForm.get('priority')?.value === 'medium'"
+                   [class.border-gray-200]="contactAdminForm.get('priority')?.value !== 'medium'">
+                <div class="text-lg mb-1">🟡</div>
+                <div class="text-sm font-medium">Medium</div>
+                <div class="text-xs text-gray-500">Standard</div>
+              </div>
+            </label>
+            <label class="relative cursor-pointer">
+              <input
+                type="radio"
+                value="high"
+                formControlName="priority"
+                class="sr-only">
+              <div class="p-3 border-2 rounded-lg text-center transition-all duration-300"
+                   [class.border-red-500]="contactAdminForm.get('priority')?.value === 'high'"
+                   [class.bg-red-50]="contactAdminForm.get('priority')?.value === 'high'"
+                   [class.border-gray-200]="contactAdminForm.get('priority')?.value !== 'high'">
+                <div class="text-lg mb-1">🔴</div>
+                <div class="text-sm font-medium">High</div>
+                <div class="text-xs text-gray-500">Urgent</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Error Message -->
+        <div *ngIf="contactRequestError" class="bg-red-50 border border-red-200 rounded-lg p-4">
+          <div class="flex items-center">
+            <div class="text-red-400 mr-3">
+              <span class="text-xl">❌</span>
+            </div>
+            <div>
+              <h4 class="text-red-900 font-bold">Error Sending Request</h4>
+              <p class="text-red-700">{{ contactRequestError }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 pt-4 border-t border-gray-200">
+          <button
+            type="button"
+            (click)="closeContactAdminModal()"
+            class="flex-1 bg-white border-2 border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 py-3 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg">
+            Cancel
+          </button>
+          <button
+            type="submit"
+            [disabled]="contactAdminForm.invalid || isSubmittingRequest"
+            class="flex-1 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 disabled:from-gray-400 disabled:to-gray-500 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg disabled:transform-none disabled:cursor-not-allowed">
+            <span *ngIf="!isSubmittingRequest" class="flex items-center justify-center">
+              📧 Send Activation Request
+            </span>
+            <span *ngIf="isSubmittingRequest" class="flex items-center justify-center">
+              <div class="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white mr-2"></div>
+              Sending Request...
+            </span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Close Button for Success State -->
+      <div *ngIf="contactRequestSent" class="text-center pt-4">
+        <button
+          (click)="closeContactAdminModal()"
+          class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 px-8 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+          Close
+        </button>
       </div>
     </div>
   </div>
