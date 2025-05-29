@@ -33,26 +33,26 @@ export class WalletsEffects {
             )
         )
     );
-
+    
     FetchWalletByIdEffect$ = createEffect(() =>
         this.actions$.pipe(
             ofType(WalletsActions.fetchWalletById),
             mergeMap(({ id }) =>
                 this.walletsService.getWalletById(id).pipe(
                     map((wallet) => WalletsActions.fetchWalletByIdSuccess({ wallet })),
-                    catchError((error) => of(WalletsActions.fetchWalletByIdFailure({
-                        error: error.message || 'Failed to fetch wallet details'
+                    catchError((error) => of(WalletsActions.fetchWalletByIdFailure({ 
+                        error: error.message || 'Failed to fetch wallet details' 
                     })))
                 )
             )
         )
     );
-
+    
     initiateCheckout$ = createEffect(() =>
         this.actions$.pipe(
             ofType(WalletsActions.initiateCheckout),
-            mergeMap(({ userId, amount, imoneyValue, packageName, points }) =>
-                this.walletsService.createCheckoutSession(userId, amount, imoneyValue, packageName, points).pipe(
+            mergeMap(({ userId, amount, imoneyValue }) =>
+                this.walletsService.createCheckoutSession(userId, amount, imoneyValue).pipe(
                     map((response) =>
                         WalletsActions.initiateCheckoutSuccess({
                             checkoutUrl: response.url,
@@ -60,28 +60,28 @@ export class WalletsEffects {
                         })
                     ),
                     catchError((error) =>
-                        of(WalletsActions.initiateCheckoutFailure({
-                            error: error.message || 'Failed to initiate checkout'
+                        of(WalletsActions.initiateCheckoutFailure({ 
+                            error: error.message || 'Failed to initiate checkout' 
                         }))
                     )
                 )
             )
         )
-    );
+    ); 
 
     handleCheckoutSuccess$ = createEffect(() =>
         this.actions$.pipe(
             ofType(WalletsActions.handleCheckoutSuccess),
             switchMap(({ sessionId }) =>
                 this.walletsService.handleCheckoutSuccess(sessionId).pipe(
-                    map((response) =>
-                        WalletsActions.handleCheckoutSuccessResult({
-                            message: response.message || 'Payment processed successfully'
+                    map((response) => 
+                        WalletsActions.handleCheckoutSuccessResult({ 
+                            message: response.message || 'Payment processed successfully' 
                         })
                     ),
                     catchError((error) =>
-                        of(WalletsActions.handleCheckoutFailure({
-                            error: error.error || 'Failed to process payment'
+                        of(WalletsActions.handleCheckoutFailure({ 
+                            error: error.error || 'Failed to process payment' 
                         }))
                     )
                 )
@@ -98,75 +98,6 @@ export class WalletsEffects {
                 const userId = localStorage.getItem('userId');
                 if (userId) {
                     // Dispatch action to fetch updated wallet
-                    this.store.dispatch(WalletsActions.fetchWalletById({ id: userId }));
-                    // Also refresh rewards data
-                    this.store.dispatch(WalletsActions.fetchUserRewards({ userId }));
-                }
-            })
-        ),
-        { dispatch: false }
-    );
-
-    // Fetch user rewards
-    fetchUserRewards$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(WalletsActions.fetchUserRewards),
-            mergeMap(({ userId }) =>
-                this.walletsService.getUserRewardsWithConversion(userId).pipe(
-                    map((rewards) => WalletsActions.fetchUserRewardsSuccess({ rewards })),
-                    catchError((error) =>
-                        of(WalletsActions.fetchUserRewardsFailure({
-                            error: error.message || 'Failed to fetch rewards'
-                        }))
-                    )
-                )
-            )
-        )
-    );
-
-    // Fetch rewards history
-    fetchRewardsHistory$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(WalletsActions.fetchRewardsHistory),
-            mergeMap(({ userId }) =>
-                this.walletsService.getRewardsHistory(userId).pipe(
-                    map((history) => WalletsActions.fetchRewardsHistorySuccess({ history })),
-                    catchError((error) =>
-                        of(WalletsActions.fetchRewardsHistoryFailure({
-                            error: error.message || 'Failed to fetch rewards history'
-                        }))
-                    )
-                )
-            )
-        )
-    );
-
-    // Convert points to iMoney
-    convertPointsToImoney$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(WalletsActions.convertPointsToImoney),
-            mergeMap(({ userId, points }) =>
-                this.walletsService.convertPointsToImoney(userId, points).pipe(
-                    map((result) => WalletsActions.convertPointsToImoneySuccess({ result })),
-                    catchError((error) =>
-                        of(WalletsActions.convertPointsToImoneyFailure({
-                            error: error.message || 'Failed to convert points'
-                        }))
-                    )
-                )
-            )
-        )
-    );
-
-    // After successful conversion, refresh rewards and wallet data
-    refreshAfterConversion$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(WalletsActions.convertPointsToImoneySuccess),
-            tap(() => {
-                const userId = localStorage.getItem('userId');
-                if (userId) {
-                    // Refresh both rewards and wallet data
-                    this.store.dispatch(WalletsActions.fetchUserRewards({ userId }));
                     this.store.dispatch(WalletsActions.fetchWalletById({ id: userId }));
                 }
             })

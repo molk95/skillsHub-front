@@ -1,49 +1,183 @@
-/* Couleurs principales */
+/* Fond glassmorphism violet-bleu */
+.sessions-container-glass {
+  background: rgba(255,255,255,0.8);
+  border-radius: 2rem;
+  box-shadow: 0 4px 32px 0 rgba(90, 40, 180, 0.06), 0 1.5px 4px rgba(60, 79, 147, 0.04);
+  padding: 2.5rem 2rem;
+  margin: 3rem auto;
+  max-width: 1200px;
+  backdrop-filter: blur(8px);
+  border: 1.5px solid #cfd7f7;
+}
+
+/* En-tête et titres */
 .text-main {
-  color: #3c4f93; /* Bleu marine */
-}
-
-.text-violet {
-  color: #6a0dad; /* Violet foncé */
-}
-
-.btn-violet {
-  background-color: #6a0dad;
-  border: none;
-}
-
-.btn-marine {
-  background-color: #3c4f93;
-  border: none;
-}
-
-.btn-violet:hover,
-.btn-marine:hover {
-  filter: brightness(1.1);
-  cursor: pointer;
-}
-
-.sessions-container {
-  background: linear-gradient(145deg, #eef1fc, #ffffff);
-  border: 1px solid #cfd7f7;
-}
-
-/* Cartes sessions */
-.session-card {
-  background: linear-gradient(120deg, #f0f4ff, #ffffff);
-  border-left: 6px solid #6a0dad;
-  transition: transform 0.2s ease;
-  border-radius: 1rem;
-}
-
-.session-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 10px rgba(106, 13, 173, 0.2);
-}
-
-/* Select personnalisé */
-.custom-select {
-  background-color: #f5f7ff;
-  border: 1px solid #6a0dad;
   color: #3c4f93;
+}
+.text-violet {
+  color: #6a0dad;
+}
+.text-marine {
+  color: #3c4f93;
+}
+.display-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.toggle-btn {
+  background: linear-gradient(90deg, #6a0dad 60%, #3c4f93 100%);
+  border: none;
+  color: #fff;
+  border-radius: 50%;
+  width: 2.3rem;
+  height: 2.3rem;
+  margin-right: 0.25rem;
+  font-size: 1.2rem;
+  transition: box-shadow 0.2s, background 0.2s;
+  box-shadow: 0 2px 8px rgba(106, 13, 173, 0.12);
+  opacity: 0.8;
+}
+.toggle-btn.active,
+.toggle-btn:hover {
+  opacity: 1;
+  box-shadow: 0 2px 16px 0 rgba(106, 13, 173, 0.18);
+  background: linear-gradient(90deg, #3c4f93 0%, #8a3dd9 100%);
+}
+
+/* Card glass effect */
+.session-card-glass {
+  background: linear-gradient(120deg, #f0f4ff 60%, #e8e3fc 100%);
+  border-left: 8px solid #6a0dad;
+  border-radius: 1.2rem;
+  transition: transform 0.23s cubic-bezier(.4,2,.4,1), box-shadow 0.15s;
+  min-height: 320px;
+  margin-bottom: 0.5rem;
+  position: relative;
+  overflow: visible;
+  box-shadow: 0 2px 12px rgba(106,13,173,0.09);
+}
+.session-card-glass:hover {
+  transform: translateY(-9px) scale(1.03);
+  box-shadow: 0 6px 24px rgba(106, 13, 173, 0.2);
+}
+.avatar-circle {
+  background: linear-gradient(120deg, #8a3dd9 60%, #3c4f93 100%);
+  color: #fff;
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-right: 0.2rem;
+  box-shadow: 0 2px 8px rgba(106, 13, 173, 0.13);
+  animation: popIn 0.5s;
+}
+@keyframes popIn {
+  0% { transform: scale(0.7);}
+  100% {transform: scale(1);}
+}
+
+.state-badge {
+  font-weight: bold;
+  border-radius: 1.5rem;
+  font-size: 0.89rem;
+  padding: 0.32em 1.1em;
+  text-transform: capitalize;
+  margin-left: 0.5em;
+  letter-spacing: 0.04em;
+}
+.bg-active {
+  background: linear-gradient(90deg, #6a0dad 70%, #3296fa 100%);
+  color: #fff;
+}
+.bg-pending {
+  background: linear-gradient(90deg, #fceabb 0%, #6a0dad 100%);
+  color: #3c4f93;
+}
+.bg-finished {
+  background: linear-gradient(90deg, #dbe6f6 10%, #3296fa 100%);
+  color: #3c4f93;
+}
+
+/* Boutons glassmorphism */
+.btn-violet-glass {
+  background: linear-gradient(90deg, #8a3dd9 70%, #6a0dad 100%);
+  color: #fff;
+  border: none;
+  border-radius: 0.6rem;
+  padding: 0.42em 1.12em;
+  transition: filter 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 6px rgba(106, 13, 173, 0.13);
+}
+.btn-violet-glass:hover {
+  filter: brightness(1.12);
+  box-shadow: 0 3px 12px rgba(106, 13, 173, 0.19);
+}
+.btn-marine-glass {
+  background: linear-gradient(90deg, #3c4f93 60%, #3296fa 100%);
+  color: #fff;
+  border: none;
+  border-radius: 0.6rem;
+  padding: 0.42em 1.12em;
+  transition: filter 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 6px rgba(60, 79, 147, 0.13);
+}
+.btn-marine-glass:hover {
+  filter: brightness(1.09);
+  box-shadow: 0 3px 12px rgba(60, 79, 147, 0.19);
+}
+
+/* Select personnalisé glass */
+.custom-select-glass {
+  background-color: #f6f6fe;
+  border: 1.4px solid #6a0dad;
+  color: #3c4f93;
+  border-radius: 0.6rem;
+  min-width: 120px;
+  font-size: 0.98rem;
+  transition: border 0.18s;
+  margin-top: 0.2em;
+}
+.custom-select-glass:focus {
+  border-color: #3c4f93;
+  outline: none;
+}
+
+/* Table stylée */
+.session-table {
+  background: rgba(255,255,255,0.75);
+  border-radius: 1.2rem;
+  overflow: hidden;
+}
+.table-violet {
+  background: linear-gradient(90deg, #6a0dad 60%, #3c4f93 100%);
+}
+.table-violet th {
+  color: #fff !important;
+  border: none;
+}
+.session-table td, .session-table th {
+  vertical-align: middle;
+  border: none;
+}
+.session-table tr {
+  transition: background 0.16s;
+}
+.session-table tr:hover {
+  background: #f3f6fd;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .sessions-container-glass { padding: 1.4rem 0.4rem;}
+  .session-card-glass { min-height: 310px;}
+}
+@media (max-width: 600px) {
+  .display-toggle { flex-direction: column; gap: 0.3rem;}
+  .sessions-container-glass { padding: 0.6rem 0.2rem;}
+  .session-card-glass { min-height: 270px;}
+  .table-responsive { font-size: 0.93rem;}
 }

@@ -13,7 +13,6 @@ interface Package {
   imoneyValue: number;
   description: string;
   isPopular?: boolean;
-  points: number; // Custom points for each package
 }
 
 @Component({
@@ -28,8 +27,7 @@ export class PackageSelectionComponent implements OnInit {
       name: 'Basic',
       amount: 10,
       imoneyValue: 10,
-      description: 'Perfect for small tasks and quick rewards',
-      points: 15 // 15 points for Basic package
+      description: 'Perfect for small tasks and quick rewards'
     },
     {
       id: 2,
@@ -37,16 +35,14 @@ export class PackageSelectionComponent implements OnInit {
       amount: 25,
       imoneyValue: 30, // 20% bonus
       description: 'Most popular choice with 20% bonus iMoney',
-      isPopular: true,
-      points: 50 // 50 points for Standard package (better rate!)
+      isPopular: true
     },
     {
       id: 3,
       name: 'Premium',
       amount: 50,
       imoneyValue: 65, // 30% bonus
-      description: 'Best value with 30% bonus iMoney',
-      points: 120 // 120 points for Premium package (best rate!)
+      description: 'Best value with 30% bonus iMoney'
     }
   ];
 

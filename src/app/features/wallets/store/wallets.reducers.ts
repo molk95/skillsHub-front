@@ -1,7 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import * as WalletsActions from './wallets.actions';
 import { IWallet } from "../models/wallets.model";
-import { IRewardsWithConversion, IRewardsHistory } from "../models/rewards.model";
 
 export interface WalletsState {
   wallets: IWallet[];
@@ -11,11 +10,6 @@ export interface WalletsState {
   sessionId: string | null;
   message: string | null;
   error: string | null;
-  // Rewards state
-  userRewards: IRewardsWithConversion | null;
-  rewardsHistory: IRewardsHistory[];
-  rewardsLoading: boolean;
-  rewardsError: string | null;
 }
 
 export const initialState: WalletsState = {
@@ -26,11 +20,6 @@ export const initialState: WalletsState = {
   sessionId: null,
   message: null,
   error: null,
-  // Rewards initial state
-  userRewards: null,
-  rewardsHistory: [],
-  rewardsLoading: false,
-  rewardsError: null,
 };
 
 export const walletsReducer = createReducer(
@@ -52,7 +41,7 @@ export const walletsReducer = createReducer(
     isLoading: false,
     error: 'Failed to fetch wallets'
   })),
-
+  
   // Fetch wallet by ID
   on(WalletsActions.fetchWalletById, (state) => ({
     ...state,
@@ -70,13 +59,13 @@ export const walletsReducer = createReducer(
     isLoading: false,
     error
   })),
-
+  
   // Loader
   on(WalletsActions.SetWalletLoader, (state, { isLoading }) => ({
     ...state,
     isLoading
   })),
-
+  
   // Checkout
   on(WalletsActions.initiateCheckout, (state) => ({
     ...state,
@@ -97,7 +86,7 @@ export const walletsReducer = createReducer(
     isLoading: false,
     error
   })),
-
+  
   // Checkout success handling
   on(WalletsActions.handleCheckoutSuccess, (state) => ({
     ...state,
@@ -114,61 +103,5 @@ export const walletsReducer = createReducer(
     ...state,
     isLoading: false,
     error
-  })),
-
-  // Rewards reducers
-  on(WalletsActions.fetchUserRewards, (state) => ({
-    ...state,
-    rewardsLoading: true,
-    rewardsError: null
-  })),
-  on(WalletsActions.fetchUserRewardsSuccess, (state, { rewards }) => ({
-    ...state,
-    userRewards: rewards,
-    rewardsLoading: false,
-    rewardsError: null
-  })),
-  on(WalletsActions.fetchUserRewardsFailure, (state, { error }) => ({
-    ...state,
-    rewardsLoading: false,
-    rewardsError: error
-  })),
-
-  on(WalletsActions.fetchRewardsHistory, (state) => ({
-    ...state,
-    rewardsLoading: true,
-    rewardsError: null
-  })),
-  on(WalletsActions.fetchRewardsHistorySuccess, (state, { history }) => ({
-    ...state,
-    rewardsHistory: history,
-    rewardsLoading: false,
-    rewardsError: null
-  })),
-  on(WalletsActions.fetchRewardsHistoryFailure, (state, { error }) => ({
-    ...state,
-    rewardsLoading: false,
-    rewardsError: error
-  })),
-
-  on(WalletsActions.convertPointsToImoney, (state) => ({
-    ...state,
-    rewardsLoading: true,
-    rewardsError: null
-  })),
-  on(WalletsActions.convertPointsToImoneySuccess, (state, { result }) => ({
-    ...state,
-    rewardsLoading: false,
-    rewardsError: null,
-    // Update the selected wallet with new balance
-    selectedWallet: state.selectedWallet ? {
-      ...state.selectedWallet,
-      imoney: result.wallet?.imoney || state.selectedWallet.imoney
-    } : null
-  })),
-  on(WalletsActions.convertPointsToImoneyFailure, (state, { error }) => ({
-    ...state,
-    rewardsLoading: false,
-    rewardsError: error
   }))
 );

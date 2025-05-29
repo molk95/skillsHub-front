@@ -69,8 +69,7 @@
               "browserTarget": "skillsHUB-front:build:production"
             },
             "development": {
-              "browserTarget": "skillsHUB-front:build:development",
-              "proxyConfig": "src/proxy.conf.json"
+              "browserTarget": "skillsHUB-front:build:development"
             }
           },
           "defaultConfiguration": "development"
