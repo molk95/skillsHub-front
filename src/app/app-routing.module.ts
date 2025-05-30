@@ -31,6 +31,8 @@ import { AddCategoryComponent } from './features/marketplace/Category/component/
 import { CategoryListComponent } from './features/marketplace/Category/component/category-list/category-list.component';
 import { SignUpComponent } from './features/auth/components/sign-up/sign-up.component';
 import {MarketplaceClientComponent} from '../app/features/marketplace-client/marketplace-client.component';
+import { DetailSalonListComponent } from './features/salons/components/detail-salon-list/detail-salon-list.component';
+import { SalonDocumentsComponent } from './features/salons/components/salon-documents/salon-documents.component';
 const routes: Routes = [
   {
     path: '',
@@ -120,7 +122,13 @@ const routes: Routes = [
   {
     path: 'salons/add',
     component: AddSalonsComponent,
-  },
+  },    {
+    path: 'documents',
+    component: DetailSalonListComponent
+  },  {
+  path: 'salon/:id/documents',
+  component: SalonDocumentsComponent
+},
   // Catch-all route pour les pages success et cancel
   {
     path: 'wallet/top-up/cancel',
@@ -147,7 +155,7 @@ const routes: Routes = [
     path: 'salons/delete',
     component: DeleteSalonsComponent,
   },
-
+  { path: 'sessions/list/:salonName', component: SessionListComponent },
   {
     path: 'sessions/add/:salonNom',
     component: AddSessionsComponent,
