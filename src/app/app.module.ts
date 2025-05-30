@@ -95,6 +95,7 @@ import { ForumDetailsComponent } from './features/forums/component/forum-details
     SalonsModule,
     SessionsModule,
     ForumsModule,
+    // PAS BESOIN de FormsModule, ReactiveFormsModule, CommonModule ici !
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },

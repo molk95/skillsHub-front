@@ -1,6 +1,6 @@
 <!-- Gift History Component -->
 <div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
-
+  
   <!-- Header Section -->
   <div class="bg-white shadow-sm border-b">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -22,7 +22,7 @@
   </div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
+    
     <!-- Page Title and Actions -->
     <div class="text-center mb-8">
       <h1 class="text-4xl font-bold text-gray-900 mb-4">
@@ -31,7 +31,7 @@
       <p class="text-xl text-gray-600 mb-6">
         Track all your sent and received iMoney gifts
       </p>
-
+      
       <!-- Action Buttons -->
       <div class="flex justify-center space-x-4 mb-6">
         <button
@@ -39,13 +39,13 @@
           class="bg-white border-2 border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 py-3 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg">
           ← Back to Wallet
         </button>
-
+        
         <button
           (click)="sendNewGift()"
           class="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
           🎁 Send New Gift
         </button>
-
+        
         <button
           (click)="refreshHistory()"
           class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
@@ -75,10 +75,10 @@
 
     <!-- Main Content -->
     <div *ngIf="!isLoading && !errorMessage">
-
+      
       <!-- Tab Navigation -->
       <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden mb-8">
-
+        
         <!-- Tab Headers -->
         <div class="flex border-b border-gray-200">
           <button
@@ -92,7 +92,7 @@
             class="flex-1 py-4 px-6 font-semibold transition-all duration-300">
             📤 Sent Gifts ({{ sentGifts.length }})
           </button>
-
+          
           <button
             (click)="setActiveTab('received')"
             [class.bg-gradient-to-r]="activeTab === 'received'"
@@ -109,7 +109,7 @@
         <!-- Filters and Controls -->
         <div class="p-6 bg-gray-50 border-b border-gray-200">
           <div class="flex flex-wrap items-center justify-between gap-4">
-
+            
             <!-- Status Filter -->
             <div class="flex items-center space-x-2">
               <label class="text-sm font-medium text-gray-700">Status:</label>
@@ -133,7 +133,7 @@
                 <option value="date">Date</option>
                 <option value="amount">Amount</option>
               </select>
-
+              
               <button
                 (click)="sortOrder = sortOrder === 'asc' ? 'desc' : 'asc'"
                 class="px-3 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
@@ -153,19 +153,19 @@
         <!-- Summary Stats -->
         <div class="p-6 bg-gradient-to-r from-indigo-50 to-purple-50 border-b border-gray-200">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
+            
             <!-- Total Amount -->
             <div class="text-center">
               <div class="text-2xl font-bold text-indigo-600">{{ formatCurrency(getTotalAmount()) }}</div>
               <div class="text-sm text-gray-600">Total iMoney</div>
             </div>
-
+            
             <!-- Completed Count -->
             <div class="text-center">
               <div class="text-2xl font-bold text-green-600">{{ getCompletedCount() }}</div>
               <div class="text-sm text-gray-600">Completed Gifts</div>
             </div>
-
+            
             <!-- Total Count -->
             <div class="text-center">
               <div class="text-2xl font-bold text-purple-600">{{ getFilteredAndSortedGifts().length }}</div>
@@ -176,7 +176,7 @@
 
         <!-- Gift List -->
         <div class="divide-y divide-gray-200">
-
+          
           <!-- Empty State -->
           <div *ngIf="getFilteredAndSortedGifts().length === 0" class="text-center py-16">
             <div class="text-6xl mb-6">🎁</div>
@@ -193,21 +193,21 @@
           </div>
 
           <!-- Gift Items -->
-          <div *ngFor="let gift of getFilteredAndSortedGifts()"
+          <div *ngFor="let gift of getFilteredAndSortedGifts()" 
                class="p-6 hover:bg-gray-50 transition-colors duration-200">
-
+            
             <div class="flex items-center justify-between">
-
+              
               <!-- Gift Info -->
               <div class="flex items-center flex-1">
-
+                
                 <!-- User Avatar -->
                 <div class="flex-shrink-0 h-12 w-12 mr-4">
                   <div class="h-12 w-12 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold">
                     {{ getUserInitial(activeTab === 'sent' ? gift.recipientName : gift.senderName) }}
                   </div>
                 </div>
-
+                
                 <!-- Gift Details -->
                 <div class="flex-1">
                   <div class="flex items-center mb-2">
@@ -217,32 +217,32 @@
                     <span class="text-2xl mr-2">{{ getReasonEmoji(gift.reason) }}</span>
                     <span class="text-sm text-gray-500">{{ getReasonLabel(gift.reason) }}</span>
                   </div>
-
+                  
                   <div class="flex items-center text-sm text-gray-600 mb-2">
                     <span class="mr-4">📧 {{ activeTab === 'sent' ? gift.recipientEmail : gift.senderEmail }}</span>
                     <span class="mr-4">📅 {{ formatDate(gift.createdAt) }}</span>
                   </div>
-
+                  
                   <div *ngIf="gift.message" class="text-sm text-gray-700 italic bg-gray-100 rounded-lg p-3 mt-2">
                     "{{ gift.message }}"
                   </div>
                 </div>
               </div>
-
+              
               <!-- Amount and Status -->
               <div class="text-right ml-6">
                 <div class="text-2xl font-bold text-indigo-600 mb-2">
                   {{ formatCurrency(gift.amount) }} iMoney
                 </div>
-
+                
                 <div class="flex items-center justify-end mb-2">
-                  <span [class]="getStatusColor(gift.status)"
+                  <span [class]="getStatusColor(gift.status)" 
                         class="px-3 py-1 rounded-full text-sm font-medium flex items-center">
                     <span class="mr-1">{{ getStatusIcon(gift.status) }}</span>
                     {{ gift.status | titlecase }}
                   </span>
                 </div>
-
+                
                 <!-- Cancel Button for Pending Sent Gifts -->
                 <div *ngIf="activeTab === 'sent' && canCancelGift(gift)" class="mt-2">
                   <button

@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
-import { HomeComponent } from './features/home/home.component';
-import { AboutComponent } from './features/about/about.component';
-import { ContactComponent } from './features/contact/contact.component';
 import { AddSalonsComponent } from './features/salons/components/add-salons/add-salons.component';
 import { ListSalonsComponent } from './features/salons/components/list-salons/list-salons.component';
 import { UpdateSalonsComponent } from './features/salons/components/update-salons/update-salons.component';
@@ -26,13 +23,13 @@ import { AddCategoryComponent } from './features/marketplace/Category/component/
 import { CategoryListComponent } from './features/marketplace/Category/component/category-list/category-list.component';
 import { DashboardPageComponent } from './features/dashboard/dashboard-page/dashboard-page.component';
 import { SignUpComponent } from './features/auth/components/sign-up/sign-up.component';
-import {MarketplaceClientComponent} from '../app/features/marketplace-client/marketplace-client.component';
-
-import { DetailSalonListComponent } from './features/salons/components/detail-salon-list/detail-salon-list.component';
 import { SalonDocumentsComponent } from './features/salons/components/salon-documents/salon-documents.component';
+import { DetailSalonListComponent } from './features/salons/components/detail-salon-list/detail-salon-list.component';
+import { MarketplaceClientComponent } from './features/marketplace-client/marketplace-client.component';
 const routes: Routes = [
   // Route par défaut vers la page d'accueil
-{path: '',
+  {
+    path: '',
     redirectTo: 'landing',
     pathMatch: 'full',
   },

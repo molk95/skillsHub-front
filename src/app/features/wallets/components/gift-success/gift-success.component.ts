@@ -10,7 +10,7 @@ export class GiftSuccessComponent implements OnInit {
   giftAmount: string = '0';
   recipientName: string = '';
   giftMessage: string = '';
-
+  
   constructor(
     private route: ActivatedRoute,
     private router: Router
