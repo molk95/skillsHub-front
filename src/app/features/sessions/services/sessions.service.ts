@@ -11,12 +11,12 @@ export class SessionService {
   private baseUrl = 'http://localhost:3000/api/sessions'
 
   constructor(private http: HttpClient) {}
+
   createSession(salonNom: string, sessionData: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
 
-    // Ici, on met le salonNom dans l'URL
     return this.http.post(`${this.baseUrl}/${salonNom}`, sessionData, { headers }).pipe(
       tap(response => console.log('Réponse du serveur après création:', response)),
       catchError(error => {
@@ -39,11 +39,7 @@ export class SessionService {
       })
     );
   }
-
-  getSessionsBySalonName(salonName: string): Observable<any[]> {
-    // Route correcte selon ton backend !
-    return this.http.get<any[]>(`${this.baseUrl}/by-salon/${salonName}`);
-  }
+  
   // Mettre à jour une session par ID
   updateSessionById(id: string, data: any): Observable<any> {
     return this.http.put(`${this.baseUrl}/${id}`, data).pipe(
@@ -71,7 +67,6 @@ export class SessionService {
   deleteSession(id: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
-
 }
 
 
