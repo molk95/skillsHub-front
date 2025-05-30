@@ -2,7 +2,7 @@ import { Category } from "../../Category/model/category.model";
 export interface User {
   _id?: string;
   id?: string;
-  name?: string;
+  fullName?: string;
   // autres propriétés utilisateur
 }
 
@@ -11,8 +11,8 @@ export interface Skill {
   name: string;
   description: string;
   category: Category | null;
-  user?: User | string;
-  users?: (User | string)[];
+  user?: User | string;           // un utilisateur (objet ou ID)
+  users?: (User | string)[];      // plusieurs utilisateurs possibles
   github?: {
     validatedSkills: string[];
     username: string;
