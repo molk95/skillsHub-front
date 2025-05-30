@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MarketplaceService } from '../../services/marketplace.service';
 import { Skill } from '../../model/skill.model';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-marketplace-detail',
   templateUrl: './marketplace-detail.component.html',
@@ -14,6 +14,7 @@ export class MarketplaceDetailComponent implements OnInit {
   errorMessage: string = '';
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private marketplaceService: MarketplaceService
   ) {}
@@ -44,6 +45,31 @@ export class MarketplaceDetailComponent implements OnInit {
   reloadData(): void {
     this.loadSkillData();
   }
+  goToSalon(skill: any) {
+    // Récupérer le nom de la compétence et le nom du tuteur
+    const skillName = skill.name || '';
+    
+    // Récupérer le nom du tuteur (utilisateur)
+    let tutorName = '';
+    if (typeof skill.user === 'object' && skill.user.fullName) {
+      tutorName = skill.user.fullName;
+    }
+    
+    console.log(`Recherche de salons pour la compétence "${skillName}" et le tuteur "${tutorName}"`);
+    
+    // Naviguer vers la liste des salons avec les paramètres de recherche
+    this.router.navigate(['/salons/list'], { 
+      queryParams: { 
+        skillName: skillName,
+        tutorName: tutorName 
+      } 
+    });
+  }
+
+ goToSession(skill: any) {
+  // Envoie le nom du skill en query param "skillName"
+  this.router.navigate(['sessions/list'], { queryParams: { skillName: skill.name } });
+}
 }
 
 

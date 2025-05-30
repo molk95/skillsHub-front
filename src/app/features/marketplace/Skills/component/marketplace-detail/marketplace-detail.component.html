@@ -1,58 +1,68 @@
-
 <div *ngIf="skill; else loadingOrError">
-    <h2>Détails de la compétence</h2>
-    <table border="1" cellspacing="0" cellpadding="8">
-      <tr>
-        <th>Nom</th>
-        <td>{{ skill.name }}</td>
-      </tr>
-      <tr>
-        <th>Description</th>
-        <td>{{ skill.description }}</td>
-      </tr>
-      <tr>
-        <th>Catégorie</th>
-        <td>{{ skill.category?.name}}</td>
-      </tr>
-      <tr>
-        <th>Utilisateur</th>
-        <td>{{ skill.user?.name || skill.user?._id || 'Non défini' }}</td>
-      </tr>
-      <tr>
-        <th>GitHub Username</th>
-        <td>{{ skill.github?.username || 'N/A' }}</td>
-      </tr>
-      <tr>
-        <th>Compétences GitHub Validées</th>
-        <td>
-          <ul>
-            <li *ngFor="let s of skill.github?.validatedSkills || []">{{ s }}</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <th>Dernière mise à jour GitHub</th>
-        <td>{{ skill.github?.lastUpdated | date:'short' }}</td>
-      </tr>
-      <tr>
-        <th>Créée le</th>
-        <td>{{ skill.createdAt | date:'short' }}</td>
-      </tr>
-      <tr>
-        <th>Modifiée le</th>
-        <td>{{ skill.updatedAt | date:'short' }}</td>
-      </tr>
-    </table>
-  </div>
-  
-  <ng-template #loadingOrError>
-    <div *ngIf="error; else loading">
-      <p class="error-message">Erreur lors du chargement des détails: {{ errorMessage }}</p>
-      <button (click)="reloadData()">Réessayer</button>
-    </div>
-    <ng-template #loading>
-      <p>Chargement des détails...</p>
-    </ng-template>
-  </ng-template>
-  
+  <div class="skill-detail-container">
 
+    <h2>📘 Skill Details</h2>
+
+    <table>
+      <tbody>
+        <tr>
+          <th>Name</th>
+          <td>{{ skill.name }}</td>
+        </tr>
+        <tr>
+          <th>Description</th>
+          <td>{{ skill.description }}</td>
+        </tr>
+        <tr>
+          <th>Category</th>
+          <td>{{ skill.category?.name }}</td>
+        </tr>
+        <tr>
+          <th>User</th>
+          <td>{{ skill.user?.name || skill.user?._id || 'Not defined' }}</td>
+        </tr>
+        <tr>
+          <th>GitHub Username</th>
+          <td>{{ skill.github?.username || 'N/A' }}</td>
+        </tr>
+        <tr>
+          <th>Validated GitHub Skills</th>
+          <td>
+            <ul>
+              <li *ngFor="let s of skill.github?.validatedSkills || []">{{ s }}</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th>Last GitHub Update</th>
+          <td>{{ skill.github?.lastUpdated | date:'short' }}</td>
+        </tr>
+        <tr>
+          <th>Created on</th>
+          <td>{{ skill.createdAt | date:'short' }}</td>
+        </tr>
+        <tr>
+          <th>Last Modified</th>
+          <td>{{ skill.updatedAt | date:'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+</div>
+<div class="button-group">
+  <button class="action-button" (click)="goToSession(skill)">🎓 Go to Session</button>
+  <button class="action-button" (click)="goToSalon(skill)">💬 Go to Salon</button>
+</div>
+
+
+<!-- Loading or Error -->
+<ng-template #loadingOrError>
+  <div *ngIf="error; else loading" class="error-message">
+    <p>Error while loading skill details: {{ errorMessage }}</p>
+    <button (click)="reloadData()" class="retry-button">Retry</button>
+  </div>
+  <ng-template #loading>
+    <p class="text-center text-gray-600">Loading skill details...</p>
+  </ng-template>
+</ng-template>

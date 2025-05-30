@@ -30,7 +30,7 @@ import { UpdCatComponent } from './features/marketplace/Category/component/upd-c
 import { AddCategoryComponent } from './features/marketplace/Category/component/add-category/add-category.component';
 import { CategoryListComponent } from './features/marketplace/Category/component/category-list/category-list.component';
 import { SignUpComponent } from './features/auth/components/sign-up/sign-up.component';
-
+import {MarketplaceClientComponent} from '../app/features/marketplace-client/marketplace-client.component';
 const routes: Routes = [
   {
     path: '',
@@ -93,7 +93,10 @@ const routes: Routes = [
     path: 'MarketplaceList',
     component: MarketplaceListComponent,
   },
-
+ {
+    path: 'MarketplaceClient',
+    component: MarketplaceClientComponent,
+  },
   { path: 'upd-skil/:id', component: UpdSkilComponent },
   {
     path: 'MarketplaceDetail/:id',
@@ -103,6 +106,7 @@ const routes: Routes = [
     path: 'skill/add',
     component: AddSkillComponent,
   },
+  
   {
     path: 'dashboard',
     component: DashboardPageComponent,

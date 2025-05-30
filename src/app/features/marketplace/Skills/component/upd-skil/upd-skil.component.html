@@ -1,48 +1,64 @@
-<div class="update-skill-form">
-  <h2 style="  font-weight: bold;">Mettre à jour une compétence</h2>
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 p-6 flex items-center justify-center">
+  <div class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-xl update-skill-form">
 
-  <form [formGroup]="skillForm" (ngSubmit)="updateSkill()">
-    
-    <div>
-      <label for="name">Nom :</label>
-      <input id="name" formControlName="name" type="text" />
-      <small *ngIf="skillForm.get('name')?.invalid && skillForm.get('name')?.touched">
-        Le nom doit contenir au moins 3 caractères.
-      </small>
-    </div>
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">✏️ Mettre à jour une compétence</h2>
 
-    <div>
-      <label for="description">Description :</label>
-      <input id="description" formControlName="description" type="text" />
-      <small *ngIf="skillForm.get('description')?.invalid && skillForm.get('description')?.touched">
-        La description doit contenir au moins 10 caractères.
-      </small>
-    </div>
+    <form [formGroup]="skillForm" (ngSubmit)="updateSkill()">
+      
+      <!-- Nom -->
+      <div class="mb-5">
+        <label for="name" class="block mb-2 text-sm font-medium text-gray-700">Nom :</label>
+        <input id="name"
+               formControlName="name"
+               type="text"
+               class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" />
+        <small *ngIf="skillForm.get('name')?.invalid && skillForm.get('name')?.touched"
+               class="text-red-500 text-sm">
+          Le nom doit contenir au moins 3 caractères.
+        </small>
+      </div>
 
-    <div>
-      <label for="category">Catégorie :</label>
-      <select formControlName="category">
-        <option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</option>
-      </select>
-      <small *ngIf="skillForm.get('category')?.invalid && skillForm.get('category')?.touched">
-        Veuillez sélectionner une catégorie.
-      </small>
-    </div>
+      <!-- Description -->
+      <div class="mb-5">
+        <label for="description" class="block mb-2 text-sm font-medium text-gray-700">Description :</label>
+        <input id="description"
+               formControlName="description"
+               type="text"
+               class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" />
+        <small *ngIf="skillForm.get('description')?.invalid && skillForm.get('description')?.touched"
+               class="text-red-500 text-sm">
+          La description doit contenir au moins 10 caractères.
+        </small>
+      </div>
 
-    <!--<div>
-      <label for="userId">User ID :</label>
-      <input id="userId" formControlName="userId" type="text" />
-      <small *ngIf="skillForm.get('userId')?.invalid && skillForm.get('userId')?.touched">
-        L'utilisateur est obligatoire.
-      </small>
-    </div>
-  -->
-    <div>
-      <label for="gituser">GitHub Username :</label>
-      <input id="gituser" formControlName="gituser" type="text" />
-     
-    </div>
+      <!-- Catégorie -->
+      <div class="mb-5">
+        <label for="category" class="block mb-2 text-sm font-medium text-gray-700">Catégorie :</label>
+        <select formControlName="category"
+                class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+          <option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</option>
+        </select>
+        <small *ngIf="skillForm.get('category')?.invalid && skillForm.get('category')?.touched"
+               class="text-red-500 text-sm">
+          Veuillez sélectionner une catégorie.
+        </small>
+      </div>
 
-    <button type="submit" [disabled]="skillForm.invalid">Mettre à jour</button>
-  </form>
+      <!-- GitHub Username -->
+      <div class="mb-6">
+        <label for="gituser" class="block mb-2 text-sm font-medium text-gray-700">GitHub Username :</label>
+        <input id="gituser"
+               formControlName="gituser"
+               type="text"
+               class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" />
+      </div>
+
+      <!-- Bouton -->
+      <button type="submit"
+              [disabled]="skillForm.invalid"
+              class="w-full bg-green-600 text-white font-medium py-3 rounded-lg hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+        Mettre à jour
+      </button>
+    </form>
+  </div>
 </div>
