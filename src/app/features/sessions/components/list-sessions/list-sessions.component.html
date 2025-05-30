@@ -1,137 +1,57 @@
-<div class="sessions-container-glass">
-  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-    <h2 class="text-center text-main mb-0 fw-bold display-5 flex-grow-1">
-      <i class="fas fa-list me-2"></i> Sessions
-    </h2>
-    <div class="display-toggle ms-3">
-      <button class="toggle-btn" [class.active]="viewMode==='card'" (click)="viewMode = 'card'" aria-label="Vue carte">
-        <i class="fas fa-th-large"></i>
-      </button>
-      <button class="toggle-btn" [class.active]="viewMode==='list'" (click)="viewMode = 'list'" aria-label="Vue liste">
-        <i class="fas fa-list-ul"></i>
-      </button>
-      <button class="btn btn-sm btn-primary ms-2" (click)="refreshList()" aria-label="Actualiser">
-        <i class="fas fa-sync-alt"></i>
-      </button>
-    </div>
+<div class="container mt-5 p-4 rounded shadow-lg sessions-container">
+  <h2 class="text-center text-main mb-5 fw-bold display-5">
+    <i class="fas fa-list me-2"></i> Liste des Sessions
+  </h2>
+
+  <!-- Bouton d'actualisation -->
+  <div class="text-end mb-4">
+    <button class="btn btn-sm btn-primary" (click)="refreshList()">
+      <i class="fas fa-sync-alt me-1"></i> Actualiser
+    </button>
   </div>
 
-  <!-- Card view -->
-  <div *ngIf="viewMode === 'card'">
-    <div class="row g-4">
-      <div class="col-md-6 col-lg-4" *ngFor="let session of sessions; let i = index">
-        <div class="card session-card-glass h-100 shadow-sm">
-          <div class="card-body">
-            <div class="d-flex align-items-center mb-2">
-              <div class="avatar-circle me-3">
-                <i class="fas fa-comments"></i>
-              </div>
-              <div>
-                <span class="badge bg-gradient state-badge" [ngClass]="{
-                  'bg-active': session.etat==='active',
-                  'bg-pending': session.etat==='en attente',
-                  'bg-finished': session.etat==='terminée'
-                }">{{ session.etat }}</span>
-              </div>
-            </div>
-            <ul class="list-unstyled mb-0">
-              <li>
-                <i class="fas fa-user-friends text-marine me-2"></i>
-                <strong>Créateur :</strong> {{ session.createurNom || "Inconnu" }}
-              </li>
-              <li>
-                <i class="fas fa-calendar-alt text-violet me-2"></i>
-                <strong>Début :</strong> {{ session.dateDebut | date:'dd/MM/yyyy HH:mm' }}
-              </li>
-              <li>
-                <i class="fas fa-calendar-check text-marine me-2"></i>
-                <strong>Fin :</strong> {{ session.dateFin | date:'dd/MM/yyyy HH:mm' }}
-              </li>
-              <li>
-                <i class="fas fa-tag text-violet me-2"></i>
-                <strong>Type :</strong> {{ session.type || "Non défini" }}
-              </li>
-            </ul>
-          </div>
-          <div class="card-footer d-flex justify-content-between align-items-center">
-            <div>
-              <button class="btn btn-marine-glass" (click)="onDelete(session._id)" title="Supprimer">
-                <i class="fas fa-trash-alt"></i>
-              </button>
-              <button class="btn btn-violet-glass" (click)="navigateToUpdate(session._id)" title="Modifier">
-                <i class="fas fa-edit"></i>
-              </button>
-            </div>
-            <!-- Bouton Rejoindre Session bleu ciel -->
-<button class="btn btn-info" (click)="joinSession(session)">
-  <i class="fas fa-sign-in-alt me-1"></i> Rejoindre Session
-</button>
-          </div>
+  <div class="row">
+    <!-- Affichage de chaque session -->
+    <div class="col-md-6 col-lg-4 mb-4" *ngFor="let session of sessions; let i = index">
+      <div class="card session-card shadow-sm">
+        <div class="card-body">
+          <!-- Nom du Salon -->
+          <h5 class="card-title text-violet fw-bold">
+            {{ session.salonId?.nom || "Nom non défini" }}
+          </h5>
+          <!-- Type de Session -->
+          <p class="card-text"><strong>Type :</strong> {{ session.type || "Non défini" }}</p>
+          <!-- Dates de début et de fin -->
+          <p class="card-text"><strong>Date Début :</strong> {{ session.dateDebut | date:'dd/MM/yyyy HH:mm' }}</p>
+          <p class="card-text"><strong>Date Fin :</strong> {{ session.dateFin | date:'dd/MM/yyyy HH:mm' }}</p>
+          <!-- Nom du Créateur -->
+          <p class="card-text"><strong>Créateur :</strong> {{ session.createurNom || "Nom non défini" }}</p>
+          <!-- ID de la Session -->
+          <p class="card-text"><strong>ID :</strong> {{ session._id }}</p>
+
+          <!-- Sélecteur de l'état -->
+          <label for="etatSelect{{ i }}" class="form-label fw-semibold">État :</label>
+          <select
+            id="etatSelect{{ i }}"
+            class="form-select custom-select"
+            [(ngModel)]="session.etat"
+            (change)="updateState(session._id, session.etat)">
+            <option value="active">Active</option>
+            <option value="en attente">En attente</option>
+            <option value="terminée">Terminée</option>
+          </select>
+        </div>
+
+        <!-- Boutons d'action -->
+        <div class="card-footer d-flex justify-content-between">
+          <button class="btn btn-sm btn-marine text-white fw-semibold" (click)="onDelete(session._id)">
+            <i class="fas fa-trash-alt me-1"></i> Supprimer
+          </button>
+          <button class="btn btn-sm btn-violet text-white fw-semibold" (click)="navigateToUpdate(session._id)">
+            <i class="fas fa-edit me-1"></i> Modifier
+          </button>
         </div>
       </div>
-    </div>
-    <!-- Bouton d'ajout de session en bas de la vue card -->
-    <div class="d-flex justify-content-center mt-4">
-      <a class="btn btn-violet-glass btn-lg px-4 py-2 fw-bold"
-         [routerLink]="['/sessions/add', salonName]"
-      >
-        <i class="fas fa-plus me-2"></i> Ajouter une session
-      </a>
-    </div>
-  </div>
-
-  <!-- List view -->
-  <div *ngIf="viewMode === 'list'">
-    <div class="table-responsive">
-      <table class="table table-hover align-middle session-table">
-        <thead class="table-violet text-white">
-          <tr>
-            <th>Salon</th>
-            <th>Type</th>
-            <th>Début</th>
-            <th>Fin</th>
-            <th>Créateur</th>
-            <th>État</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let session of sessions; let i = index">
-            <td>{{ session.salonId?.nom || "Nom non défini" }}</td>
-            <td>{{ session.type || "Non défini" }}</td>
-            <td>{{ session.dateDebut | date:'dd/MM/yyyy HH:mm' }}</td>
-            <td>{{ session.dateFin | date:'dd/MM/yyyy HH:mm' }}</td>
-            <td>{{ session.createurNom || "Nom non défini" }}</td>
-            <td>
-              <span class="badge state-badge" [ngClass]="{
-                'bg-active': session.etat==='active',
-                'bg-pending': session.etat==='en attente',
-                'bg-finished': session.etat==='terminée'
-              }">{{ session.etat }}</span>
-            </td>
-            <td>
-              <button class="btn btn-marine-glass btn-sm me-1" (click)="onDelete(session._id)" title="Supprimer">
-                <i class="fas fa-trash-alt"></i>
-              </button>
-              <button class="btn btn-violet-glass btn-sm me-1" (click)="navigateToUpdate(session._id)" title="Modifier">
-                <i class="fas fa-edit"></i>
-              </button>
-              <!-- Bouton Rejoindre Session bleu ciel -->
-<button class="btn btn-info btn-sm" (click)="joinSession(session)">
-  <i class="fas fa-sign-in-alt"></i> Rejoindre Session
-</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!-- Bouton d'ajout de session en bas de la vue list -->
-    <div class="d-flex justify-content-center mt-4">
-      <a class="btn btn-violet-glass btn-lg px-4 py-2 fw-bold"
-         [routerLink]="['/sessions/add', salonName]"
-      >
-        <i class="fas fa-plus me-2"></i> Ajouter une session
-      </a>
     </div>
   </div>
 </div>
