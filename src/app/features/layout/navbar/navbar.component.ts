@@ -48,7 +48,7 @@ export class NavbarComponent implements OnInit {
   }
 
   navigateToSkills(): void {
-    this.router.navigate(['/MarketplaceList']);
+    this.router.navigate(['/MarketplaceClient']);
     this.closeMenu();
   }
 

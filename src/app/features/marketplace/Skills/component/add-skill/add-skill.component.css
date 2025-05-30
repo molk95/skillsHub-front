@@ -1,61 +1,77 @@
-.add-skill-form {
-    max-width: 500px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-    color: #333;
-  }
-  
-  .add-skill-form h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .add-skill-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  .add-skill-form input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-sizing: border-box;
-  }
-  
-  .add-skill-form small {
-    color: #d9534f;
-    font-size: 12px;
-    display: block;
-    margin-top: -8px;
-    margin-bottom: 8px;
-  }
-  
-  .add-skill-form button {
-    width: 100%;
-    padding: 12px;
-    background-color: #007bff;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .add-skill-form button:disabled {
-    background-color: #6c757d;
-    cursor: not-allowed;
-  }
-  
-  .add-skill-form button:hover:not(:disabled) {
-    background-color: #0056b3;
-  }
-  
+.update-skill-form {
+  background: linear-gradient(to bottom right, #f0f4f8, #e0e7ff);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.15);
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+.update-skill-form h2 {
+  text-align: center;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.update-skill-form label {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: #334155;
+  font-weight: 600;
+}
+
+.update-skill-form input,
+.update-skill-form select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.8px solid #cbd5e1;
+  border-radius: 0.6rem;
+  background-color: #f9fafb; /* gris très clair */
+  color: #1e293b;
+  font-size: 1rem;
+  box-shadow: inset 2px 2px 5px #e2e8f0;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-bottom: 0.75rem;
+}
+
+.update-skill-form input:focus,
+.update-skill-form select:focus {
+  border-color: #6366f1;
+  outline: none;
+  box-shadow: 0 0 6px #6366f1aa;
+}
+
+.update-skill-form small {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+  display: block;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.update-skill-form button {
+  width: 100%;
+  padding: 0.85rem;
+  background-color: #4f46e5;
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.update-skill-form button:hover:not(:disabled) {
+  background-color: #4338ca;
+}
+
+.update-skill-form button:disabled {
+  background-color: #a5b4fc;
+  cursor: not-allowed;
+}

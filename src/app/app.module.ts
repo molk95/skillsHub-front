@@ -57,6 +57,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { HomeComponent } from './features/home/home.component';
 import { AboutComponent } from './features/about/about.component';
 import { ContactComponent } from './features/contact/contact.component';
+import { MarketplaceClientComponent } from './features/marketplace-client/marketplace-client.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { ContactComponent } from './features/contact/contact.component';
     AddForumComponent,
     ForumsListComponent,
     ForumDetailsComponent,
+    MarketplaceClientComponent,
   ],
   imports: [
     BrowserModule,

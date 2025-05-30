@@ -33,6 +33,7 @@ export class MarketplaceListComponent implements OnInit {
   constructor(
     private router: Router,
     private marketplaceService: MarketplaceService
+    
   ) {}
   
   
@@ -136,9 +137,10 @@ this.router.navigate(['skill/add']);
     });
   }
 
-  goToSession(skill: any) {
-    this.router.navigate(['sessions/list', skill._id]);
-  }
+ goToSession(skill: any) {
+  // Envoie le nom du skill en query param "skillName"
+  this.router.navigate(['sessions/list'], { queryParams: { skillName: skill.name } });
+}
    
 
   // Méthode pour afficher le nom utilisateur dans la liste
