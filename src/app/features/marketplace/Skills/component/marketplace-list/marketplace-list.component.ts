@@ -121,8 +121,8 @@ this.router.navigate(['skill/add']);
     
     // Récupérer le nom du tuteur (utilisateur)
     let tutorName = '';
-    if (typeof skill.user === 'object' && skill.user.name) {
-      tutorName = skill.user.name;
+    if (typeof skill.user === 'object' && skill.user.fullName) {
+      tutorName = skill.user.fullName;
     }
     
     console.log(`Recherche de salons pour la compétence "${skillName}" et le tuteur "${tutorName}"`);
@@ -141,51 +141,18 @@ this.router.navigate(['skill/add']);
   }
    
 
-  getUserInfo(skill: Skill): string {
-    console.log('Skill user data:', skill.user); // Ajout de log pour déboguer
-    
-    // Vérifier si user existe
-    if (!skill.user) {
-      return 'Non défini (user manquant)';
-    }
-    
-    // Si l'utilisateur est déjà un objet avec un nom
-    if (typeof skill.user === 'object' && skill.user.name) {
-      console.log('User object with name:', skill.user.name);
-      return skill.user.name;
-    }
-    
-    // Si l'utilisateur est juste un ID
-    const userId = typeof skill.user === 'object' ? skill.user._id : skill.user;
-    console.log('Extracted userId:', userId);
-    
-    if (userId) {
-      // Chargez l'utilisateur en arrière-plan
-      this.marketplaceService.getUserById(String(userId)).subscribe({
-        next: (user) => {
-          console.log('API response for user:', user);
-          if (user && user.name) {
-            console.log('User name found:', user.name);
-            // Mettez à jour l'objet skill avec les informations de l'utilisateur
-            if (typeof skill.user === 'object') {
-              skill.user.name = user.name;
-            } else {
-              skill.user = user;
-            }
-          } else {
-            console.log('User found but no name property:', user);
-          }
-        },
-        error: (err) => {
-          console.error('Error fetching user:', err);
-        }
-      });
-      
-      // Retournez un message temporaire pendant le chargement
-      return 'Chargement...';
-    }
-    
-    return 'Non défini (userId manquant)';
+  // Méthode pour afficher le nom utilisateur dans la liste
+getUserInfo(skill: Skill): string {
+  if (!skill.user) {
+    return 'Non défini (user manquant)';
   }
+
+  if (typeof skill.user === 'object') {
+    return skill.user.fullName || 'Nom utilisateur non disponible';
+  }
+
+  return `Utilisateur ID: ${skill.user}`;
 }
 
+
+}
