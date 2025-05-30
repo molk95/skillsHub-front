@@ -58,6 +58,8 @@ import { HomeComponent } from './features/home/home.component';
 import { AboutComponent } from './features/about/about.component';
 import { ContactComponent } from './features/contact/contact.component';
 import { MarketplaceClientComponent } from './features/marketplace-client/marketplace-client.component';
+import { SalonsModule } from './features/salons/salons.module';
+import { SessionsModule } from './features/sessions/sessions.module';
 
 @NgModule({
   declarations: [
@@ -74,17 +76,6 @@ import { MarketplaceClientComponent } from './features/marketplace-client/market
     HomeComponent,
     AboutComponent,
     ContactComponent,
-    AddSalonsComponent,
-    ListSalonsComponent,
-    UpdateSalonsComponent,
-    DeleteSalonsComponent,
-    SalonsComponent,
-    SessionsComponent,
-    AddSessionsComponent,
-    SessionListComponent,
-    UpdateSessionComponent,
-    DeleteSessionsComponent,
-    SalonsSessionsComponent,
     EditForumComponent,
     AddForumComponent,
     ForumsListComponent,
@@ -111,7 +102,8 @@ import { MarketplaceClientComponent } from './features/marketplace-client/market
   MarketplaceModule,
    EventsModule,             // 👈 Module des événements
     SharedModule,
-
+    SalonsModule,
+    SessionsModule,
     CategoryModule,
     MarketplaceModule,
 

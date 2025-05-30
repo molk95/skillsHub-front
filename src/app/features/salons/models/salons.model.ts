@@ -1,7 +1,7 @@
 export interface ISalon {
+  _id?: string; // optionnel pour la création
   nom: string;
   description?: string;
   dateCreation: Date;
-  createurId: string;  // Angular ne reconnaît pas Types.ObjectId, on utilise string
-  [key: string]: any;  // Permet d'ajouter dynamiquement des propriétés comme _id sans les définir explicitement
+  createurId: string;
 }

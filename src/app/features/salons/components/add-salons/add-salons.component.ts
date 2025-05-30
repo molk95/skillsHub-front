@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SalonsService } from '../../services/salons.service';
 import { ISalon } from '../../models/salons.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-salons',
@@ -17,9 +18,12 @@ export class AddSalonsComponent implements OnInit {
   };
   isLoading = false;
   searchTerm: string = '';
-  showListSalons = false;  // Variable pour gérer l'affichage de la liste des salons
+  showListSalons = false;
 
-  constructor(private salonsService: SalonsService) {}
+  constructor(
+    private salonsService: SalonsService,
+    private router: Router // Injecter le Router
+  ) {}
 
   ngOnInit(): void {
     this.chargerSalons();
@@ -45,13 +49,12 @@ export class AddSalonsComponent implements OnInit {
       next: (salon) => {
         this.salons.push(salon);
         this.resetForm();
+        // Rediriger vers la liste des salons après l'ajout
+        this.router.navigate(['/salons/list']);
       },
       error: (err) => {
         console.error('Erreur lors de la création du salon', err);
-      },
-      complete: () => {
         this.isLoading = false;
-        this.showListSalons = true;  // Afficher la liste après ajout
       }
     });
   }
