@@ -1,2 +1,326 @@
 
+  /* Variables de couleurs */
+:root {
+  --primary: #4e54c8;
+  --primary-light: #8f94fb;
+  --primary-dark: #3f43a4;
+  --primary-transparent: #4e54c87a;
+  --primary-ultra-light: #4e54c841;
+  --white: #ffffff;
+  --light-bg: #f8f9fa;
+  --card-shadow: 0 8px 20px rgba(78, 84, 200, 0.15);
+  --hover-shadow: 0 12px 32px 0 rgba(78, 84, 200, 0.48);
+}
+
+/* Arrière-plan amélioré */
+:host {
+  display: block;
+  background: linear-gradient(135deg, #4158D0 0%, #C850C0 46%, #6C5CE7 100%);
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.salon-list-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Effet de motif subtil en arrière-plan */
+.salon-list-container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath fill='%23ffffff' fill-opacity='0.05' d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z'%3E%3C/path%3E%3C/svg%3E");
+  z-index: -1;
+  opacity: 0.5;
+}
+
+/* Conteneur principal avec effet de verre */
+.container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Effets de carte */
+.salon-card-hover {
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  border: none !important;
+  border-radius: 16px !important;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 10px 25px rgba(78, 84, 200, 0.2);
+}
+
+.salon-card-hover:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(78, 84, 200, 0.3) !important;
+}
+
+/* Styles des onglets */
+.nav-pills {
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  border-radius: 15px;
+  padding: 0.6rem;
+  display: inline-flex;
+  margin: 0 auto 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.nav-pills .nav-link {
+  border-radius: 10px;
+  color: white;
+  font-weight: 500;
+  margin: 0 0.3rem;
+  transition: all 0.3s ease;
+  padding: 0.6rem 1.2rem;
+}
+
+.nav-pills .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-pills .nav-link.active {
+  background: linear-gradient(90deg, #4158D0, #C850C0);
+  color: white;
+  box-shadow: 0 4px 15px rgba(78, 84, 200, 0.3);
+}
+
+/* Styles de carte améliorés */
+.card {
+  border: none;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 1rem 1.25rem;
+  background: linear-gradient(90deg, #4e54c8, #8f94fb);
+  color: white;
+  font-weight: 600;
+  border: none;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.card-body {
+  padding: 1.5rem;
+  background-color: white;
+}
+
+.card-text {
+  color: #495057;
+  line-height: 1.5;
+  margin-bottom: 0;
+  padding-left: 0.25rem;
+}
+
+/* Styles d'information */
+.text-muted {
+  color: #6c757d !important;
+}
+
+.text-muted i {
+  color: #4e54c8;
+  opacity: 0.7;
+}
+
+/* Styles de bouton améliorés */
+.btn-group {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.btn-outline-primary {
+  color: #4e54c8;
+  border-color: #4e54c8;
+}
+
+.btn-outline-primary:hover {
+  background-color: #4e54c8;
+  color: white;
+}
+
+.btn-outline-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-outline-info {
+  color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+.btn-outline-secondary {
+  color: #6c757d;
+  border-color: #6c757d;
+}
+
+/* Animation de chargement des cartes améliorée */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.col-12 {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.col-12:nth-child(2) { animation-delay: 0.1s; }
+.col-12:nth-child(3) { animation-delay: 0.2s; }
+.col-12:nth-child(4) { animation-delay: 0.3s; }
+.col-12:nth-child(5) { animation-delay: 0.4s; }
+.col-12:nth-child(6) { animation-delay: 0.5s; }
+
+/* Utilitaires de bordure */
+.rounded-top-4 {
+  border-top-left-radius: 12px !important;
+  border-top-right-radius: 12px !important;
+}
+
+.rounded-bottom-4 {
+  border-bottom-left-radius: 12px !important;
+  border-bottom-right-radius: 12px !important;
+}
+
+/* Animations et transitions */
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+/* Effets d'ombre */
+.hover-shadow:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-3px);
+}
+
+/* Pied de carte */
+.card-footer {
+  background-color: #f5f7ff !important;
+  border-top: 1px solid #e0e4f4 !important;
+}
+
+/* Responsive padding for cards */
+@media (max-width: 991px) {
+  .card-body {
+    padding: 1.2rem !important;
+  }
   
+  .btn {
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-body {
+    padding: 1rem !important;
+  }
+  
+  .card-header {
+    padding: 0.75rem 1rem !important;
+  }
+}
+
+/* Styles pour les libellés */
+.fw-semibold.text-primary {
+  color: #4e54c8 !important;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/* Icône de calendrier */
+.text-primary-light {
+  color: #8f94fb;
+}
+
+/* Espacement des sections */
+.mb-3:last-of-type {
+  margin-bottom: 1.5rem !important;
+}
+
+/* Style pour le titre et la description des salons en bleu */
+.salon-title {
+  font-size: 2.2rem;
+  color: #4158D0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+}
+
+.salon-title i {
+  color: #6C5CE7;
+}
+
+.salon-description {
+  font-size: 1.1rem;
+  color: #4158D0;
+  opacity: 0.9;
+  max-width: 95%;
+  line-height: 1.5;
+}
+
+/* Styles pour la vue liste */
+.list-salon-title {
+  font-size: 1.1rem;  /* Réduit de 1.3rem à 1.1rem */
+  color: #4158D0;
+  font-weight: 600;
+}
+
+.list-salon-title i {
+  color: #6C5CE7;
+}
+
+.list-salon-description {
+  color: #4158D0;
+  opacity: 0.8;
+  font-size: 0.95rem;
+}
+
+.list-salon-date {
+  background-color: #f0f4ff;
+  padding: 5px 10px;
+  border-radius: 15px;
+  color: #4158D0;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+}
+
+.list-salon-date i {
+  color: #6C5CE7;
+  margin-right: 5px;
+}
+
+/* Style pour les éléments de la liste */
+.list-group-item {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(65, 88, 208, 0.1) !important;
+}
+
+.list-group-item:hover {
+  background-color: rgba(65, 88, 208, 0.05);
+  transform: translateX(5px);
+}
+
+/* Amélioration du style des boutons dans la vue liste */
+.list-group-item .btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
