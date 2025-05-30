@@ -26,7 +26,6 @@ import { CategoryModule } from './features/marketplace/Category/category.module'
 import { FeedbackModule } from './features/feedback/feedback.module';
 import { EventsModule } from './features/events/events.module';
 import { SharedModule } from './shared/shared.module';
-// IMPORTE tes modules salons, sessions, forums ici :
 import { SalonsModule } from './features/salons/salons.module';
 import { SessionsModule } from './features/sessions/sessions.module';
 import { ForumsModule } from './features/forums/forums.module';
@@ -44,8 +43,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     HomeComponent,
     AboutComponent,
     ContactComponent,
-    // NE PAS AJOUTER : AddSalonsComponent, ListSalonsComponent, etc ici !!!
-    // NE PAS AJOUTER : les composants sessions, feedback, forums ici !!!
+    // ⚠️ NE PAS AJOUTER les composants feedback ici !
   ],
   imports: [
     BrowserModule,
@@ -57,15 +55,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     AuthModule,
     MarketplaceModule,
     CategoryModule,
-    FeedbackModule,
+    FeedbackModule, // juste le module !
     EventsModule,
     SharedModule,
-    // Ajoute les modules features :
     SalonsModule,
     SessionsModule,
     ForumsModule,
     ReactiveFormsModule
-    // PAS BESOIN de FormsModule, ReactiveFormsModule, CommonModule ici !
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
