@@ -11,11 +11,9 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { WalletsModule } from './features/wallets/wallets.module';
-import { DashboardPageComponent } from './features/dashboard/dashboard-page/dashboard-page.component';
 import { NavbarComponent } from './features/layout/navbar/navbar.component';
 import { SidebarComponent } from './features/layout/sidebar/sidebar.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
-
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddForumComponent } from './features/forums/component/add-forum/add-forum.component';
@@ -45,7 +43,6 @@ import { DetailsFeedbackComponent } from './features/feedback/components/details
 import { DeleteFeedbackComponent } from './features/feedback/components/delete/delete.component';
 import { FeedbackModule } from './features/feedback/feedback.module';
 
-
 import { EditForumComponent } from './features/forums/component/edit-forum/edit-forum.component';
 import { ForumService } from './features/forums/service/forum.service';
 import { ForumDetailsComponent } from './features/forums/component/forum-details/forum-details.component';
@@ -69,7 +66,6 @@ import { SessionsModule } from './features/sessions/sessions.module';
     UpdateFeedbackComponent,
     DetailsFeedbackComponent,
     DeleteFeedbackComponent,
-    DashboardPageComponent,
     NavbarComponent,
     SidebarComponent,
     LandingPageComponent,
@@ -86,7 +82,7 @@ import { SessionsModule } from './features/sessions/sessions.module';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,              // 👈 Obligatoire pour [(ngModel)]
+    FormsModule, // 👈 Obligatoire pour [(ngModel)]
     ReactiveFormsModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
@@ -99,8 +95,8 @@ import { SessionsModule } from './features/sessions/sessions.module';
     FormsModule,
     CommonModule, // Ajoute ceci ici aussi
     AuthModule,
-  MarketplaceModule,
-   EventsModule,             // 👈 Module des événements
+    MarketplaceModule,
+    EventsModule, // 👈 Module des événements
     SharedModule,
     SalonsModule,
     SessionsModule,
@@ -112,6 +108,6 @@ import { SessionsModule } from './features/sessions/sessions.module';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

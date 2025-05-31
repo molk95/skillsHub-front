@@ -1,0 +1,22 @@
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <h3>Admin Dashboard</h3>
+    <nav>
+      <a
+        routerLink="/dashboard/admin"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Overview</a
+      >
+      <a routerLink="/dashboard/admin/users" routerLinkActive="active"
+        >Manage Users</a
+      >
+      <a routerLink="/dashboard/admin/settings" routerLinkActive="active"
+        >Settings</a
+      >
+    </nav>
+  </aside>
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

@@ -1,0 +1,70 @@
+<div class="client-profile">
+  <h2>My Profile</h2>
+
+  <div *ngIf="loading" class="loading">
+    <p>Loading profile...</p>
+  </div>
+
+  <div *ngIf="!loading && profile" class="profile-content">
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="avatar">
+          {{ profile.fullName?.charAt(0)?.toUpperCase() }}
+        </div>
+        <div class="user-info">
+          <h3>{{ profile.fullName }}</h3>
+          <p class="role-badge" [class]="profile.role?.toLowerCase()">
+            {{ profile.role }}
+          </p>
+        </div>
+      </div>
+
+      <div class="profile-details">
+        <div class="detail-item">
+          <label>Email:</label>
+          <span>{{ profile.email }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>User ID:</label>
+          <span>{{ profile.id }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Role:</label>
+          <span>{{ profile.role }}</span>
+        </div>
+
+        <div class="detail-item">
+          <label>Skills:</label>
+          <div class="skills-list">
+            <span
+              *ngIf="!fullSkills || fullSkills.length === 0"
+              class="no-skills"
+            >
+              No skills added yet
+            </span>
+            <div *ngFor="let skill of fullSkills" class="skill-item">
+              <span class="skill-tag">
+                {{ skill.name }}
+              </span>
+              <span class="category-tag">
+                {{ skill.category?.name }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-actions">
+      <button class="btn-primary" routerLink="/dashboard/client/settings">
+        Edit Profile
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !profile" class="error">
+    <p>Unable to load profile. Please try again.</p>
+  </div>
+</div>

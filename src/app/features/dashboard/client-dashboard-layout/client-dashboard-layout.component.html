@@ -1,0 +1,22 @@
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <h3>Client Dashboard</h3>
+    <nav>
+      <a
+        routerLink="/dashboard/client"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Profile</a
+      >
+      <a routerLink="/dashboard/client/orders" routerLinkActive="active"
+        >My Orders</a
+      >
+      <a routerLink="/dashboard/client/settings" routerLinkActive="active"
+        >Settings</a
+      >
+    </nav>
+  </aside>
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
