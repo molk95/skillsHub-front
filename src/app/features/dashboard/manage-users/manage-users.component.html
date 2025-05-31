@@ -4,28 +4,95 @@
   <!-- Header and "Add" Button -->
   <div class="header flex justify-between items-center mb-4">
     <h2 class="text-2xl font-semibold">Manage Users</h2>
-    <button
-      class="btn-primary flex items-center space-x-2 px-4 py-2 bg-indigo-600 text-white rounded"
-      (click)="openAddModal()"
-    >
-      <span class="icon">➕</span>
-      <span>Add New User</span>
-    </button>
+    <div class="flex items-center space-x-2">
+      <!-- Test Button for Debugging -->
+      <button
+        class="btn-test px-3 py-2 bg-green-600 text-white rounded text-sm hover:bg-green-700"
+        (click)="testSearchFunctionality()"
+      >
+        🧪 Test
+      </button>
+      <button
+        class="btn-primary flex items-center space-x-2 px-4 py-2 bg-indigo-600 text-white rounded"
+        (click)="openAddModal()"
+      >
+        <span class="icon">➕</span>
+        <span>Add New User</span>
+      </button>
+    </div>
   </div>
 
   <!-- Search Bar -->
-  <div class="search-bar relative mb-4">
-    <input
-      type="text"
-      placeholder="Search users by name or email..."
-      [(ngModel)]="searchTerm"
-      (input)="onSearchChange()"
-      class="search-input w-full border border-gray-300 rounded pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-    />
-    <span
-      class="search-icon absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-      >🔍</span
+  <div class="search-section mb-6 relative z-10">
+    <div class="search-bar relative mb-2">
+      <input
+        #searchInput
+        type="text"
+        placeholder="Search by name, email, role, skills, communities, GitHub username, or date..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+        (keydown.escape)="clearSearch(); searchInput.blur()"
+        (click)="onSearchInputClick()"
+        class="search-input w-full border-2 border-gray-300 rounded-lg pl-12 pr-12 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 bg-white text-gray-900 cursor-text"
+        style="z-index: 100; position: relative"
+      />
+      <!-- Search Icon -->
+      <span
+        class="search-icon absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg pointer-events-none"
+        style="z-index: 101"
+        >🔍</span
+      >
+      <!-- Clear Button -->
+      <button
+        *ngIf="searchTerm"
+        (click)="clearSearch()"
+        type="button"
+        class="clear-btn absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 text-lg bg-gray-100 hover:bg-gray-200 rounded-full w-6 h-6 flex items-center justify-center transition-all duration-200 cursor-pointer"
+        style="z-index: 102"
+        title="Clear search (ESC)"
+      >
+        ✕
+      </button>
+    </div>
+
+    <!-- Search Results Info -->
+    <div
+      *ngIf="searchTerm"
+      class="search-info text-sm text-gray-600 flex items-center justify-between"
     >
+      <span>
+        Found
+        <strong>{{ getSearchStats().total }}</strong>
+        user(s) matching "<em>{{ searchTerm }}</em
+        >"
+        <span *ngIf="getSearchStats().total > 0">
+          ({{ getSearchStats().admins }} admin{{
+            getSearchStats().admins !== 1 ? "s" : ""
+          }}, {{ getSearchStats().clients }} client{{
+            getSearchStats().clients !== 1 ? "s" : ""
+          }})
+        </span>
+      </span>
+      <button
+        (click)="clearSearch()"
+        class="text-indigo-600 hover:text-indigo-800 text-xs underline"
+      >
+        Show all users
+      </button>
+    </div>
+
+    <!-- Search Tips -->
+    <div *ngIf="!searchTerm" class="search-tips text-xs text-gray-500 mt-1">
+      💡 <strong>Search tips:</strong> Try searching by name, email, role
+      (admin/client), skills, communities, GitHub username, or date (YYYY-MM-DD)
+      <span class="ml-2 text-gray-400"
+        >• Press
+        <kbd class="px-1 py-0.5 bg-gray-100 rounded text-xs">Ctrl+F</kbd> to
+        focus search •
+        <kbd class="px-1 py-0.5 bg-gray-100 rounded text-xs">ESC</kbd> to
+        clear</span
+      >
+    </div>
   </div>
 
   <!-- Error Message -->
@@ -47,166 +114,199 @@
 
   <!-- Users Content (only show once loading is false) -->
   <div *ngIf="!loading" class="users-content space-y-8">
-    <!-- Administrators Section -->
-    <div class="user-section">
-      <div class="section-header mb-2">
-        <h3 class="text-xl font-medium">
-          👑 Administrators ({{ filteredAdminUsers.length }})
-        </h3>
+    <!-- No Search Results State -->
+    <div
+      *ngIf="searchTerm && getSearchStats().total === 0"
+      class="no-results text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300"
+    >
+      <div class="text-6xl text-gray-400 mb-4">🔍</div>
+      <h3 class="text-xl font-medium text-gray-900 mb-2">No users found</h3>
+      <p class="text-gray-600 mb-4">
+        We couldn't find any users matching "<em class="font-semibold">{{
+          searchTerm
+        }}</em
+        >"
+      </p>
+      <div class="space-y-2 text-sm text-gray-500">
+        <p><strong>Try:</strong></p>
+        <ul class="list-disc list-inside space-y-1">
+          <li>Checking for typos in your search</li>
+          <li>Using broader search terms</li>
+          <li>Searching by email, role, or date</li>
+          <li>Using partial matches (e.g., "john" for "John Doe")</li>
+        </ul>
       </div>
-
-      <div
-        *ngIf="filteredAdminUsers.length === 0"
-        class="no-users text-gray-500 italic"
+      <button
+        (click)="clearSearch()"
+        class="mt-6 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
       >
-        <p>No administrators found.</p>
-      </div>
+        Clear search and show all users
+      </button>
+    </div>
 
-      <div
-        *ngIf="filteredAdminUsers.length > 0"
-        class="users-grid grid grid-cols-1 md:grid-cols-2 gap-4"
-      >
+    <!-- Display filtered results only if we have search results or no search term -->
+    <div *ngIf="!searchTerm || getSearchStats().total > 0">
+      <!-- Administrators Section -->
+      <div class="user-section">
+        <div class="section-header mb-2">
+          <h3 class="text-xl font-medium">
+            👑 Administrators ({{ filteredAdminUsers.length }})
+          </h3>
+        </div>
+
         <div
-          *ngFor="let user of filteredAdminUsers"
-          class="user-card admin-card border border-gray-200 rounded shadow p-4 flex flex-col"
+          *ngIf="filteredAdminUsers.length === 0 && !searchTerm"
+          class="no-users text-gray-500 italic"
         >
-          <!-- Card Header -->
-          <div class="user-header flex items-center justify-between mb-4">
-            <div class="flex items-center space-x-4">
-              <!-- Avatar / Initial -->
-              <div
-                class="user-avatar w-10 h-10 bg-indigo-500 text-white flex items-center justify-center rounded-full text-lg font-semibold"
-              >
-                {{ getUserInitial(user.fullName) }}
-              </div>
-              <!-- Name / Email / Role Badge -->
-              <div class="user-info">
-                <h4 class="text-lg font-semibold">{{ user.fullName }}</h4>
-                <p class="email text-gray-600 text-sm">{{ user.email }}</p>
-                <span
-                  class="role-badge admin inline-block mt-1 px-2 py-0.5 bg-indigo-100 text-indigo-800 text-xs rounded"
-                >
-                  {{ user.userRole || "ADMIN" }}
-                </span>
-              </div>
-            </div>
-            <!-- Edit/Delete Buttons -->
-            <div class="user-actions flex space-x-2">
-              <button
-                class="btn-icon edit text-blue-600 hover:text-blue-800"
-                (click)="openEditModal(user)"
-                title="Edit User"
-              >
-                ✏️
-              </button>
-              <button
-                class="btn-icon delete text-red-600 hover:text-red-800"
-                (click)="openDeleteModal(user)"
-                title="Delete User"
-              >
-                🗑️
-              </button>
-            </div>
-          </div>
+          <p>No administrators found.</p>
+        </div>
 
-          <!-- Card Details -->
+        <div
+          *ngIf="filteredAdminUsers.length > 0"
+          class="users-grid grid grid-cols-1 md:grid-cols-2 gap-4"
+        >
           <div
-            class="user-details grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-700"
+            *ngFor="let user of filteredAdminUsers"
+            class="user-card admin-card border border-gray-200 rounded shadow p-4 flex flex-col"
           >
-            <div class="detail-item flex justify-between">
-              <span class="label font-medium">Skills:</span>
-              <span class="value">{{ user.skills?.length || 0 }}</span>
+            <!-- Card Header -->
+            <div class="user-header flex items-center justify-between mb-4">
+              <div class="flex items-center space-x-4">
+                <!-- Avatar / Initial -->
+                <div
+                  class="user-avatar w-10 h-10 bg-indigo-500 text-white flex items-center justify-center rounded-full text-lg font-semibold"
+                >
+                  {{ getUserInitial(user.fullName) }}
+                </div>
+                <!-- Name / Email / Role Badge -->
+                <div class="user-info">
+                  <h4 class="text-lg font-semibold">{{ user.fullName }}</h4>
+                  <p class="email text-gray-600 text-sm">{{ user.email }}</p>
+                  <span
+                    class="role-badge admin inline-block mt-1 px-2 py-0.5 bg-indigo-100 text-indigo-800 text-xs rounded"
+                  >
+                    {{ user.userRole || "ADMIN" }}
+                  </span>
+                </div>
+              </div>
+              <!-- Edit/Delete Buttons -->
+              <div class="user-actions flex space-x-2">
+                <button
+                  class="btn-icon edit text-blue-600 hover:text-blue-800"
+                  (click)="openEditModal(user)"
+                  title="Edit User"
+                >
+                  ✏️
+                </button>
+                <button
+                  class="btn-icon delete text-red-600 hover:text-red-800"
+                  (click)="openDeleteModal(user)"
+                  title="Delete User"
+                >
+                  🗑️
+                </button>
+              </div>
             </div>
-            <div class="detail-item flex justify-between">
-              <span class="label font-medium">Communities:</span>
-              <span class="value">{{ user.communities?.length || 0 }}</span>
-            </div>
-            <div class="detail-item flex justify-between">
-              <span class="label font-medium">Joined:</span>
-              <span class="value">{{ formatDate(user.createdAt) }}</span>
+
+            <!-- Card Details -->
+            <div
+              class="user-details grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-700"
+            >
+              <div class="detail-item flex justify-between">
+                <span class="label font-medium">Skills:</span>
+                <span class="value">{{ user.skills?.length || 0 }}</span>
+              </div>
+              <div class="detail-item flex justify-between">
+                <span class="label font-medium">Communities:</span>
+                <span class="value">{{ user.communities?.length || 0 }}</span>
+              </div>
+              <div class="detail-item flex justify-between">
+                <span class="label font-medium">Joined:</span>
+                <span class="value">{{ formatDate(user.createdAt) }}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Clients Section -->
-    <div class="user-section">
-      <div class="section-header mb-2">
-        <h3 class="text-xl font-medium">
-          👥 Clients ({{ filteredClientUsers.length }})
-        </h3>
-      </div>
+      <!-- Clients Section -->
+      <div class="user-section">
+        <div class="section-header mb-2">
+          <h3 class="text-xl font-medium">
+            👥 Clients ({{ filteredClientUsers.length }})
+          </h3>
+        </div>
 
-      <div
-        *ngIf="filteredClientUsers.length === 0"
-        class="no-users text-gray-500 italic"
-      >
-        <p>No clients found.</p>
-      </div>
-
-      <div
-        *ngIf="filteredClientUsers.length > 0"
-        class="users-grid grid grid-cols-1 md:grid-cols-2 gap-4"
-      >
         <div
-          *ngFor="let user of filteredClientUsers"
-          class="user-card client-card border border-gray-200 rounded shadow p-4 flex flex-col"
+          *ngIf="filteredClientUsers.length === 0 && !searchTerm"
+          class="no-users text-gray-500 italic"
         >
-          <!-- Card Header -->
-          <div class="user-header flex items-center justify-between mb-4">
-            <div class="flex items-center space-x-4">
-              <!-- Avatar / Initial -->
-              <div
-                class="user-avatar w-10 h-10 bg-green-500 text-white flex items-center justify-center rounded-full text-lg font-semibold"
-              >
-                {{ getUserInitial(user.fullName) }}
-              </div>
-              <!-- Name / Email / Role Badge-->
-              <div class="user-info">
-                <h4 class="text-lg font-semibold">{{ user.fullName }}</h4>
-                <p class="email text-gray-600 text-sm">{{ user.email }}</p>
-                <span
-                  class="role-badge client inline-block mt-1 px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded"
-                >
-                  {{ user.userRole || "CLIENT" }}
-                </span>
-              </div>
-            </div>
-            <!-- Edit/Delete Buttons -->
-            <div class="user-actions flex space-x-2">
-              <button
-                class="btn-icon edit text-blue-600 hover:text-blue-800"
-                (click)="openEditModal(user)"
-                title="Edit User"
-              >
-                ✏️
-              </button>
-              <button
-                class="btn-icon delete text-red-600 hover:text-red-800"
-                (click)="openDeleteModal(user)"
-                title="Delete User"
-              >
-                🗑️
-              </button>
-            </div>
-          </div>
+          <p>No clients found.</p>
+        </div>
 
-          <!-- Card Details -->
+        <div
+          *ngIf="filteredClientUsers.length > 0"
+          class="users-grid grid grid-cols-1 md:grid-cols-2 gap-4"
+        >
           <div
-            class="user-details grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-700"
+            *ngFor="let user of filteredClientUsers"
+            class="user-card client-card border border-gray-200 rounded shadow p-4 flex flex-col"
           >
-            <div class="detail-item flex justify-between">
-              <span class="label font-medium">Skills:</span>
-              <span class="value">{{ user.skills?.length || 0 }}</span>
+            <!-- Card Header -->
+            <div class="user-header flex items-center justify-between mb-4">
+              <div class="flex items-center space-x-4">
+                <!-- Avatar / Initial -->
+                <div
+                  class="user-avatar w-10 h-10 bg-green-500 text-white flex items-center justify-center rounded-full text-lg font-semibold"
+                >
+                  {{ getUserInitial(user.fullName) }}
+                </div>
+                <!-- Name / Email / Role Badge-->
+                <div class="user-info">
+                  <h4 class="text-lg font-semibold">{{ user.fullName }}</h4>
+                  <p class="email text-gray-600 text-sm">{{ user.email }}</p>
+                  <span
+                    class="role-badge client inline-block mt-1 px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded"
+                  >
+                    {{ user.userRole || "CLIENT" }}
+                  </span>
+                </div>
+              </div>
+              <!-- Edit/Delete Buttons -->
+              <div class="user-actions flex space-x-2">
+                <button
+                  class="btn-icon edit text-blue-600 hover:text-blue-800"
+                  (click)="openEditModal(user)"
+                  title="Edit User"
+                >
+                  ✏️
+                </button>
+                <button
+                  class="btn-icon delete text-red-600 hover:text-red-800"
+                  (click)="openDeleteModal(user)"
+                  title="Delete User"
+                >
+                  🗑️
+                </button>
+              </div>
             </div>
-            <div class="detail-item flex justify-between">
-              <span class="label font-medium">Communities:</span>
-              <span class="value">{{ user.communities?.length || 0 }}</span>
-            </div>
-            <div class="detail-item flex justify-between">
-              <span class="label font-medium">Joined:</span>
-              <span class="value">{{ formatDate(user.createdAt) }}</span>
+
+            <!-- Card Details -->
+            <div
+              class="user-details grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-700"
+            >
+              <div class="detail-item flex justify-between">
+                <span class="label font-medium">Skills:</span>
+                <span class="value">{{ user.skills?.length || 0 }}</span>
+              </div>
+              <div class="detail-item flex justify-between">
+                <span class="label font-medium">Communities:</span>
+                <span class="value">{{ user.communities?.length || 0 }}</span>
+              </div>
+              <div class="detail-item flex justify-between">
+                <span class="label font-medium">Joined:</span>
+                <span class="value">{{ formatDate(user.createdAt) }}</span>
+              </div>
             </div>
           </div>
         </div>

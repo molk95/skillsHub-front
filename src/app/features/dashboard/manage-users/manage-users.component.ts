@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  HostListener,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -42,6 +48,8 @@ interface Role {
   styleUrls: ['./manage-users.component.css'],
 })
 export class ManageUsersComponent implements OnInit {
+  @ViewChild('searchInput') searchInputRef!: ElementRef<HTMLInputElement>;
+
   users: User[] = [];
   roles: Role[] = [];
   adminUsers: User[] = [];
@@ -154,14 +162,28 @@ export class ManageUsersComponent implements OnInit {
   }
 
   groupUsersByRole(): void {
-    this.adminUsers = this.users.filter((user) => user.userRole === 'ADMIN');
-    this.clientUsers = this.users.filter(
-      (user) => user.userRole === 'CLIENT' || !user.userRole
+    // Handle users with and without userRole field
+    this.adminUsers = this.users.filter(
+      (user) =>
+        user.userRole === 'ADMIN' ||
+        (!user.userRole && user.role === '67dea76e2f7de52f2ddfb22c')
     );
+    this.clientUsers = this.users.filter(
+      (user) =>
+        user.userRole === 'CLIENT' ||
+        !user.userRole ||
+        user.role === '67dea9f480ccdc88548f99e7'
+    );
+
+    console.log('Grouped users:', {
+      admins: this.adminUsers.length,
+      clients: this.clientUsers.length,
+      total: this.users.length,
+    });
   }
 
   applySearch(): void {
-    const term = this.searchTerm.toLowerCase();
+    const term = this.searchTerm.toLowerCase().trim();
 
     if (!term) {
       this.filteredAdminUsers = [...this.adminUsers];
@@ -169,21 +191,118 @@ export class ManageUsersComponent implements OnInit {
       return;
     }
 
-    this.filteredAdminUsers = this.adminUsers.filter(
-      (user) =>
-        user.fullName.toLowerCase().includes(term) ||
-        user.email.toLowerCase().includes(term)
-    );
+    console.log('Searching for:', term);
 
-    this.filteredClientUsers = this.clientUsers.filter(
-      (user) =>
-        user.fullName.toLowerCase().includes(term) ||
-        user.email.toLowerCase().includes(term)
-    );
+    // Enhanced search function that searches multiple fields
+    const searchUser = (user: User): boolean => {
+      // Search in basic user information
+      const basicSearch = [
+        user.fullName?.toLowerCase() || '',
+        user.email?.toLowerCase() || '',
+        user.userRole?.toLowerCase() || '',
+        user.role?.toLowerCase() || '',
+      ].some((field) => field.includes(term));
+
+      // Search in skills array (if populated) - these are IDs so partial matches work
+      const skillsSearch =
+        user.skills?.some((skill) => skill?.toLowerCase().includes(term)) ||
+        false;
+
+      // Search in communities array (if populated) - these are IDs
+      const communitiesSearch =
+        user.communities?.some((community) =>
+          community?.toLowerCase().includes(term)
+        ) || false;
+
+      // Search in GitHub username (if exists)
+      const githubSearch =
+        user.github?.username?.toLowerCase().includes(term) || false;
+
+      // Search in creation date (format: YYYY-MM-DD)
+      const dateSearch = user.createdAt?.toLowerCase().includes(term) || false;
+
+      // Search in wallet ID
+      const walletSearch = user.wallet?.toLowerCase().includes(term) || false;
+
+      return (
+        basicSearch ||
+        skillsSearch ||
+        communitiesSearch ||
+        githubSearch ||
+        dateSearch ||
+        walletSearch
+      );
+    };
+
+    this.filteredAdminUsers = this.adminUsers.filter(searchUser);
+    this.filteredClientUsers = this.clientUsers.filter(searchUser);
+
+    console.log('Search results:', {
+      term,
+      admins: this.filteredAdminUsers.length,
+      clients: this.filteredClientUsers.length,
+      total: this.filteredAdminUsers.length + this.filteredClientUsers.length,
+    });
   }
 
   onSearchChange(): void {
     this.applySearch();
+  }
+
+  // Handle search input click for debugging
+  onSearchInputClick(): void {
+    console.log('Search input clicked - interaction working!');
+    // Focus the input to ensure it's interactive
+    if (this.searchInputRef) {
+      this.searchInputRef.nativeElement.focus();
+    }
+  }
+
+  // Method to highlight search terms in text
+  highlightSearchTerm(text: string): string {
+    if (!this.searchTerm || !text) return text;
+
+    const term = this.searchTerm.trim();
+    if (!term) return text;
+
+    const regex = new RegExp(`(${term})`, 'gi');
+    return text.replace(
+      regex,
+      '<mark class="bg-yellow-200 px-1 rounded">$1</mark>'
+    );
+  }
+
+  // Get search statistics
+  getSearchStats(): { total: number; admins: number; clients: number } {
+    return {
+      total: this.filteredAdminUsers.length + this.filteredClientUsers.length,
+      admins: this.filteredAdminUsers.length,
+      clients: this.filteredClientUsers.length,
+    };
+  }
+
+  // Clear search
+  clearSearch(): void {
+    this.searchTerm = '';
+    this.applySearch();
+  }
+
+  // Keyboard shortcut handling
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardShortcuts(event: KeyboardEvent): void {
+    // Ctrl+F or Cmd+F to focus search
+    if ((event.ctrlKey || event.metaKey) && event.key === 'f') {
+      event.preventDefault();
+      this.focusSearchInput();
+    }
+  }
+
+  // Focus the search input
+  focusSearchInput(): void {
+    if (this.searchInputRef) {
+      this.searchInputRef.nativeElement.focus();
+      this.searchInputRef.nativeElement.select();
+    }
   }
 
   // Modal operations
@@ -355,6 +474,37 @@ export class ManageUsersComponent implements OnInit {
 
   testClick(): void {
     alert('Test button clicked!');
+  }
+
+  // Test search functionality
+  testSearchFunctionality(): void {
+    console.log('=== SEARCH FUNCTIONALITY TEST ===');
+    console.log('Total users loaded:', this.users.length);
+    console.log('Admin users:', this.adminUsers.length);
+    console.log('Client users:', this.clientUsers.length);
+    console.log('Current search term:', this.searchTerm);
+    console.log('Search input element:', this.searchInputRef?.nativeElement);
+
+    // Try to focus the search input
+    if (this.searchInputRef) {
+      this.searchInputRef.nativeElement.focus();
+      this.searchInputRef.nativeElement.style.backgroundColor = 'lightblue';
+      console.log('Search input focused and highlighted');
+    } else {
+      console.error('Search input reference not found!');
+    }
+
+    // Test search with a sample term
+    this.searchTerm = 'admin';
+    this.onSearchChange();
+
+    setTimeout(() => {
+      this.searchTerm = '';
+      this.onSearchChange();
+      if (this.searchInputRef) {
+        this.searchInputRef.nativeElement.style.backgroundColor = 'white';
+      }
+    }, 2000);
   }
 
   getUserInitial(fullName: string): string {
