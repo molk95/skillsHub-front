@@ -4,11 +4,12 @@ import { Skill } from '../marketplace/Skills/model/skill.model';
 import { Category } from '../marketplace/Category/model/category.model';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/services/auth.service';
-
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 @Component({
   selector: 'app-marketplace-client',
   templateUrl: './marketplace-client.component.html',
-  styleUrls: ['./marketplace-client.component.css'],
+  styleUrls: ['./marketplace-client.component.css']
 })
 export class MarketplaceClientComponent implements OnInit {
   skills: Skill[] = [];
@@ -17,7 +18,7 @@ export class MarketplaceClientComponent implements OnInit {
   searchText: string = '';
   allSkills: Skill[] = [];
   currentUserId: string = '';
-
+ role: any;
   constructor(
     private router: Router,
     private marketplaceService: MarketplaceService,
@@ -30,15 +31,13 @@ export class MarketplaceClientComponent implements OnInit {
     // Récupère l'utilisateur depuis le localStorage (manuellement, comme dans add-skill)
     const userString = localStorage.getItem('user');
     console.log('User localStorage:', userString);
+    
     if (userString) {
       try {
         const user = JSON.parse(userString);
         this.currentUserId = user._id || user.id || user.userId || '';
         if (!this.currentUserId) {
-          console.warn(
-            'Aucun ID utilisateur trouvé dans le localStorage:',
-            user
-          );
+          console.warn('Aucun ID utilisateur trouvé dans le localStorage:', user);
         }
       } catch (e) {
         console.error('Erreur de parsing du user depuis localStorage:', e);
@@ -66,16 +65,14 @@ export class MarketplaceClientComponent implements OnInit {
     }
 
     if (this.selectedCategory && !this.searchText) {
-      this.marketplaceService
-        .getSkillsByCategory(this.selectedCategory)
-        .subscribe({
-          next: (data) => {
-            this.skills = data;
-          },
-          error: (err) => {
-            this.filterSkillsLocally();
-          },
-        });
+      this.marketplaceService.getSkillsByCategory(this.selectedCategory).subscribe({
+        next: (data) => {
+          this.skills = data;
+        },
+        error: (err) => {
+          this.filterSkillsLocally();
+        }
+      });
       return;
     }
 
@@ -83,13 +80,11 @@ export class MarketplaceClientComponent implements OnInit {
   }
 
   private filterSkillsLocally(): void {
-    this.skills = this.allSkills.filter((skill) => {
-      const matchesCategory =
-        !this.selectedCategory ||
-        (skill.category && skill.category.name === this.selectedCategory);
-      const matchesText =
-        !this.searchText ||
-        skill.name.toLowerCase().includes(this.searchText.toLowerCase());
+    this.skills = this.allSkills.filter(skill => {
+      const matchesCategory = !this.selectedCategory || 
+                             (skill.category && skill.category.name === this.selectedCategory);
+      const matchesText = !this.searchText || 
+                         skill.name.toLowerCase().includes(this.searchText.toLowerCase());
       return matchesCategory && matchesText;
     });
   }
@@ -99,46 +94,87 @@ export class MarketplaceClientComponent implements OnInit {
   }
 
   addskill(): void {
-    this.router.navigate(['skill/add']);
+    this.router.navigate(['skill/add']);  
   }
 
   onEditSkill(skill: Skill): void {
-    // Vérifie si le skill appartient à l'utilisateur actuel
-    const tutorId =
-      typeof skill.user === 'object' && skill.user !== null
-        ? skill.user._id
-        : skill.user;
+  // Vérifie si le skill appartient à l'utilisateur actuel
+  const tutorId = typeof skill.user === 'object' && skill.user !== null
+    ? skill.user._id
+    : skill.user;
 
-    if (tutorId !== this.currentUserId) {
-      alert('⛔ you are not authorized to update this skill.');
-      return;
-    }
+  if (tutorId !== this.currentUserId) {
+    alert("⛔ you are not authorized to update this skill.");
+    return;
+  }
     this.marketplaceService.setSelectedSkill(skill);
     this.router.navigate(['/upd-skil', skill._id]);
   }
 
-  onDeleteSkill(skill: Skill): void {
-    // Vérifie si le skill appartient à l'utilisateur actuel
-    const tutorId =
-      typeof skill.user === 'object' && skill.user !== null
-        ? skill.user._id
-        : skill.user;
+onDeleteSkill(skill: Skill): void {
+  // Vérifie si le skill appartient à l'utilisateur actuel
+  const tutorId = typeof skill.user === 'object' && skill.user !== null
+    ? skill.user._id
+    : skill.user;
 
-    if (tutorId !== this.currentUserId) {
-      alert("⛔ Vous n'êtes pas autorisé à supprimer cette compétence.");
-      return;
-    }
-
-    // Confirmation avant suppression
-    const confirmed = confirm(`🗑️ Supprimer la compétence "${skill.name}" ?`);
-    if (confirmed) {
-      this.router.navigate(['DelSkill', skill._id]);
-    }
+  if (tutorId !== this.currentUserId) {
+    alert("⛔ You are not allowed to delete this skills");
+    return;
   }
 
-  goToAddSkill(): void {
-    this.router.navigate(['/add-skill']);
+  // Confirmation avant suppression
+  const confirmed = confirm(`🗑️ Supprimer la compétence "${skill.name}" ?`);
+  if (confirmed) {
+    this.marketplaceService.deleteSkill(skill._id!).subscribe({
+      next: () => {
+        // Recharger la liste des compétences ou supprimer localement
+        this.loadSkills(); // si tu as une méthode pour recharger
+        // ou bien, si tu utilises un tableau local :
+        // this.skills = this.skills.filter(s => s._id !== skill._id);
+      },
+      error: (error) => {
+        console.error('Erreur lors de la suppression :', error);
+      }
+    });
   }
+}
+
+validateGitHubSkills(skill: any): void {
+  const username = skill.githubUsername || skill.user?.githubUsername;
+
+  if (!username) {
+    alert("❌ Aucun nom d'utilisateur GitHub trouvé pour cet utilisateur.");
+    return;
+  }
+
+  // Exemple de compétences à valider
+  const skillsToValidate = ['javascript', 'typescript', 'angular', 'node']; // ou skill.name si c'est 1 seule compétence
+
+  // Appels en parallèle pour valider plusieurs compétences
+  const validationObservables = skillsToValidate.map(skillName =>
+    this.marketplaceService.checkGitHubSkill(username, skillName).pipe(
+      catchError(err => {
+        console.error(`Erreur pour ${skillName} :`, err);
+        return of({ skill: skillName, isValid: false });
+      })
+    )
+  );
+
+  forkJoin(validationObservables).subscribe(results => {
+    const validSkills = results
+      .filter(result => result.isValid)
+      .map(result => result.skill);
+
+    skill.github = skill.github || {};
+    skill.github.validatedSkills = validSkills;
+
+    alert(`✅ Compétences validées : ${validSkills.join(', ') || 'aucune'}`);
+  });
+}
+
+goToAddSkill(): void {
+  this.router.navigate(['/add-skill']);
+}
 
   goToSalon(skill: Skill): void {
     const skillName = skill.name || '';
@@ -147,18 +183,16 @@ export class MarketplaceClientComponent implements OnInit {
       tutorName = skill.user.fullName;
     }
 
-    this.router.navigate(['/salons/list'], {
-      queryParams: {
+    this.router.navigate(['/salons/list'], { 
+      queryParams: { 
         skillName: skillName,
-        tutorName: tutorName,
-      },
+        tutorName: tutorName 
+      } 
     });
   }
 
   goToSession(skill: Skill): void {
-    this.router.navigate(['sessions/list'], {
-      queryParams: { skillName: skill.name },
-    });
+    this.router.navigate(['sessions/list'], { queryParams: { skillName: skill.name } });
   }
 
   getUserInfo(skill: Skill): string {

@@ -4,6 +4,9 @@ import { Skill } from '../../model/skill.model';
 import { Category } from '../../../Category/model/category.model';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HttpErrorResponse ,HttpClient} from '@angular/common/http';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 @Component({
   selector: 'app-marketplace-list',
   templateUrl: './marketplace-list.component.html',
@@ -32,8 +35,8 @@ export class MarketplaceListComponent implements OnInit {
   */
   constructor(
     private router: Router,
-    private marketplaceService: MarketplaceService
-    
+    private marketplaceService: MarketplaceService,
+    private http: HttpClient
   ) {}
   
   
@@ -109,12 +112,25 @@ this.router.navigate(['skill/add']);
     this.marketplaceService.setSelectedSkill(skill);
     this.router.navigate(['/upd-skil', skill._id]);
   }
+
+
   
-  onDeleteSkill(skill: any) {
-    if (confirm(`Supprimer la compétence "${skill.name}" ?`)) {
-      this.router.navigate(['DelSkill', skill._id]);
-    }
+onDeleteSkill(skill: any) {
+  if (confirm(`Supprimer la compétence "${skill.name}" ?`)) {
+    this.marketplaceService.deleteSkill(skill._id).subscribe({
+      next: () => {
+        // Recharger la liste des compétences ou supprimer localement
+        this.loadSkills(); // si tu as une méthode pour recharger
+        // ou bien, si tu utilises un tableau local :
+        // this.skills = this.skills.filter(s => s._id !== skill._id);
+      },
+      error: (error) => {
+        console.error('Erreur lors de la suppression :', error);
+      }
+    });
   }
+}
+
 
   goToSalon(skill: any) {
     // Récupérer le nom de la compétence et le nom du tuteur
@@ -154,6 +170,59 @@ getUserInfo(skill: Skill): string {
   }
 
   return `Utilisateur ID: ${skill.user}`;
+}
+
+
+
+validateGitHubSkill(skill: any): void {
+  // Si user est un ID ou pas chargé, on essaie de récupérer l'objet user complet via API
+  if (!skill.user || typeof skill.user === 'string') {
+    const userId = typeof skill.user === 'string' ? skill.user : null;
+    if (!userId) {
+      alert("❌ Données utilisateur manquantes.");
+      return;
+    }
+
+    // Charger user complet depuis API
+    this.marketplaceService.getUserById(userId).subscribe({
+      next: (user) => {
+        if (!user.github || !user.github.username) {
+          alert("❌ Aucun nom d'utilisateur GitHub trouvé pour cet utilisateur.");
+          return;
+        }
+        this.checkSkillWithGitHub(user.github.username, skill.name);
+      },
+      error: () => {
+        alert("❌ Impossible de récupérer les infos utilisateur.");
+      }
+    });
+    return;
+  }
+
+  // Si user complet est déjà présent
+  const username = skill.user.github?.username;
+  if (!username) {
+    alert("❌ Aucun nom d'utilisateur GitHub trouvé pour cet utilisateur.");
+    return;
+  }
+  this.checkSkillWithGitHub(username, skill.name);
+}
+
+// Méthode pour faire la vérification auprès du backend
+private checkSkillWithGitHub(username: string, skillName: string): void {
+  this.marketplaceService.checkGitHubSkill(username, skillName).pipe(
+    catchError((err) => {
+      console.error(err);
+      alert("❌ Une erreur est survenue lors de la validation.");
+      return of(null);
+    })
+  ).subscribe((response: any) => {
+    if (response?.isValid) {
+      alert(`✅ La compétence "${skillName}" a bien été validée sur GitHub.`);
+    } else {
+      alert(`❌ La compétence "${skillName}" n'est pas trouvée dans les dépôts GitHub.`);
+    }
+  });
 }
 
 

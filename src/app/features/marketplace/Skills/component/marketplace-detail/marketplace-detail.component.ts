@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./marketplace-detail.component.css']
 })
 export class MarketplaceDetailComponent implements OnInit {
-  skill: any | null = null;
+  skill: Skill | null = null;
   error: boolean = false;
   errorMessage: string = '';
 
@@ -21,6 +21,15 @@ export class MarketplaceDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSkillData();
+
+      const id = this.route.snapshot.paramMap.get('id');
+  if (id) {
+    this.marketplaceService.getSkillById(id).subscribe(skill => {
+      console.log('Skill chargé:', skill);
+      this.skill = skill;
+    });
+  }
+
   }
 
   loadSkillData(): void {
@@ -65,6 +74,16 @@ export class MarketplaceDetailComponent implements OnInit {
       } 
     });
   }
+getUserInfo(skill: Skill): string {
+  if (!skill.user) {
+    return 'Non défini (user manquant)';
+  }
+  if (typeof skill.user === 'object') {
+    return skill.user.fullName || 'Nom utilisateur non disponible';
+  }
+  return `Utilisateur ID: ${skill.user}`;
+}
+
 
  goToSession(skill: any) {
   // Envoie le nom du skill en query param "skillName"

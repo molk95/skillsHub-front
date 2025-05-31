@@ -18,8 +18,11 @@
           <td>{{ skill.category?.name }}</td>
         </tr>
         <tr>
-          <th>User</th>
-          <td>{{ skill.user?.name || skill.user?._id || 'Not defined' }}</td>
+          <th>Tutor</th>
+          <td> {{ getUserInfo(skill)  }}</td>
+          
+    
+
         </tr>
         <tr>
           <th>GitHub Username</th>

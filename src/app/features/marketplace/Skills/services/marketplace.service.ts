@@ -71,19 +71,31 @@ export class MarketplaceService {
   }
 
   deleteSkill(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`http://localhost:3000/api/skill-market/deleteSkill/${id}`);
   }
 
-  // Nouvelles méthodes pour le matching de compétences
-  findMatchingSkills(userId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/matching/${userId}`).pipe(
-      tap(response => console.log('Réponse du matching de compétences:', response)),
-      catchError(error => {
-        console.error('Erreur lors du matching de compétences:', error);
-        return throwError(() => error);
-      })
-    );
-  }
+  // nouvelle méthodes pour le matching 
+findMatchingSkills(userId: string): Observable<any> {
+  return this.http.get(`${this.apiUrl}/matchSkills/${userId}`, {
+    params: { userId }
+  }).pipe(
+    tap(response => console.log('Réponse du matching de compétences:', response)),
+    catchError(error => {
+      console.error('Erreur lors du matching de compétences:', error);
+      return throwError(() => error);
+    })
+  );
+}
+
+checkGitHubSkill(username: string, skill: string) {
+  return this.http.get<{ skill: string, isValid: boolean }>(
+    
+    `http://localhost:3000/api/skill-market/check-skill`, { params: { username, skill } }
+  );
+}
+
+// http://localhost:3000/api/skill-market/check-skill?username=Manel1804&skill=javascript
+
 
   suggestSkills(userId: string): Observable<any> {
     return this.http.get(`http://localhost:3000/api/skills/matching/suggest/${userId}`).pipe(

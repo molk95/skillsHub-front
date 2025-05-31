@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MarketplaceService } from '../../services/marketplace.service';
+
 @Component({
   selector: 'app-skills-matching',
   templateUrl: './skills-matching.component.html',
@@ -10,14 +11,20 @@ export class SkillsMatchingComponent implements OnInit {
   suggestedSkills: any[] = [];
   isLoading = false;
   error: string | null = null;
-  currentUserId: string = ''; // À remplacer par l'ID de l'utilisateur connecté
+  currentUserId: string = '';
 
   constructor(private marketplaceService: MarketplaceService) {}
 
   ngOnInit(): void {
-    // Récupérer l'ID utilisateur depuis le localStorage ou un service d'authentification
-    // au lieu d'utiliser une valeur codée en dur
-    this.currentUserId = localStorage.getItem('userId') || '680bc3701cafa75c695bac60';
+    const storedId = localStorage.getItem('userId');
+
+    if (!storedId) {
+      this.error = 'Utilisateur non connecté ou ID utilisateur manquant.';
+      console.error('Aucun ID utilisateur trouvé dans le localStorage');
+      return;
+    }
+
+    this.currentUserId = storedId;
     console.log('ID utilisateur pour le matching:', this.currentUserId);
     this.loadMatchingData();
   }
@@ -25,8 +32,8 @@ export class SkillsMatchingComponent implements OnInit {
   loadMatchingData(): void {
     this.isLoading = true;
     this.error = null;
-    
-    // Charger les utilisateurs avec des compétences similaires
+
+    // 1. Charger les utilisateurs similaires
     this.marketplaceService.findMatchingSkills(this.currentUserId).subscribe({
       next: (data) => {
         this.matchingUsers = data;
@@ -35,11 +42,11 @@ export class SkillsMatchingComponent implements OnInit {
       error: (err) => {
         this.error = 'Erreur lors du chargement des utilisateurs correspondants';
         this.isLoading = false;
-        console.error(err);
+        console.error('Erreur matching skills:', err);
       }
     });
 
-    // Charger les suggestions de compétences
+    // 2. Charger les suggestions de compétences
     this.marketplaceService.suggestSkills(this.currentUserId).subscribe({
       next: (data) => {
         this.suggestedSkills = data;
