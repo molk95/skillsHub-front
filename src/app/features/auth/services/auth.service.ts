@@ -13,6 +13,15 @@ interface SignUpPayload {
   skills?: any[];
 }
 
+interface ForgotPasswordPayload {
+  email: string;
+}
+
+interface ResetPasswordPayload {
+  token: string;
+  password: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly authApi = `${backendServer}/api/auth`;
@@ -49,5 +58,19 @@ export class AuthService {
     const user = JSON.parse(userString);
     const userId = user.id;
     return this.http.get(`${this.profileBase}/${userId}`);
+  }
+
+  forgotPassword(payload: ForgotPasswordPayload) {
+    return this.http.post<{ message: string }>(
+      `${this.authApi}/forgot-password`,
+      payload
+    );
+  }
+
+  resetPassword(payload: ResetPasswordPayload) {
+    return this.http.post<{ message: string }>(
+      `${this.authApi}/reset-password`,
+      payload
+    );
   }
 }
