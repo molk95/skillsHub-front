@@ -274,13 +274,18 @@ const routes: Routes = [
 
     component: SkillsMatchingComponent,
   },
-  //added by manel
+  // Auth routes
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./features/auth/auth.module').then((m) => m.AuthModule),
+  },
+  // Legacy auth route for compatibility
   {
     path: '',
     loadChildren: () =>
       import('./features/auth/auth.module').then((m) => m.AuthModule),
   },
-
   {
     path: 'challenges',
     loadChildren: () =>
