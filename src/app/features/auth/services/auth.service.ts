@@ -44,6 +44,38 @@ export class AuthService {
       );
   }
 
+  signInWithGoogle() {
+    // Create the frontend callback URL
+    const frontendCallbackUrl = `${window.location.origin}/auth/google/callback`;
+
+    // Store the callback URL for the backend to use
+    localStorage.setItem('redirectUrl', frontendCallbackUrl);
+
+    // Redirect to Google OAuth endpoint with frontend callback URL
+    window.location.href = `${
+      this.authApi
+    }/google?redirect_uri=${encodeURIComponent(frontendCallbackUrl)}`;
+  }
+
+  processGoogleAuthResponse(authData: any) {
+    // Process the authentication data from Google OAuth response
+    if (authData && authData.user && authData.token) {
+      const mappedUserData = {
+        id: authData.user.id,
+        email: authData.user.email,
+        fullName: authData.user.fullName,
+        role: authData.user.userRole || authData.user.role || 'CLIENT',
+        skills: authData.user.skills || authData.user.validatedSkills || [],
+      };
+
+      localStorage.setItem('auth_token', authData.token);
+      localStorage.setItem('user', JSON.stringify(mappedUserData));
+
+      return mappedUserData;
+    }
+    return null;
+  }
+
   signUp(payload: SignUpPayload) {
     return this.http.post(`${this.authApi}/register`, payload);
   }

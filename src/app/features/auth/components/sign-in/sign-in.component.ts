@@ -51,4 +51,8 @@ export class SignInComponent implements OnInit {
       },
     });
   }
+
+  onGoogleSignIn() {
+    this.auth.signInWithGoogle();
+  }
 }
