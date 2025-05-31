@@ -5,6 +5,7 @@ import { ClientDashboardLayoutComponent } from './client-dashboard-layout/client
 import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
 import { ClientProfileComponent } from './client-profile/client-profile.component';
 import { DashboardSettingsComponent } from './dashboard-settings/dashboard-settings.component';
+import { ManageUsersComponent } from './manage-users/manage-users.component';
 
 const routes: Routes = [
   {
@@ -13,7 +14,7 @@ const routes: Routes = [
     children: [
       { path: '', component: AdminOverviewComponent },
       { path: 'overview', component: AdminOverviewComponent },
-      { path: 'users', component: AdminOverviewComponent }, // For now, can be separate component later
+      { path: 'users', component: ManageUsersComponent },
       { path: 'settings', component: DashboardSettingsComponent },
     ],
   },

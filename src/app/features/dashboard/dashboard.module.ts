@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
@@ -9,6 +10,7 @@ import { ClientDashboardLayoutComponent } from './client-dashboard-layout/client
 import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
 import { ClientProfileComponent } from './client-profile/client-profile.component';
 import { DashboardSettingsComponent } from './dashboard-settings/dashboard-settings.component';
+import { ManageUsersComponent } from './manage-users/manage-users.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,14 @@ import { DashboardSettingsComponent } from './dashboard-settings/dashboard-setti
     AdminOverviewComponent,
     ClientProfileComponent,
     DashboardSettingsComponent,
+    ManageUsersComponent,
   ],
-  imports: [CommonModule, ReactiveFormsModule, DashboardRoutingModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
+    DashboardRoutingModule,
+  ],
 })
 export class DashboardModule {}
