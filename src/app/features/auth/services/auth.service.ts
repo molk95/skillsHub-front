@@ -105,4 +105,41 @@ export class AuthService {
       payload
     );
   }
+
+  // Logout method
+  logout(): void {
+    console.log('AuthService: Logging out user');
+
+    // Clear all authentication data
+    localStorage.removeItem('user');
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('google_oauth_pending');
+
+    // Additional cleanup if needed
+    sessionStorage.clear();
+
+    console.log('AuthService: User logged out successfully');
+  }
+
+  // Check if user is authenticated
+  isAuthenticated(): boolean {
+    try {
+      const userStr = localStorage.getItem('user');
+      const token = localStorage.getItem('auth_token');
+
+      return !!(userStr && token);
+    } catch (error) {
+      return false;
+    }
+  }
+
+  // Get current user
+  getCurrentUser(): any {
+    try {
+      const userStr = localStorage.getItem('user');
+      return userStr ? JSON.parse(userStr) : null;
+    } catch (error) {
+      return null;
+    }
+  }
 }

@@ -33,6 +33,12 @@ import { SignUpComponent } from './features/auth/components/sign-up/sign-up.comp
 import { MarketplaceClientComponent } from '../app/features/marketplace-client/marketplace-client.component';
 import { DetailSalonListComponent } from './features/salons/components/detail-salon-list/detail-salon-list.component';
 import { SalonDocumentsComponent } from './features/salons/components/salon-documents/salon-documents.component';
+
+// Import guards
+import { AuthGuard } from './core/guards/auth.guard';
+import { AdminGuard } from './core/guards/admin.guard';
+import { NotFoundComponent } from './shared/components/not-found/not-found.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -53,10 +59,12 @@ const routes: Routes = [
   },
   {
     path: 'forums/edit/:id',
+    canActivate: [AuthGuard],
     component: EditForumComponent,
   },
   {
     path: 'forums/add',
+    canActivate: [AuthGuard],
     component: AddForumComponent,
   },
   {
@@ -69,49 +77,64 @@ const routes: Routes = [
   },
   {
     path: 'forums/details/:id',
+    canActivate: [AuthGuard],
     component: ForumDetailsComponent,
   },
   {
     path: 'forums',
+    canActivate: [AuthGuard],
     component: ForumsListComponent,
   },
   {
     path: 'ForumsListComponent',
+    canActivate: [AuthGuard],
     component: ForumsListComponent,
   },
 
   {
     path: 'UpdateCategory/:id',
+    canActivate: [AuthGuard, AdminGuard],
     component: UpdCatComponent,
   },
   {
     path: 'AddCategory',
+    canActivate: [AuthGuard, AdminGuard],
     component: AddCategoryComponent,
   },
   {
     path: 'CategoryList',
+    canActivate: [AuthGuard, AdminGuard],
     component: CategoryListComponent,
   },
   {
     path: 'MarketplaceList',
+    canActivate: [AuthGuard, AdminGuard],
     component: MarketplaceListComponent,
   },
   {
     path: 'MarketplaceClient',
+    canActivate: [AuthGuard],
     component: MarketplaceClientComponent,
   },
-  { path: 'upd-skil/:id', component: UpdSkilComponent },
+  {
+    path: 'upd-skil/:id',
+    canActivate: [AuthGuard, AdminGuard],
+    component: UpdSkilComponent,
+  },
   {
     path: 'MarketplaceDetail/:id',
+    canActivate: [AuthGuard],
     component: MarketplaceDetailComponent,
   },
   {
     path: 'skill/add',
+    canActivate: [AuthGuard, AdminGuard],
     component: AddSkillComponent,
   },
 
   {
     path: 'dashboard',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
@@ -119,20 +142,24 @@ const routes: Routes = [
   },
   {
     path: 'wallets',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/wallets/wallets.module').then((m) => m.WalletsModule),
   },
   // Redirection pour le chemin wallet
   {
     path: 'salons/add',
+    canActivate: [AuthGuard],
     component: AddSalonsComponent,
   },
   {
     path: 'documents',
+    canActivate: [AuthGuard],
     component: DetailSalonListComponent,
   },
   {
     path: 'salon/:id/documents',
+    canActivate: [AuthGuard],
     component: SalonDocumentsComponent,
   },
   // Catch-all route pour les pages success et cancel
@@ -143,6 +170,7 @@ const routes: Routes = [
   },
   {
     path: 'challenges',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/challenges/challenges.module').then(
         (m) => m.ChallengesModule
@@ -150,11 +178,13 @@ const routes: Routes = [
   },
   {
     path: 'badges',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/badges/badges.module').then((m) => m.BadgesModule),
   },
   {
     path: 'feedbacks',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/feedback/feedback.module').then(
         (m) => m.FeedbackModule
@@ -162,24 +192,48 @@ const routes: Routes = [
   },
   {
     path: 'salons/list',
+    canActivate: [AuthGuard],
     component: ListSalonsComponent,
   },
-  { path: 'salons/update/:nom', component: UpdateSalonsComponent },
+  {
+    path: 'salons/update/:nom',
+    canActivate: [AuthGuard],
+    component: UpdateSalonsComponent,
+  },
   {
     path: 'salons/delete',
+    canActivate: [AuthGuard, AdminGuard],
     component: DeleteSalonsComponent,
   },
-  { path: 'sessions/list/:salonName', component: SessionListComponent },
+  {
+    path: 'sessions/list/:salonName',
+    canActivate: [AuthGuard],
+    component: SessionListComponent,
+  },
   {
     path: 'sessions/add/:salonNom',
+    canActivate: [AuthGuard],
     component: AddSessionsComponent,
   },
-  { path: 'sessions/list', component: SessionListComponent }, // Route pour afficher les sessions
-  { path: 'sessions/update/:id', component: UpdateSessionComponent }, // Route pour afficher les sessions
-  { path: 'sessions/delete/:id', component: DeleteSessionsComponent },
+  {
+    path: 'sessions/list',
+    canActivate: [AuthGuard],
+    component: SessionListComponent,
+  },
+  {
+    path: 'sessions/update/:id',
+    canActivate: [AuthGuard],
+    component: UpdateSessionComponent,
+  },
+  {
+    path: 'sessions/delete/:id',
+    canActivate: [AuthGuard, AdminGuard],
+    component: DeleteSessionsComponent,
+  },
   // Nouvelle route pour afficher les salons avec leurs sessions associées
   {
     path: 'salons-sessions',
+    canActivate: [AuthGuard],
     component: SalonsSessionsComponent,
   },
   {
@@ -199,6 +253,7 @@ const routes: Routes = [
   },
   {
     path: 'communities',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/communities/communities.module').then(
         (m) => m.CommunitiesModule
@@ -242,6 +297,7 @@ const routes: Routes = [
   },
   {
     path: 'communities',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/communities/communities.module').then(
         (m) => m.CommunitiesModule
@@ -271,7 +327,7 @@ const routes: Routes = [
   },
   {
     path: 'skills-matching',
-
+    canActivate: [AuthGuard],
     component: SkillsMatchingComponent,
   },
   // Auth routes
@@ -288,6 +344,7 @@ const routes: Routes = [
   },
   {
     path: 'challenges',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/challenges/challenges.module').then(
         (m) => m.ChallengesModule
@@ -295,15 +352,27 @@ const routes: Routes = [
   },
   {
     path: 'badges',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/badges/badges.module').then((m) => m.BadgesModule),
   },
   {
     path: 'feedbacks',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./features/feedback/feedback.module').then(
         (m) => m.FeedbackModule
       ),
+  },
+  // Catch-all routes for undefined paths
+  // These MUST be at the end of the routes array
+  {
+    path: 'not-found',
+    component: NotFoundComponent,
+  },
+  {
+    path: '**', // Wildcard route - catches all undefined routes
+    redirectTo: 'not-found',
   },
 ];
 

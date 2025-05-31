@@ -57,6 +57,7 @@ import { ContactComponent } from './features/contact/contact.component';
 import { MarketplaceClientComponent } from './features/marketplace-client/marketplace-client.component';
 import { SalonsModule } from './features/salons/salons.module';
 import { SessionsModule } from './features/sessions/sessions.module';
+import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { SessionsModule } from './features/sessions/sessions.module';
     ForumsListComponent,
     ForumDetailsComponent,
     MarketplaceClientComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
