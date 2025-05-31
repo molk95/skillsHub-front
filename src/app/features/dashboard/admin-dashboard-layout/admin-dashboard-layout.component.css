@@ -21,7 +21,78 @@
   flex-direction: column;
 }
 
-.sidebar a {
+.nav-item {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+  font-size: 0.95rem;
+}
+
+.nav-item:hover {
+  background-color: #3a4268;
+  text-decoration: none;
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.nav-item.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.nav-item.active:hover {
+  transform: translateX(2px);
+}
+
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+.nav-item span {
+  font-weight: 500;
+}
+
+.nav-divider {
+  color: #8892b0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 1.5rem 1rem 1rem 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #3a4268;
+  position: relative;
+}
+
+.nav-divider::before {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 2px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  background: #f8fafc;
+}
+
+/* Legacy support for old links without nav-item class */
+.sidebar a:not(.nav-item) {
   display: block;
   color: #fff;
   margin-bottom: 1rem;
@@ -31,16 +102,10 @@
   transition: background-color 0.2s;
 }
 
-.sidebar a:hover,
-.sidebar a.active {
+.sidebar a:not(.nav-item):hover,
+.sidebar a:not(.nav-item).active {
   background-color: #3a4268;
   text-decoration: none;
-}
-
-.main-content {
-  flex: 1;
-  padding: 2rem;
-  background: #f4f4f4;
 }
 
 @media (max-width: 768px) {
@@ -56,11 +121,25 @@
   .sidebar nav {
     flex-direction: row;
     overflow-x: auto;
+    gap: 0.5rem;
   }
 
-  .sidebar a {
-    margin-right: 1rem;
+  .nav-item {
+    margin-right: 0.5rem;
     margin-bottom: 0;
     white-space: nowrap;
+    min-width: fit-content;
+  }
+
+  .nav-item span {
+    display: none;
+  }
+
+  .nav-icon {
+    margin-right: 0;
+  }
+
+  .nav-divider {
+    display: none;
   }
 }
