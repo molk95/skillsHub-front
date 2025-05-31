@@ -37,7 +37,14 @@ export class SignInComponent implements OnInit {
       return;
     }
     this.auth.signIn({ email, password }).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
+      next: (res: any) => {
+        const user = res.data.user;
+        if (user && user.role === 'ADMIN') {
+          this.router.navigate(['/dashboard/admin']);
+        } else {
+          this.router.navigate(['/dashboard/client']);
+        }
+      },
       error: (err) => {
         this.errorMsg = err.error?.message || 'Login failed';
         this.isLoading = false;

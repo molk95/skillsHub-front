@@ -1,17 +1,45 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+
+const backendServer = 'http://localhost:3000';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
   isMenuOpen = false;
+  communityCount = 0;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit(): void {
+    if (this.isAuthenticated()) {
+      this.loadCommunityCount();
+    }
+  }
+
+  loadCommunityCount(): void {
+    this.http
+      .get<{ count: number }>(`${backendServer}/api/communities/count`)
+      .subscribe({
+        next: (response) => {
+          this.communityCount = response.count;
+        },
+        error: (err) => {
+          console.error('Error loading community count:', err);
+          this.communityCount = 0;
+        },
+      });
+  }
+
+  // Public method to refresh community count (can be called from other components)
+  refreshCommunityCount(): void {
+    if (this.isAuthenticated()) {
+      this.loadCommunityCount();
+    }
   }
 
   toggleMenu() {
@@ -39,6 +67,28 @@ export class NavbarComponent implements OnInit {
       return userName.charAt(0).toUpperCase();
     }
     return 'U';
+  }
+
+  getUserRole(): string {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      return user.role || 'CLIENT';
+    }
+    return 'CLIENT';
+  }
+
+  // Navigate to user dashboard based on role
+  navigateToProfile(): void {
+    const userRole = this.getUserRole();
+    if (userRole === 'ADMIN') {
+      this.router.navigate(['/dashboard/admin']);
+    } else {
+      this.router.navigate(['/dashboard/client']);
+    }
+    this.closeMenu();
+    // Refresh community count when navigating to profile
+    this.loadCommunityCount();
   }
 
   // Navigation methods
@@ -105,6 +155,8 @@ export class NavbarComponent implements OnInit {
   logout(): void {
     localStorage.removeItem('user');
     localStorage.removeItem('userId');
+    localStorage.removeItem('auth_token');
+    this.communityCount = 0; // Reset community count on logout
     this.router.navigate(['/logIn']);
     this.closeMenu();
   }

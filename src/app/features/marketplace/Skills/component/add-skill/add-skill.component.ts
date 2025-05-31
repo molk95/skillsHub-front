@@ -34,7 +34,10 @@ export class AddSkillComponent implements OnInit {
         // Vérifie les propriétés possibles pour l'identifiant
         this.currentUserId = user._id || user.id || user.userId || '';
         if (!this.currentUserId) {
-          console.warn('Aucun ID utilisateur trouvé dans le localStorage:', user);
+          console.warn(
+            'Aucun ID utilisateur trouvé dans le localStorage:',
+            user
+          );
         }
       } catch (e) {
         console.error('Erreur de parsing du user depuis localStorage:', e);
@@ -82,7 +85,7 @@ export class AddSkillComponent implements OnInit {
           this.router.navigate(['/MarketplaceList']);
         },
         error: (err: HttpErrorResponse) => {
-          console.error('Erreur lors de l\'ajout du skill :', err);
+          console.error("Erreur lors de l'ajout du skill :", err);
           alert(
             `Erreur lors de l'ajout du skill: ${
               err.error?.error || err.message
@@ -100,8 +103,7 @@ export class AddSkillComponent implements OnInit {
   }
 }
 
-
-  /*
+/*
   ngOnInit() {
     // Récupérer l'ID de l'utilisateur connecté directement dans le composant
     const user = JSON.parse(localStorage.getItem('user') || '{}');

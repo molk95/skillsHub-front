@@ -30,7 +30,7 @@ import { UpdCatComponent } from './features/marketplace/Category/component/upd-c
 import { AddCategoryComponent } from './features/marketplace/Category/component/add-category/add-category.component';
 import { CategoryListComponent } from './features/marketplace/Category/component/category-list/category-list.component';
 import { SignUpComponent } from './features/auth/components/sign-up/sign-up.component';
-import {MarketplaceClientComponent} from '../app/features/marketplace-client/marketplace-client.component';
+import { MarketplaceClientComponent } from '../app/features/marketplace-client/marketplace-client.component';
 import { DetailSalonListComponent } from './features/salons/components/detail-salon-list/detail-salon-list.component';
 import { SalonDocumentsComponent } from './features/salons/components/salon-documents/salon-documents.component';
 const routes: Routes = [
@@ -53,11 +53,11 @@ const routes: Routes = [
   },
   {
     path: 'forums/edit/:id',
-    component: EditForumComponent
+    component: EditForumComponent,
   },
   {
     path: 'forums/add',
-    component: AddForumComponent
+    component: AddForumComponent,
   },
   {
     path: 'landing',
@@ -69,12 +69,13 @@ const routes: Routes = [
   },
   {
     path: 'forums/details/:id',
-    component: ForumDetailsComponent
+    component: ForumDetailsComponent,
   },
   {
     path: 'forums',
-    component: ForumsListComponent
-  },{
+    component: ForumsListComponent,
+  },
+  {
     path: 'ForumsListComponent',
     component: ForumsListComponent,
   },
@@ -95,7 +96,7 @@ const routes: Routes = [
     path: 'MarketplaceList',
     component: MarketplaceListComponent,
   },
- {
+  {
     path: 'MarketplaceClient',
     component: MarketplaceClientComponent,
   },
@@ -108,10 +109,13 @@ const routes: Routes = [
     path: 'skill/add',
     component: AddSkillComponent,
   },
-  
+
   {
     path: 'dashboard',
-    component: DashboardPageComponent,
+    loadChildren: () =>
+      import('./features/dashboard/dashboard.module').then(
+        (m) => m.DashboardModule
+      ),
   },
   {
     path: 'wallets',
@@ -122,31 +126,41 @@ const routes: Routes = [
   {
     path: 'salons/add',
     component: AddSalonsComponent,
-  },    {
+  },
+  {
     path: 'documents',
-    component: DetailSalonListComponent
-  },  {
-  path: 'salon/:id/documents',
-  component: SalonDocumentsComponent
-},
+    component: DetailSalonListComponent,
+  },
+  {
+    path: 'salon/:id/documents',
+    component: SalonDocumentsComponent,
+  },
   // Catch-all route pour les pages success et cancel
   {
     path: 'wallet/top-up/cancel',
     redirectTo: 'wallets/top-up/cancel',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'challenges',
-    loadChildren: () => import('./features/challenges/challenges.module').then(m => m.ChallengesModule)
+    loadChildren: () =>
+      import('./features/challenges/challenges.module').then(
+        (m) => m.ChallengesModule
+      ),
   },
   {
     path: 'badges',
-    loadChildren: () => import('./features/badges/badges.module').then(m => m.BadgesModule),
+    loadChildren: () =>
+      import('./features/badges/badges.module').then((m) => m.BadgesModule),
   },
   {
     path: 'feedbacks',
-    loadChildren: () => import('./features/feedback/feedback.module').then(m => m.FeedbackModule),
-  },{
+    loadChildren: () =>
+      import('./features/feedback/feedback.module').then(
+        (m) => m.FeedbackModule
+      ),
+  },
+  {
     path: 'salons/list',
     component: ListSalonsComponent,
   },
@@ -171,83 +185,90 @@ const routes: Routes = [
   {
     path: 'Forums',
     redirectTo: 'forums',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'Forums/edit/:id',
     redirectTo: 'forums/edit/:id',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'Forums/add',
     redirectTo: 'forums/add',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'communities',
-    loadChildren: () => import('./features/communities/communities.module').then(m => m.CommunitiesModule)
+    loadChildren: () =>
+      import('./features/communities/communities.module').then(
+        (m) => m.CommunitiesModule
+      ),
   },
   {
     path: 'Communities',
     redirectTo: 'communities',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'Communities/create',
     redirectTo: 'communities/create',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'Communities/edit/:id',
     redirectTo: 'communities/edit/:id',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'Communities/my-communities',
     redirectTo: 'communities/my-communities',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   // Redirection pour gérer la casse
   {
     path: 'Forums',
     redirectTo: 'forums',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'Forums/edit/:id',
     redirectTo: 'forums/edit/:id',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'Forums/add',
     redirectTo: 'forums/add',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'communities',
-    loadChildren: () => import('./features/communities/communities.module').then(m => m.CommunitiesModule)
+    loadChildren: () =>
+      import('./features/communities/communities.module').then(
+        (m) => m.CommunitiesModule
+      ),
   },
 
   // Redirection pour gérer la casse pour communities
   {
     path: 'Communities',
     redirectTo: 'communities',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'Communities/create',
     redirectTo: 'communities/create',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'Communities/edit/:id',
     redirectTo: 'communities/edit/:id',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'Communities/my-communities',
     redirectTo: 'communities/my-communities',
-    pathMatch: 'full'},
+    pathMatch: 'full',
+  },
   {
     path: 'skills-matching',
 
@@ -260,19 +281,25 @@ const routes: Routes = [
       import('./features/auth/auth.module').then((m) => m.AuthModule),
   },
 
-
   {
     path: 'challenges',
-    loadChildren: () => import('./features/challenges/challenges.module').then(m => m.ChallengesModule)
+    loadChildren: () =>
+      import('./features/challenges/challenges.module').then(
+        (m) => m.ChallengesModule
+      ),
   },
   {
     path: 'badges',
-    loadChildren: () => import('./features/badges/badges.module').then(m => m.BadgesModule),
+    loadChildren: () =>
+      import('./features/badges/badges.module').then((m) => m.BadgesModule),
   },
   {
     path: 'feedbacks',
-    loadChildren: () => import('./features/feedback/feedback.module').then(m => m.FeedbackModule),
-  }
+    loadChildren: () =>
+      import('./features/feedback/feedback.module').then(
+        (m) => m.FeedbackModule
+      ),
+  },
 ];
 
 @NgModule({

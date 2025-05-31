@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
-import { jwtDecode } from 'jwt-decode';
 const backendServer = 'http://localhost:3000';
 interface SignInPayload {
   email: string;
@@ -16,16 +15,16 @@ interface SignUpPayload {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly base = `${backendServer}/api/auth`;
+  private readonly authApi = `${backendServer}/api/auth`;
   private readonly skillsBase = `${backendServer}/api/skill-market`;
-  private readonly profileBase = `${backendServer}/api/user`;
+  private readonly profileBase = `${backendServer}/api/users`;
 
   constructor(private http: HttpClient) {}
 
   signIn(payload: SignInPayload) {
     return this.http
       .post<{ message: string; data: { user: any; token: string } }>(
-        `${this.base}/logIn`,
+        `${this.authApi}/logIn`,
         payload
       )
       .pipe(
@@ -37,7 +36,7 @@ export class AuthService {
   }
 
   signUp(payload: SignUpPayload) {
-    return this.http.post(`${this.base}/register`, payload);
+    return this.http.post(`${this.authApi}/register`, payload);
   }
 
   getSkillsByName(query: string) {
@@ -45,13 +44,10 @@ export class AuthService {
   }
 
   getProfile() {
-    const token = localStorage.getItem('token');
-    if (!token) return;
-
-    const decoded: any = jwtDecode(token);
-    const user = JSON.parse(decoded.user);
+    const userString = localStorage.getItem('user');
+    if (!userString) return;
+    const user = JSON.parse(userString);
     const userId = user.id;
-
     return this.http.get(`${this.profileBase}/${userId}`);
   }
 }

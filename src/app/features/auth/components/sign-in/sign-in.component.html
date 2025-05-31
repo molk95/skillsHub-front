@@ -58,3 +58,14 @@
     <a routerLink="/signUp" class="text-cyan-500 hover:underline">Sign Up</a>
   </p>
 </div>
+
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <a routerLink="/dashboard/client/profile">Profile</a>
+    <a routerLink="/dashboard/client/orders">My Orders</a>
+    <a routerLink="/dashboard/client/settings">Settings</a>
+  </aside>
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
