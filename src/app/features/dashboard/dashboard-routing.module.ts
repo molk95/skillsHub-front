@@ -6,14 +6,11 @@ import { AdminOverviewComponent } from './admin-overview/admin-overview.componen
 import { ClientProfileComponent } from './client-profile/client-profile.component';
 import { DashboardSettingsComponent } from './dashboard-settings/dashboard-settings.component';
 import { ManageUsersComponent } from './manage-users/manage-users.component';
-import { AuthGuard } from '../../core/guards/auth.guard';
-import { AdminGuard } from '../../core/guards/admin.guard';
 
 const routes: Routes = [
   {
     path: 'admin',
     component: AdminDashboardLayoutComponent,
-    canActivate: [AuthGuard, AdminGuard],
     children: [
       { path: '', component: AdminOverviewComponent },
       { path: 'overview', component: AdminOverviewComponent },
@@ -24,7 +21,7 @@ const routes: Routes = [
   {
     path: 'client',
     component: ClientDashboardLayoutComponent,
-    canActivate: [AuthGuard],
+
     children: [
       { path: '', component: ClientProfileComponent },
       { path: 'profile', component: ClientProfileComponent },
